@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #python -c "import time; time.sleep(3)" # Wait for postgres to start up
 python manage.py makemigrations
 python manage.py migrate

@@ -159,8 +159,8 @@ USE_TZ = True
 STATIC_URL = '/static-files/'
 STATIC_ROOT = '/static-files/'
 MEDIA_URL = '/media-files/'
-MEDIA_ROOT = '/media-files/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media-files')
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
