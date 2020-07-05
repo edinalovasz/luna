@@ -24,11 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ggq+2-qy23&_w@886(_l%h&^(_df98&%@vfe9wg2ka)3$k8%-r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
-# DEBUG = ast.literal_eval(os.environ.get('DJANGO_DEBUG'))
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 # Application definition
 ####
@@ -44,9 +42,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_filters',
-    # Apps
-    'apps.user',
-
+    # own-apps
+    'apps.comments',
+    'apps.registrations',
+    'apps.restaurantreviews',
+    'apps.restaurants',
+    'apps.users',
 ]
 
 MIDDLEWARE = [
@@ -104,23 +105,23 @@ WSGI_APPLICATION = 'luna_project.wsgi.application'
 
 # Default db for now, once docker is settup we can switch to postgresql
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('POSTGRES_DB'),
-        'PORT': os.environ.get('POSTGRES_PORT'),
-        'HOST': os.environ.get('POSTGRES_HOST'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.environ.get('POSTGRES_DB'),
+#         'PORT': os.environ.get('POSTGRES_PORT'),
+#         'HOST': os.environ.get('POSTGRES_HOST'),
+#         'USER': os.environ.get('POSTGRES_USER'),
+#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -159,8 +160,8 @@ USE_TZ = True
 STATIC_URL = '/static-files/'
 STATIC_ROOT = '/static-files/'
 MEDIA_URL = '/media-files/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media-files')
-
+MEDIA_ROOT = '/media-files/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -185,4 +186,4 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'users.User'

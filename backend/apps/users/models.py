@@ -3,8 +3,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
-# Create your models here.
-
 class User(AbstractUser):
     # Field used for authentication in Django admin
     USERNAME_FIELD = 'email'
@@ -20,6 +18,8 @@ class User(AbstractUser):
     avatar = models.ImageField(null=True, blank=True)
 
     phone_number = models.CharField(blank=True, max_length=15)
+
+    things_user_loves = ArrayField(models.CharField(max_length=100, blank=True), blank=True, default=list)
 
     def __str__(self):
         return f'User ID: {self.id} Name: {self.first_name}'
