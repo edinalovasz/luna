@@ -1,0 +1,34 @@
+version: '3'
+services:
+  backend:
+    image: registry.gitlab.propulsion-home.ch/habib-kadiri/week-7/docker_motion:latest
+    env_file:
+      - ./env/dev.env
+    command: 'sh /scripts/dev.sh'
+    ports:
+    - 8000:8000
+    volumes:
+    - ./backend:/backend
+
+    depends_on:
+      - db
+
+  db:
+    image: postgres:11
+    env_file:
+      - ./env/dev.env
+#    volumes:
+#      - postgres_db:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+#  nginx:
+#    image: nginx:latest
+#    ports:
+#      - '8080:80'
+#    volumes:
+#      - ./nginx:/etc/nginx/conf.d
+
+
+#volumes:
+#  postgres_db:
