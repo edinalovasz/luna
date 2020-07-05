@@ -107,21 +107,14 @@ WSGI_APPLICATION = 'luna_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': os.environ.get('POSTGRES_DB'),
-#         'PORT': os.environ.get('POSTGRES_PORT'),
-#         'HOST': os.environ.get('POSTGRES_HOST'),
-#         'USER': os.environ.get('POSTGRES_USER'),
-#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -160,8 +153,8 @@ USE_TZ = True
 STATIC_URL = '/static-files/'
 STATIC_ROOT = '/static-files/'
 MEDIA_URL = '/media-files/'
-MEDIA_ROOT = '/media-files/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = '/media-files/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media-files')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
