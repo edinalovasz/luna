@@ -40,10 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third-party
     'rest_framework',
-    'apps.user',
     'corsheaders',
     'django_filters',
-
+    # own-apps
+    'apps.comments',
+    'apps.registrations',
+    'apps.restaurantreviews',
+    'apps.restaurants',
+    'apps.users',
 ]
 
 MIDDLEWARE = [
@@ -182,4 +186,4 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'users.User'
