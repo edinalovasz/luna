@@ -4,7 +4,7 @@ services:
     image: registry.gitlab.propulsion-home.ch/full-stack/batch-12-may-2020/group-projects/scorpio/luna_project:latest
     env_file:
       - ./env/dev.env
-    command: 'sh /scripts/dev.sh'
+    command: 'python manage.py runserver 0:8000'
     ports:
     - 8000:8000
     volumes:
@@ -21,14 +21,6 @@ services:
 #      - postgres_db:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-
-#  nginx:
-#    image: nginx:latest
-#    ports:
-#      - '8080:80'
-#    volumes:
-#      - ./nginx:/etc/nginx/conf.d
-
 
 #volumes:
 #  postgres_db:
