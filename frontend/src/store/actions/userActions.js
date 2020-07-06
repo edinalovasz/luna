@@ -1,6 +1,7 @@
-import {SET_ERROR} from "../actionTypes";
+
 import Axios from "../../axios";
 import {setLoggedInUser} from "./loginActions";
+import {userLogout} from "./logoutActions";
 
 
 
@@ -29,5 +30,16 @@ export const updateUserAction = data => async (dispatch) => {
     }
 }
 
+export const deleteUserAction = () => async (dispatch) => {
+    try {
+        const response = await Axios.delete(`me/`)
+        console.log("in the delete")
+        dispatch(userLogout())
+        return response
+    } catch (error) {
+        console.log('error', error.response.data)
+        return error
+    }
+}
 
 

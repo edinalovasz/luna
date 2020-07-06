@@ -16,7 +16,7 @@ export const setLoggedInUser = (userObj) => {
     localStorage.setItem("user", JSON.stringify(userObj));
     return {
         type: SET_LOGGED_IN_USER,
-        userObj,
+        payload: userObj,
     };
 };
 

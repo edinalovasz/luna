@@ -22,3 +22,14 @@ export const deleteCommentAction = commentID => async (dispatch) => {
         return error
     }
 }
+
+export const getReviewCommentsAction = reviewID => async (dispatch) => {
+    try {
+        const response = await Axios.get(`review/comment/${reviewID}/`);
+        return response
+    } catch (error) {
+        console.log(`error`, error);
+        return error
+    }
+}
+

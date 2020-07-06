@@ -1,10 +1,14 @@
 import {combineReducers} from "redux";
 import { authReducer } from "./authReducer";
-import { searchProfileReducer } from "./searchProfileReducer";
+import { searchReducer } from "./searchReducer";
 import { errorReducer } from "./errorReducer";
+import { restaurantReducer } from "./restaurantReducer";
+import { userProfileReducer } from "./userProfileReducer";
 
 export const rootReducer = combineReducers({
     authReducer,
     errorReducer,
-    searchProfileReducer,
+    searchReducer,
+    restaurantReducer,
+    userProfileReducer,
 });
