@@ -1,5 +1,5 @@
 import React from "react";
-
+import placeHolder from "../../assets/images/restaurant.png";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -12,7 +12,13 @@ import {
   SplitButton,
 } from "../../style/GlobalButtons";
 
-import { StarContainer, TitleContainer } from "../../style/GlobalWrappers";
+import {
+  StarContainer,
+  TitleContainer,
+  RestaurantModal,
+  RestaurantModalContent,
+  RestaurantModalImg,
+} from "../../style/GlobalWrappers";
 import {
   MainTitle,
   TitleHr,
@@ -132,6 +138,29 @@ function Template() {
           <SmallTitleHr></SmallTitleHr>
         </TitleContainer>
         <br></br>
+        <br></br>
+        <br></br>
+        <h1>Wrappers</h1>
+        <br></br>
+        <RestaurantModal>
+          <RestaurantModalContent>
+            <h2>Restaurant Name</h2>
+            <p>Address</p>
+            <div>
+              <StarContainer>
+                <FontAwesomeIcon icon={["fas", "star"]} />
+                <FontAwesomeIcon icon={["fas", "star"]} />
+                <FontAwesomeIcon icon={["fas", "star"]} />
+                <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
+                <FontAwesomeIcon icon={["far", "star"]} />
+              </StarContainer>
+              <h2>11</h2>
+            </div>
+          </RestaurantModalContent>
+          <RestaurantModalImg>
+            <img src={placeHolder}></img>
+          </RestaurantModalImg>
+        </RestaurantModal>
       </header>
     </div>
   );
