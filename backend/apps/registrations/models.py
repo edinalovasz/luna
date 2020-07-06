@@ -29,6 +29,14 @@ class Registration(models.Model):
         null=False,
         default=code_generator,
     )
+    code_type = models.CharField(
+        max_length=3,
+        choices=(
+            ('RVC', 'Registration Validation Code'),
+            ('PRC', 'Password Reset Code'),
+
+        )
+    )
     code_expiration = models.DateTimeField(
         default=timezone.now() + timedelta(days=2)
     )
