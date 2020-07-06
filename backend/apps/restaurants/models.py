@@ -34,7 +34,7 @@ class Restaurant(models.Model):
     opening_hours = models.CharField(max_length=50)
     price_level   = models.CharField(max_length=50, blank=True, null=True)
     image         = models.ImageField(null=True, blank=True)
-    owner         = models.ForeignKey(to=User, on_delete=models.SET_NULL, related_name='owner_restaurants')
+    owner         = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, related_name='owner_restaurants')
     created       = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

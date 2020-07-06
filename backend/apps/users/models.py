@@ -17,6 +17,8 @@ class User(AbstractUser):
 
     avatar = models.ImageField(null=True, blank=True)
 
+    banner = models.ImageField(null=True, blank=True)
+
     phone_number = models.CharField(blank=True, max_length=15)
 
     things_user_loves = ArrayField(models.CharField(max_length=100, blank=True), blank=True, default=list)
