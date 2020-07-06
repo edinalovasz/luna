@@ -1,11 +1,11 @@
 import { createGlobalStyle } from "styled-components";
-
+import { rem } from "polished";
 
 export const GlobalStyle = createGlobalStyle`
     * {
     margin: 0;
     padding: 0;
-    font-size: 16px;
+    font-size: ${rem("16px")};
     font-family: "Helvetica",serif;
     box-sizing: border-box;
     }
@@ -14,6 +14,4 @@ export const GlobalStyle = createGlobalStyle`
     }
 `;
 
-export const theme = {
-
-};
+export const theme = {};

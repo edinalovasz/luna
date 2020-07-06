@@ -16,11 +16,29 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.documentation import include_docs_urls
+
+api_patterns = [
+    path('auth/', include('apps.registrations.urls')),
+    path('users/', include('apps.users.urls')),
+    path('restaurants/', include('apps.restaurants.urls')),
+    # path('search/', include('app.users.urls')),
+    # path('reviews/', include('app.social.urls')),
+    # path('review/comment/', include('app.social.urls')),
+    # path('category/', include('app.social.urls')),
+
+
+    path('docs/', include_docs_urls(title='Django Template', schema_url='/', permission_classes=[])),
+
+]
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('backend/admin/', admin.site.urls),
+    path('backend/api/', include(api_patterns)),
 ]
+
 
 # Images Urls..
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
