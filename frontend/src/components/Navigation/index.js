@@ -268,7 +268,7 @@ const Navigation = ({ children }) => {
             </SplitButton>
           </NavSectionRight>
         </Header>
-        {props.children}
+        {children}
         <Footer>
           <TopFooter>
             <FooterSectionLeft to="/feed">
