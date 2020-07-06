@@ -11,6 +11,10 @@ class User(AbstractUser):
 
     email = models.EmailField(unique=True, default='example@email.com')
 
+    first_name = models.CharField(max_length=200, blank=True)
+
+    last_name = models.CharField(max_length=200, blank=True)
+
     location = models.CharField(blank=True, max_length=1000)
 
     about_me = models.CharField(blank=True, max_length=2000)

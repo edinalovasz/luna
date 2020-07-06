@@ -28,10 +28,10 @@ class Registration(models.Model):
         default=code_generator,
     )
     code_type = models.CharField(
-        max_length=2,
+        max_length=3,
         choices=(
-            'RVC', 'Registration Validation Code',
-            'PRC', 'Password Reset Code',
+            ('RVC', 'Registration Validation Code'),
+            ('PRC', 'Password Reset Code'),
 
         )
     )

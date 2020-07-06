@@ -20,9 +20,8 @@ from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 
 api_patterns = [
-    # path('auth/', include('apps.registrations.urls')),
+    path('auth/', include('apps.registrations.urls')),
     path('users/', include('apps.users.urls')),
-    # path('me/', include('app.social.urls')),
     # path('search/', include('app.users.urls')),
     # path('restaurants/', include('app.social.urls')),
     # path('reviews/', include('app.social.urls')),
