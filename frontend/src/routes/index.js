@@ -9,9 +9,9 @@ const Routes = () => {
     <>
       <Router>
         <Switch>
-          <Route path={"/template"} exact component={Template} />
           <Route path={"/auth"} exact component={Credentials} />
           <Navigation>
+            <Route path={"/template"} exact component={Template} />
             {/*<Route exact path='/home' />*/}
             {/*<Route exact path='/search' />*/}
             {/*<Route exact path='/profile'/>*/}
