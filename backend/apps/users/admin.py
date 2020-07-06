@@ -12,13 +12,14 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'password1', 'password2'),
+            'fields': ('email', 'username', 'password1', 'password2', 'location', 'about_me', 'things_user_loves',
+                       'phone_number', 'avatar', 'banner'),
         }),
     )
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
-        ('Social', {'fields': ('location', 'about_me', 'things_user_likes', 'phone_number')}),
+        ('Social', {'fields': ('location', 'about_me', 'things_user_loves', 'phone_number')}),
         ('Files', {'fields': ('avatar', 'banner')}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
