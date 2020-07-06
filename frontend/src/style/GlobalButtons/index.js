@@ -11,7 +11,7 @@ export const BaseButton = styled.button`
   color: white;
   font-style: normal;
   font-weight: normal;
-  line-height: 18px;
+  line-height: ${rem("18px")};
   text-align: center;
   color: #ffffff;
 
@@ -62,23 +62,6 @@ export const SplitButton = styled.div`
   vertical-align: middle;
 `;
 
-export const SignupButton = styled(BaseButton)`
-  width: ${rem("100px")};
-  height: ${rem("40px")};
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  margin-right: ${rem("1px")};
-  text-transform: uppercase;
-`;
-
-export const LoginButton = styled(BaseButton)`
-  width: ${rem("100px")};
-  height: ${rem("40px")};
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  text-transform: uppercase;
-`;
-
 export const LikeButton = styled(BaseButton)`
   width: ${rem("125px")};
   height: ${rem("33px")};
@@ -112,27 +95,5 @@ export const CommentButton = styled(BaseButton)`
   }
   :active {
     background-color: #8a8a8a;
-  }
-`;
-
-export const SocialButton = styled.button`
-  height: ${rem("40px")};
-  width: ${rem("40px")};
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  border: 2px solid #979797;
-  color: #979797;
-  &:focus {
-    outline: none;
-  }
-  :hover {
-    background-color: #e6e6e6;
-  }
-  :active {
-    background-color: #e6e6e6;
   }
 `;

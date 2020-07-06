@@ -7,19 +7,12 @@ import {
   Button,
   BigButton,
   SmallButton,
-  SplitButton,
   LikeButton,
   CommentButton,
-  LoginButton,
-  SignupButton,
-  SocialButton,
+  SplitButton,
 } from "../../style/GlobalButtons";
 
-import {
-  SocialsContainer,
-  StarContainer,
-  TitleContainer,
-} from "../../style/GlobalWrappers";
+import { StarContainer, TitleContainer } from "../../style/GlobalWrappers";
 import {
   MainTitle,
   TitleHr,
@@ -46,10 +39,6 @@ function Template() {
         <p>.</p>
         <BigButton>Big Button</BigButton>
         <p>.</p>
-        <SplitButton>
-          <SignupButton>Signup</SignupButton>
-          <LoginButton>Login</LoginButton>
-        </SplitButton>
         <p>.</p>
         <SplitButton>
           <LikeButton>
@@ -62,20 +51,7 @@ function Template() {
         <br></br>
         <h1>Icons</h1>
         <br></br>
-        <SocialsContainer>
-          <SocialButton>
-            <FontAwesomeIcon icon={["fab", "facebook-f"]} />
-          </SocialButton>
-          <SocialButton>
-            <FontAwesomeIcon icon={["fab", "twitter"]} />
-          </SocialButton>
-          <SocialButton>
-            <FontAwesomeIcon icon={["fab", "google-plus-g"]} />
-          </SocialButton>
-          <SocialButton>
-            <FontAwesomeIcon icon={["fab", "instagram"]} />
-          </SocialButton>
-        </SocialsContainer>
+
         <br></br>
         <br></br>
 

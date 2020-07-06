@@ -1,14 +1,6 @@
 import { rem } from "polished";
 import styled from "styled-components";
 
-export const SocialsContainer = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  justify-content: center;
-  grid-column-gap: ${rem("20px")};
-  align-items: center;
-`;
-
 export const StarContainer = styled.div`
   display: grid;
   grid-template-columns: auto auto auto auto auto;

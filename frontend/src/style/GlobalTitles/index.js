@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { rem } from "polished";
 
+export const Title = styled.h2`
+  font-family: Helvetica;
+  font-size: ${rem("40px")};
+  font-weight: 300;
+`;
+
 export const MainTitle = styled.h1`
   font-family: Helvetica;
   font-style: normal;
