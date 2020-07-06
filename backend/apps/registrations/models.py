@@ -16,7 +16,9 @@ class Registration(models.Model):
     user = models.OneToOneField(
         to=User,
         on_delete=models.CASCADE,
-        related_name="user_registration"
+        related_name="user_registration",
+        blank=True,
+        null=True,
     )
     email = models.EmailField(
         unique=True,
@@ -40,9 +42,6 @@ class Registration(models.Model):
     )
     created = models.DateTimeField(
         auto_now=True
-    )
-    code_used = models.BooleanField(
-        default=False,
     )
 
 
