@@ -5,6 +5,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 
+from apps.registrations.permissions import IsOwnerOrAdminOrReadOnly
 from apps.restaurants.models import Restaurant
 from apps.restaurants.serializer import RestaurantSerializer
 from apps.users.permissions import ReadOnly
@@ -49,18 +50,22 @@ class ListAllRestaurantsByCategoryView(generics.ListCreateAPIView):
 
 class RetrieveUpdateDestroyRestaurant(RetrieveUpdateDestroyAPIView):
     """
-    update:
+    UPDATE:
     Update Restaurant.
-
-    delete:
+    GET:
+    Retrieve single Restaurant.
+    DELETE:
     Delete Restaurant.
     """
+    permission_classes = [IsOwnerOrAdminOrReadOnly]
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
     lookup_url_kwarg = 'restaurant_id'
+    http_method_names = ['get', 'patch', 'delete']
 
     def perform_update(self, serializer):
         serializer.save(owner=self.request.user)
+
 
 class ListSpecificUserRestaurantsView(ListAPIView):
     permission_classes = [IsAuthenticated | ReadOnly]
