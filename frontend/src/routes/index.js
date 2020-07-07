@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Navigation from "../components/Navigation";
 import Credentials from "../components/Credentials";
 import Template from "../components/Templates";
+import Home from "../components/Home";
 
 
 const Routes = () => {
@@ -13,7 +14,7 @@ const Routes = () => {
           <Navigation>
           <Route path={"/auth"} component={Credentials} />
           <Route path={"/template"} component={Template} />
-            {/*<Route exact path='/home' />*/}
+          <Route exact path={'/home'} component={Home}/>
             {/*<Route exact path='/search' />*/}
             {/*<Route exact path='/profile'/>*/}
             {/*<Route path='/users/:userId'/>*/}
