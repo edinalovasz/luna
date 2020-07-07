@@ -1,5 +1,6 @@
 import React from "react";
-import placeHolder from "../../assets/images/restaurant.png";
+import placeHolderRestaurant from "../../assets/images/restaurant.png";
+import placeHolderProfilePic from "../../assets/images/small-user-image.png";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -15,9 +16,12 @@ import {
 import {
   StarContainer,
   TitleContainer,
-  RestaurantModal,
-  RestaurantModalContent,
-  RestaurantModalImg,
+  RestaurantCard,
+  RestaurantCardContent,
+  RestaurantCardImg,
+  UserCard,
+  UserCardProfile,
+  UserCardText,
 } from "../../style/GlobalWrappers";
 import {
   MainTitle,
@@ -142,25 +146,54 @@ function Template() {
         <br></br>
         <h1>Wrappers</h1>
         <br></br>
-        <RestaurantModal>
-          <RestaurantModalContent>
-            <h2>Restaurant Name</h2>
-            <p>Address</p>
-            <div>
-              <StarContainer>
-                <FontAwesomeIcon icon={["fas", "star"]} />
-                <FontAwesomeIcon icon={["fas", "star"]} />
-                <FontAwesomeIcon icon={["fas", "star"]} />
-                <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                <FontAwesomeIcon icon={["far", "star"]} />
-              </StarContainer>
-              <h2>11</h2>
-            </div>
-          </RestaurantModalContent>
-          <RestaurantModalImg>
-            <img src={placeHolder}></img>
-          </RestaurantModalImg>
-        </RestaurantModal>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "row",
+            gap: "12px",
+            flexWrap: "wrap",
+          }}
+        >
+          <RestaurantCard>
+            <RestaurantCardContent>
+              <h2>Restaurant Name</h2>
+              <p>Address</p>
+              <div>
+                <StarContainer>
+                  <FontAwesomeIcon icon={["fas", "star"]} />
+                  <FontAwesomeIcon icon={["fas", "star"]} />
+                  <FontAwesomeIcon icon={["fas", "star"]} />
+                  <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
+                  <FontAwesomeIcon icon={["far", "star"]} />
+                </StarContainer>
+                <h2>11</h2>
+              </div>
+            </RestaurantCardContent>
+            <RestaurantCardImg>
+              <img src={placeHolderRestaurant}></img>
+            </RestaurantCardImg>
+          </RestaurantCard>
+          <UserCard>
+            <UserCardProfile>
+              <img src={placeHolderProfilePic}></img>
+              <div>
+                <h1>Name</h1>
+                <p>6 Reviews in Total</p>
+              </div>
+            </UserCardProfile>
+            <UserCardText>
+              <p>
+                Im professional photographer with an eye for details in every
+                thing I do in my live. Every time a pass by a nice restaurant i
+                have to stop and take notes...
+              </p>
+              <a>read more</a>
+            </UserCardText>
+          </UserCard>
+        </div>
+        <br></br>
       </header>
     </div>
   );

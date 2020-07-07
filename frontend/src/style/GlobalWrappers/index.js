@@ -31,9 +31,9 @@ export const BaseModal = styled.div`
   border-top: 8px solid #e47d31;
 `;
 
-export const RestaurantModal = styled(BaseModal)``;
+export const RestaurantCard = styled(BaseModal)``;
 
-export const RestaurantModalContent = styled.div`
+export const RestaurantCardContent = styled.div`
   padding: ${rem("8px")} ${rem("13px")} ${rem("13px")} ${rem("13px")};
   display: flex;
   flex-direction: column;
@@ -55,11 +55,63 @@ export const RestaurantModalContent = styled.div`
   }
 `;
 
-export const RestaurantModalImg = styled.div`
-  background-color: red;
+export const RestaurantCardImg = styled.div`
   overflow: hidden;
   img {
     width: ${rem("270px")};
     height: ${rem("270px")};
+  }
+`;
+
+export const UserCard = styled(BaseModal)`
+  height: ${rem("192px")};
+`;
+
+export const UserCardProfile = styled.div`
+  height: 38%;
+  display: flex;
+  border-bottom: 1px solid #ebebeb;
+  overflow: hidden;
+
+  img {
+    width: ${rem("70px")};
+    height: ${rem("70px")};
+  }
+  div {
+    padding: ${rem("10px")} 0 0 ${rem("8px")};
+  }
+  h1 {
+    color: #e47d31;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+  }
+  p {
+    color: #4c4c4c;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    padding-top: 5px;
+  }
+`;
+
+export const UserCardText = styled.div`
+  height: 62%;
+  padding: ${rem("14px")} ${rem("11px")} ${rem("22px")} ${rem("11px")};
+  p {
+    display: inline;
+    font-weight: bold;
+    font-size: ${rem("14px")};
+    line-height: ${rem("16px")};
+    color: #4c4c4c;
+  }
+  a {
+    padding-left: ${rem("6px")};
+    color: #e47d31;
+    font-weight: bold;
+    cursor: pointer;
+    :hover {
+      color: #e47d31;
+    }
   }
 `;
