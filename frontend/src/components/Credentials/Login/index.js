@@ -47,22 +47,13 @@ export const LoginInput = styled(BaseInput)`
       ::placeholder{
           font-weight: bold;
       }
-    `
+`;
 
 const ErrorPlaceholder = styled.div`
         width: ${rem("340px")};
         height: ${rem("52px")};
-`
-
-  ::placeholder {
-    font-weight: bold;
-  }
 `;
 
-const ErrorPlaceholder = styled.div`
-  width: ${rem("340px")};
-  height: ${rem("52px")};
-`;
 
 const Login = (props) => {
   //const [email, setEmail] = useState([]);
