@@ -9,6 +9,9 @@ export const GlobalStyle = createGlobalStyle`
     font-family: "Helvetica",serif;
     box-sizing: border-box;
     }
+    button:focus {
+    outline: 0;
+    }
     body {
         background-color: #F8F8F8;
     }
