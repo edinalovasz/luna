@@ -5,6 +5,7 @@ import Credentials from "../components/Credentials";
 import Template from "../components/Templates";
 import RestaurantCreate from "../components/RestaurantCreate";
 import Home from "../components/Home";
+import ReviewCreate from "../components/ReviewCreate";
 
 import RestaurantReview from "../components/RestaurantReview";
 import Profile from "../components/Profile";
@@ -25,6 +26,7 @@ const Routes = () => {
             {/*<Route path='/users/:userId'/>*/}
             <Route path={'/restaurant/:restaurantId'} component={RestaurantReview} />
             <Route path='/restaurant/create' component={RestaurantCreate} />
+            <Route path='/restaurant/review/create' component={ReviewCreate} />
             {/*<Route exact path='/userProfileUpdate' />*/}
           </Navigation>
         </Switch>

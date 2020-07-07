@@ -3,9 +3,6 @@ import styled from "styled-components";
 
 export const PageContainer = styled.div`
   height: 87.5vh;
-  //padding-top: 70px;
-  //padding-bottom: 90px;
-  //overflow: auto;
 `;
 
 export const StarContainer = styled.div`
