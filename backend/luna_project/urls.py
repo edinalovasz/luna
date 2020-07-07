@@ -31,7 +31,8 @@ urlpatterns = [
     path('api/reviews/', include('apps.restaurantreviews.urls')),
     # Comments Urls
     path('api/review/comment/', include('apps.comments.urls')),
-
+    # General Urls
+    path('api/', include('apps.general.urls')),
 
     path('api/docs/', include_docs_urls(title='Luna Endpoints', public=True, permission_classes=[])),
 ]

@@ -8,3 +8,6 @@ class AllowCreateRegistrationProfile(permissions.BasePermission):
         return True
 
 
+class CanBeAnonymous(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return True

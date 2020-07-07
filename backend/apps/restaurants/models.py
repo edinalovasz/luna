@@ -38,18 +38,6 @@ class Restaurant(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
 
-    def no_of_ratings(self):
-        return self.restaurant_reviews.count()
-
-    def avg_rating(self):
-        sum = 0
-        reviews = self.restaurant_reviews.all()
-        for review in reviews:
-            sum += review.rating
-        if len(reviews) > 0:
-            return sum / len(reviews)
-        else:
-            return 0
 
     def __str__(self):
         return f'Item ID {self.pk}: Name {self.name}'
