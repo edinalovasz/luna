@@ -83,8 +83,17 @@ const NavTabWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+
   cursor: pointer;
   margin-right: 7%;
+  :hover:after {
+    content: "";
+    position: relative;
+    bottom: ${rem("-23px")};
+    width: ${rem("45px")};
+    border-bottom: 3px solid #e47d31;
+  }
 `;
 
 const NavTabWrapperActive = styled.div`
