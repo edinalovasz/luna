@@ -10,4 +10,3 @@ urlpatterns = [
     path('user/<int:user_id>/', ListSpecificUserRestaurantsView.as_view(), name='Get-specific-users-restaurants'),
     path('<int:restaurant_id>/', RetrieveUpdateDestroyRestaurant.as_view(), name='retrieve-update-delete-restaurant'),
 ]
-

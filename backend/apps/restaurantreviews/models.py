@@ -16,4 +16,4 @@ class RestaurantReview(models.Model):
     likes = models.ManyToManyField(to=User, related_name='liked_reviews')
 
     def __str__(self):
-        return f'Item ID {self.pk}: Author {self.author}'
+        return f'Review ID {self.pk}'

@@ -5,8 +5,9 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.response import Response
 
-from apps.registrations.permissions import IsOwnerOrAdminOrReadOnly
+
 from apps.restaurants.models import Restaurant
+from apps.restaurants.permissions import IsOwnerOrAdminOrReadOnly
 from apps.restaurants.serializer import RestaurantSerializer
 from apps.users.permissions import ReadOnly
 

@@ -27,6 +27,8 @@ urlpatterns = [
     path('api/users/', include('apps.users.urls')),
     # Restaurant Urls
     path('api/restaurants/', include('apps.restaurants.urls')),
+    # Restaurant review Urls
+    path('api/reviews/', include('apps.restaurantreviews.urls')),
     # path('search/', include('app.users.urls')),
     # path('reviews/', include('app.social.urls')),
     # path('review/comment/', include('app.social.urls')),
