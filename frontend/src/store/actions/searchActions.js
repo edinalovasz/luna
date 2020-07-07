@@ -58,10 +58,10 @@ export const getAllReviewsAction = () => async (dispatch) => {
     }
 }
 
-export const getRestaurantsByCategoryAction = categoryID => async (dispatch) => {
+export const getRestaurantsByCategoryAction = category => async (dispatch) => {
     try {
-        const response = await Axios.get(`restaurants/category/${categoryID}/`);
-        console.log(`Restaurants category (${categoryID}) list: `, response.data);
+        const response = await Axios.get(`restaurants/category/?search=${category}/`);
+        console.log(`Restaurants category (${category}) list: `, response.data);
         dispatch(setRestaurants(response.data))
         return response
     } catch (error) {
