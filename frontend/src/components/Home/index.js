@@ -6,9 +6,6 @@ import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
 import {
     PageContainer,
-    RestaurantCard,
-    RestaurantCardContent,
-    RestaurantCardImg,
     StarContainer,
     TitleContainer
 } from "../../style/GlobalWrappers";
@@ -28,6 +25,7 @@ const HomePageWrapper = styled(PageContainer)`
     align-items: center;
     justify-content: center;
 `
+
 
 const HeaderHomePage = styled.div`
     border: solid red;
@@ -56,15 +54,6 @@ const BestRatedRestaurantsSection = styled.div`
     width: 100%;
     height: 53vh;
 `
-=======
-const HomePageWrapper = styled.div`
-  background: #f2f2f2;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
 
 const HeaderHomePageForm = styled.section`
   display: flex;
@@ -81,37 +70,15 @@ const HeaderHomePageForm = styled.section`
   height: 45%;
 `;
 
-const SearchForm = styled.form`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  z-index: 2;
-`;
-
-const BestRatedRestaurantsSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: solid green;
-  height: 65%;
-  width: 100%;
-`;
->>>>>>> frontend/src/components/Home/index.js
-
 const BestRatedRestaurantContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   gap: 0px 30px;
   grid-template-areas: ". . . .";
-<<<<<<< frontend/src/components/Home/index.js
   padding: 42px;
-`
-=======
-  margin: 42px;
 `;
->>>>>>> frontend/src/components/Home/index.js
+
 
 const HomePageTitle = styled(MainTitle)`
   margin-top: 50px;
@@ -132,7 +99,6 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
-<<<<<<< frontend/src/components/Home/index.js
 
     return (
         <>
@@ -153,120 +119,15 @@ const Home = (props) => {
                         <Line></Line>
                     </TitleContainer>
                     <BestRatedRestaurantContainer>
-                        <RestaurantCard>
-                            <RestaurantCardContent>
-                              <h2>Restaurant Name</h2>
-                              <p>Address</p>
-                              <div>
-                                <StarContainer>
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                                  <FontAwesomeIcon icon={["far", "star"]} />
-                                </StarContainer>
-                                <h2>11</h2>
-                              </div>
-                            </RestaurantCardContent>
-                            <RestaurantCardImg>
-                              <img src={placeHolderRestaurant}></img>
-                            </RestaurantCardImg>
-                         </RestaurantCard>
-                        <RestaurantCard>
-                            <RestaurantCardContent>
-                              <h2>Restaurant Name</h2>
-                              <p>Address</p>
-                              <div>
-                                <StarContainer>
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                                  <FontAwesomeIcon icon={["far", "star"]} />
-                                </StarContainer>
-                                <h2>11</h2>
-                              </div>
-                            </RestaurantCardContent>
-                            <RestaurantCardImg>
-                              <img src={placeHolderRestaurant}></img>
-                            </RestaurantCardImg>
-                         </RestaurantCard>
-                        <RestaurantCard>
-                            <RestaurantCardContent>
-                              <h2>Restaurant Name</h2>
-                              <p>Address</p>
-                              <div>
-                                <StarContainer>
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                                  <FontAwesomeIcon icon={["far", "star"]} />
-                                </StarContainer>
-                                <h2>11</h2>
-                              </div>
-                            </RestaurantCardContent>
-                            <RestaurantCardImg>
-                              <img src={placeHolderRestaurant}></img>
-                            </RestaurantCardImg>
-                         </RestaurantCard>
-                        <RestaurantCard>
-                            <RestaurantCardContent>
-                              <h2>Restaurant Name</h2>
-                              <p>Address</p>
-                              <div>
-                                <StarContainer>
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star"]} />
-                                  <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                                  <FontAwesomeIcon icon={["far", "star"]} />
-                                </StarContainer>
-                                <h2>11</h2>
-                              </div>
-                            </RestaurantCardContent>
-                            <RestaurantCardImg>
-                              <img src={placeHolderRestaurant}></img>
-                            </RestaurantCardImg>
-                         </RestaurantCard>
+                        <GenericRestaurantCard/>
+                        <GenericRestaurantCard/>
+                        <GenericRestaurantCard/>
+                        <GenericRestaurantCard/>
                     </BestRatedRestaurantContainer>
                 </BestRatedRestaurantsSection>
             </HomePageWrapper>
         </>
     )
-=======
-  return (
-    <>
-      <HomePageWrapper>
-        <HeaderHomePageForm>
-          <SearchForm>
-            <SearchHomePageInput
-              placeholder="Search..."
-              type="text"
-            ></SearchHomePageInput>
-            <SearchHomePageButton>Search</SearchHomePageButton>
-          </SearchForm>
-          <img src={Home_page_Restaurant}></img>
-        </HeaderHomePageForm>
-        <BestRatedRestaurantsSection>
-          <TitleContainer>
-            <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
-            <Line></Line>
-          </TitleContainer>
-          <BestRatedRestaurantContainer>
-            <GenericRestaurantCard />
-
-            <GenericRestaurantCard />
-
-            <GenericRestaurantCard />
-
-            <GenericRestaurantCard />
-          </BestRatedRestaurantContainer>
-        </BestRatedRestaurantsSection>
-      </HomePageWrapper>
-    </>
-  );
->>>>>>> frontend/src/components/Home/index.js
 };
 
 export default Home;
