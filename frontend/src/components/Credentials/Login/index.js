@@ -38,11 +38,21 @@ const LoginTitleHr = styled(SmallTitleHr)`
   margin-bottom: ${rem("40px")};
 `;
 
-const LoginInput = styled(BaseInput)`
-  background: #ffffff;
-  box-sizing: border-box;
-  width: ${rem("340px")};
-  margin-bottom: ${rem("20px")};
+export const LoginInput = styled(BaseInput)`
+      background: #FFFFFF;
+      box-sizing: border-box;
+      width: ${rem("340px")};
+      margin-bottom: ${rem("20px")};
+      
+      ::placeholder{
+          font-weight: bold;
+      }
+    `
+
+const ErrorPlaceholder = styled.div`
+        width: ${rem("340px")};
+        height: ${rem("52px")};
+`
 
   ::placeholder {
     font-weight: bold;
