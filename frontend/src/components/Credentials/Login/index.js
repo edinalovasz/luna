@@ -38,7 +38,7 @@ const LoginTitleHr = styled(SmallTitleHr)`
         margin-bottom: ${rem("40px")};
     `
 
-const LoginInput = styled(BaseInput)`
+export const LoginInput = styled(BaseInput)`
       background: #FFFFFF;
       box-sizing: border-box;
       width: ${rem("340px")};
