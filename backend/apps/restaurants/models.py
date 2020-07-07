@@ -37,7 +37,20 @@ class Restaurant(models.Model):
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='owned_restaurants')
     created = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def no_of_ratings(self):
+        return self.restaurant_reviews.count()
 
+    @property
+    def avg_rating(self):
+        sum = 0
+        reviews = self.restaurant_reviews.all()
+        for review in reviews:
+            sum += review.rating
+        if len(reviews) > 0:
+            return sum / len(reviews)
+        else:
+            return 0
 
     def __str__(self):
         return f'Item ID {self.pk}: Name {self.name}'
