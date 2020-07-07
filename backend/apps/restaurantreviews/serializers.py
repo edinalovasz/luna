@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.comments.serializers import CommentSerializer
+from apps.comments.serializers import  Top2CommentSerializer
 from apps.restaurantreviews.models import RestaurantReview
 from apps.restaurants.serializer import RestaurantSerializer
 from apps.users.serializer import UserSerializer
@@ -12,11 +12,11 @@ class RestaurantReviewSerializer(serializers.ModelSerializer):
     is_from_logged_in_user = serializers.SerializerMethodField()
     amount_of_likes = serializers.SerializerMethodField()
     amount_of_comments = serializers.SerializerMethodField()
-    comments = serializers.SerializerMethodField()
+    top_2_comments = serializers.SerializerMethodField()
 
-    def get_commments(self, obj):
-        
-    comments = CommentSerializer(many=True)
+    def get_top_2_comments(self, obj):
+        first_two_comments = obj.comments.all().order_by('-created')[:2]
+        return Top2CommentSerializer(first_two_comments, many=True).data
 
     def get_amount_of_likes(self, obj):
         return len(obj.likes.all())
@@ -38,7 +38,7 @@ class RestaurantReviewSerializer(serializers.ModelSerializer):
             'amount_of_likes',
             'rating',
             'created',
-            'comments',
+            'top_2_comments',
             'author',
             'restaurant'
         ]

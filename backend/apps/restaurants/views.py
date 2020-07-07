@@ -16,9 +16,9 @@ User = get_user_model()
 
 class CreateRestaurantsView(CreateAPIView):
     """
-    get:
+    GET:
     List all Restaurants.
-    post:
+    POST:
     Create a new Restaurant.
     """
     serializer_class = RestaurantSerializer
@@ -32,6 +32,10 @@ class CreateRestaurantsView(CreateAPIView):
 
 
 class ListAllRestaurantsView(ListAPIView):
+    """
+    GET:
+    List restaurants in most recently created order.
+    """
     serializer_class = RestaurantSerializer
     permission_classes = [IsAuthenticated | ReadOnly]
 
@@ -42,6 +46,10 @@ class ListAllRestaurantsView(ListAPIView):
 
 
 class ListAllRestaurantsByCategoryView(generics.ListCreateAPIView):
+    """
+    GET:
+    List restaurants by placing the category ID in the /?search=<category_id>.
+    """
     serializer_class = RestaurantSerializer
     permission_classes = [IsAuthenticated | ReadOnly]
     search_fields = ['category_id']
@@ -69,6 +77,10 @@ class RetrieveUpdateDestroyRestaurant(RetrieveUpdateDestroyAPIView):
 
 
 class ListSpecificUserRestaurantsView(ListAPIView):
+    """
+    GET:
+    List the restaurants created by a specific User by providing the user ID in the url.
+    """
     permission_classes = [IsAuthenticated | ReadOnly]
     serializer_class = RestaurantSerializer
 

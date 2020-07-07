@@ -26,3 +26,23 @@ class CommentSerializer(serializers.ModelSerializer):
             'created',
             'author',
         ]
+
+
+class Top2CommentSerializer(serializers.ModelSerializer):
+    amount_of_likes = serializers.SerializerMethodField()
+
+    author = UserSerializer(required=False, read_only=True)
+
+    def get_amount_of_likes(self, obj):
+        return len(obj.likes.all())
+
+    class Meta:
+        model = Comment
+
+        fields = [
+            'id',
+            'content',
+            'amount_of_likes',
+            'created',
+            'author',
+        ]
