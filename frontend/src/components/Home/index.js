@@ -4,6 +4,7 @@ import {rem} from "polished";
 import {MainTitle, TitleHr} from "../../style/GlobalTitles";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 import {
+    PageContainer,
     RestaurantCard,
     RestaurantCardContent,
     RestaurantCardImg,
@@ -17,44 +18,40 @@ import {BigButton} from "../../style/GlobalButtons";
 
 
 
-const HomePageWrapper = styled.div`
+const HomePageWrapper = styled(PageContainer)`
     background: #F2F2F2;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 `
 
-const HeaderHomePageForm = styled.section`
+const HeaderHomePage = styled.div`
+    border: solid red;
     display: flex;
     flex-flow: column;
-    background-image: url(${Home_page_Restaurant}), linear-gradient(102deg, #c468ff, #6e91f6);
+    background-image: url(${Home_page_Restaurant});
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    max-width:100%;
-    max-height:100%;
-    height: 45%;
+    height: 35vh;
+    width: 100%;
 `
 
 const SearchForm = styled.form`
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: absolute;
     z-index: 2;
 `
 
-const BestRatedRestaurantsSection = styled.section`
+const BestRatedRestaurantsSection = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     border: solid green;
-    height: 65%;
     width: 100%;
+    height: 53vh;
 `
 
 const BestRatedRestaurantContainer = styled.div`
@@ -63,7 +60,7 @@ const BestRatedRestaurantContainer = styled.div`
   grid-template-rows: 1fr;
   gap: 0px 30px;
   grid-template-areas: ". . . .";
-  margin: 42px;
+  padding: 42px;
 `
 
 const HomePageTitle = styled(MainTitle)`
@@ -90,7 +87,7 @@ const Home = (props) => {
     return (
         <>
             <HomePageWrapper>
-                <HeaderHomePageForm>
+                <HeaderHomePage>
                     <SearchForm>
                         <SearchHomePageInput
                         placeholder="Search..."
@@ -98,8 +95,8 @@ const Home = (props) => {
                     ></SearchHomePageInput>
                     <SearchHomePageButton>Search</SearchHomePageButton>
                     </SearchForm>
-                    <img src={Home_page_Restaurant}></img>
-                </HeaderHomePageForm>
+                    {/*<img src={Home_page_Restaurant}></img>*/}
+                </HeaderHomePage>
                 <BestRatedRestaurantsSection>
                     <TitleContainer>
                         <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>

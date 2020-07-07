@@ -2,9 +2,10 @@ import { rem } from "polished";
 import styled from "styled-components";
 
 export const PageContainer = styled.div`
-  height: 100vh;
-  margin-top: -70px;
-  margin-bottom: -90px;
+  height: 87.5vh;
+  //padding-top: 70px;
+  //padding-bottom: 90px;
+  //overflow: auto;
 `;
 
 export const StarContainer = styled.div`
@@ -26,13 +27,11 @@ export const TitleContainer = styled.div`
 
 export const BaseCard = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
   background: #ffffff;
   width: ${rem("270px")};
-  height: ${rem("410px")};
+  // height: ${rem("410px")};
   border: 1px solid #ebebeb;
-  box-sizing: border-box;
   border-radius: 3px;
   border-top: 8px solid #e47d31;
 `;
@@ -169,7 +168,7 @@ export const ReviewCardText = styled.div`
 export const WideReviewCard = styled(BaseCard)`
   border-top: none;
   width: ${rem("650px")};
-  height: auto;
+  height: 200px;
 `;
 
 export const WideUserCardProfile = styled.div`
