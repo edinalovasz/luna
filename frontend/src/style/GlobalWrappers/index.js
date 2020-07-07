@@ -2,9 +2,7 @@ import { rem } from "polished";
 import styled from "styled-components";
 
 export const PageContainer = styled.div`
-  height: 100vh;
-
-
+  height: 87.5vh;
 `;
 
 export const StarContainer = styled.div`
