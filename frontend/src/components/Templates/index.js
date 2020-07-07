@@ -1,8 +1,12 @@
 import React from "react";
-import placeHolderRestaurant from "../../assets/images/restaurant.png";
 import placeHolderProfilePic from "../../assets/images/small-user-image.png";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import GenericUserCard from "../GenericUserCard";
+import GenericRestaurantCard from "../GenericRestaurantCard";
+import GenericReviewCard from "../GenericReviewCard";
+import GenericWideReviewCard from "../GenericWideReviewCard";
 
 import {
   Button,
@@ -13,23 +17,7 @@ import {
   SplitButton,
 } from "../../style/GlobalButtons";
 
-import {
-  StarContainer,
-  TitleContainer,
-  RestaurantCard,
-  RestaurantCardContent,
-  RestaurantCardImg,
-  UserCard,
-  UserCardProfile,
-  UserCardText,
-  ReviewCard,
-  ReviewCardText,
-  WideReviewCard,
-  WideUserCardProfile,
-  WideReviewCardText,
-  PostComment,
-  WideReviewCardComment,
-} from "../../style/GlobalWrappers";
+import { StarContainer, TitleContainer } from "../../style/GlobalWrappers";
 import {
   MainTitle,
   TitleHr,
@@ -163,80 +151,12 @@ function Template() {
             flexWrap: "wrap",
           }}
         >
-          <RestaurantCard>
-            <RestaurantCardContent>
-              <h2>Restaurant Name</h2>
-              <p>Address</p>
-              <div>
-                <StarContainer>
-                  <FontAwesomeIcon icon={["fas", "star"]} />
-                  <FontAwesomeIcon icon={["fas", "star"]} />
-                  <FontAwesomeIcon icon={["fas", "star"]} />
-                  <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                  <FontAwesomeIcon icon={["far", "star"]} />
-                </StarContainer>
-                <h2>11</h2>
-              </div>
-            </RestaurantCardContent>
-            <RestaurantCardImg>
-              <img src={placeHolderRestaurant}></img>
-            </RestaurantCardImg>
-          </RestaurantCard>
-          <UserCard>
-            <UserCardProfile>
-              <img src={placeHolderProfilePic}></img>
-              <div>
-                <h1>Name</h1>
-                <p>6 Reviews in Total</p>
-              </div>
-            </UserCardProfile>
-            <UserCardText>
-              <p>
-                Im professional photographer with an eye for details in every
-                thing I do in my live. Every time a pass by a nice restaurant i
-                have to stop and take notes...
-              </p>
-              <a>read more</a>
-            </UserCardText>
-          </UserCard>
-          <ReviewCard>
-            <UserCardProfile>
-              <img src={placeHolderProfilePic}></img>
-              <div>
-                <h1>Name</h1>
-                <p>6 Reviews in Total</p>
-              </div>
-            </UserCardProfile>
-            <ReviewCardText>
-              <div>
-                <h1>Colins Bar</h1>
-                <div>
-                  <p>
-                    Ugh. Don't waste your time. Pizza dough good, thin crust but
-                    ingredients so so. Side of mixed vegetables very oily and
-                    mainly bell...
-                  </p>
-                  <a>read more</a>
-                </div>
-              </div>
-              <SplitButton>
-                <LikeButton>
-                  <FontAwesomeIcon icon={["fa", "thumbs-up"]} />
-                  Like 11
-                </LikeButton>
-                <CommentButton>Comment 22</CommentButton>
-              </SplitButton>
-              <h2>Latest Comments</h2>
-              <div>
-                <h3>Colin Wirz</h3>
-                <p>Actually you have no taste!</p>
-              </div>
-              <div>
-                <h3>Laurent Meyer</h3>
-                <p>Sorry Bro!</p>
-              </div>
-            </ReviewCardText>
-          </ReviewCard>
+          {/* Restaurant CARD */}
+          <GenericRestaurantCard />
+          {/* USER CARD */}
+          <GenericUserCard />
+          {/* review CARD */}
+          <GenericReviewCard />
         </div>
         <br></br>
         <div
@@ -249,124 +169,9 @@ function Template() {
             flexWrap: "wrap",
           }}
         >
-          <WideReviewCard>
-            <WideUserCardProfile>
-              <div>
-                <img src={placeHolderProfilePic}></img>
-                <div>
-                  <h1>Name</h1>
-                  <p>6 Reviews in Total</p>
-                </div>
-                <div>
-                  <StarContainer>
-                    <FontAwesomeIcon icon={["fas", "star"]} />
-                    <FontAwesomeIcon icon={["fas", "star"]} />
-                    <FontAwesomeIcon icon={["fas", "star"]} />
-                    <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                    <FontAwesomeIcon icon={["far", "star"]} />
-                  </StarContainer>
-                </div>
-              </div>
-              <div>
-                <p>01.01.2018 15:22</p>
-              </div>
-            </WideUserCardProfile>
-            <WideReviewCardText>
-              <p>
-                This location at the Bahnhofstrasse is quite friendly and easily
-                located across the street from the train station. The people
-                there seem to be quite good and helpful in their service.
-              </p>
-              <div>
-                <SplitButton>
-                  <LikeButton>
-                    <FontAwesomeIcon icon={["fa", "thumbs-up"]} />
-                    Like 11
-                  </LikeButton>
-                  <CommentButton>Comment 22</CommentButton>
-                </SplitButton>
-                <a>View all comments</a>
-              </div>
-            </WideReviewCardText>
-          </WideReviewCard>
-        </div>
-        <br></br>
-        <br></br>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-            gap: "12px",
-            flexWrap: "wrap",
-          }}
-        >
-          <WideReviewCard>
-            <WideUserCardProfile>
-              <div>
-                <img src={placeHolderProfilePic}></img>
-                <div>
-                  <h1>Name</h1>
-                  <p>6 Reviews in Total</p>
-                </div>
-                <div>
-                  <StarContainer>
-                    <FontAwesomeIcon icon={["fas", "star"]} />
-                    <FontAwesomeIcon icon={["fas", "star"]} />
-                    <FontAwesomeIcon icon={["fas", "star"]} />
-                    <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                    <FontAwesomeIcon icon={["far", "star"]} />
-                  </StarContainer>
-                </div>
-              </div>
-              <div>
-                <p>01.01.2018 15:22</p>
-              </div>
-            </WideUserCardProfile>
-            <WideReviewCardText>
-              <p>
-                This location at the Bahnhofstrasse is quite friendly and easily
-                located across the street from the train station. The people
-                there seem to be quite good and helpful in their service.
-              </p>
-              <PostComment>
-                <CommentInput
-                  placeholder="Comment Input Field"
-                  type="text"
-                ></CommentInput>
-                <SmallButton>Post</SmallButton>
-                <a>Hide</a>
-              </PostComment>
-            </WideReviewCardText>
-            <WideReviewCardComment>
-              <div>
-                <h3>Colin Wirz</h3>
-                <p>Actually you have no taste!</p>
-              </div>
-              <div>
-                <p>01.01.2018 15:22</p>
-              </div>
-            </WideReviewCardComment>
-            <WideReviewCardComment>
-              <div>
-                <h3>Laurent Meyer</h3>
-                <p>Sorry bro!</p>
-              </div>
-              <div>
-                <p>01.01.2018 15:22</p>
-              </div>
-            </WideReviewCardComment>
-            <WideReviewCardComment>
-              <div>
-                <h3>Laurent Meyer</h3>
-                <p>I cant imagine</p>
-              </div>
-              <div>
-                <p>01.01.2018 15:22</p>
-              </div>
-            </WideReviewCardComment>
-          </WideReviewCard>
+          {/* wide review CARD */}
+
+          <GenericWideReviewCard />
         </div>
         <br></br>
       </header>
