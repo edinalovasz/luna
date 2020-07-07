@@ -5,7 +5,10 @@ import Credentials from "../components/Credentials";
 import Template from "../components/Templates";
 import RestaurantCreate from "../components/RestaurantCreate";
 import Home from "../components/Home";
+
+import RestaurantReview from "../components/RestaurantReview";
 import Profile from "../components/Profile";
+
 
 
 const Routes = () => {
@@ -20,7 +23,7 @@ const Routes = () => {
             <Route exact path="/profile" component={Profile} />
             {/*<Route exact path='/search' />*/}
             {/*<Route path='/users/:userId'/>*/}
-            {/*<Route path='/restaurant/:restaurantId' />*/}
+            <Route path={'/restaurant/:restaurantId'} component={RestaurantReview} />
             <Route path='/restaurant/create' component={RestaurantCreate} />
             {/*<Route exact path='/userProfileUpdate' />*/}
           </Navigation>
