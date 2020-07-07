@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import rem from "polished/lib/helpers/rem";
-import {useState} from "react";
 import {BigButton} from "../../../style/GlobalButtons";
-import {MainTitle, SmallTitleHr, TitleHr} from "../../../style/GlobalTitles";
+import {SmallTitleHr, MainTitle} from "../../../style/GlobalTitles";
 import {BaseInput} from "../../../style/GlobalInputs";
 
-const LoginWrapper = styled.div`
+
+const SignUpWrapper = styled.div`
     width: 100vw;
     flex-direction: column ;
     display: flex;
@@ -16,29 +16,35 @@ const LoginWrapper = styled.div`
     height: ${rem("603px")};
 `;
 
-const LoginFormContainer = styled.form`
+const SignUpFormContainer = styled.form`
     flex-direction: column ;
     display: flex;
     height: ${rem("420px")};
     width: ${rem("350px")};
     justify-content: center;
     align-items: center;
-    margin-bottom: ${rem("100px")};
+    height: auto;
+    margin-bottom: ${rem("200px")};
 `;
 
-const LoginFormButton = styled(BigButton)`
+const SignUpButton = styled(BigButton)`
         margin-top: ${rem("30px")};
     `
 
-const LoginTitle = styled(MainTitle)`
+const SignUpTitle = styled(MainTitle)`
         margin-bottom: ${rem("16px")};
     `
 
-const LoginTitleHr = styled(SmallTitleHr)`
-        margin-bottom: ${rem("40px")};
+const SignUpTitleHr = styled(SmallTitleHr)`
+        margin-bottom: ${rem("20px")};
     `
 
-const LoginInput = styled(BaseInput)`
+const ErrorPlaceholder = styled.div`
+        width: ${rem("340px")};
+        height: ${rem("52px")};
+`
+
+const SignUpInput = styled(BaseInput)`
       background: #FFFFFF;
       box-sizing: border-box;
       width: ${rem("340px")};
@@ -49,30 +55,24 @@ const LoginInput = styled(BaseInput)`
       }
     `
 
-const ErrorPlaceholder = styled.div`
-        width: ${rem("340px")};
-        height: ${rem("52px")};
-`
 
-
-const Login = props => {
+const SignUp = props => {
     //const [email, setEmail] = useState([]);
     //const [password, setPassword] = useState([]);
 
 
     return (
-        <LoginWrapper>
-            <LoginFormContainer>
-                <LoginTitle>Login</LoginTitle>
-                <LoginTitleHr></LoginTitleHr>
+        <SignUpWrapper>
+            <SignUpFormContainer>
+                <SignUpTitle>Registration</SignUpTitle>
+                <SignUpTitleHr></SignUpTitleHr>
                 <ErrorPlaceholder></ErrorPlaceholder>
-                <LoginInput type="text" placeholder="Username" required/>
-                <LoginInput type="password" placeholder="Password" required />
-                <LoginFormButton>Login</LoginFormButton>
-            </LoginFormContainer>
-        </LoginWrapper>
+                <SignUpInput type="email" placeholder="E-mail address" required />
+                <SignUpButton>Register</SignUpButton>
+            </SignUpFormContainer>
+        </SignUpWrapper>
     )
 }
 
 
-export default Login;
+export default SignUp;
