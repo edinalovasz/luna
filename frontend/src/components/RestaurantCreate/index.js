@@ -78,7 +78,6 @@ const RequiredText = styled.p`
     color: #B00000;
 `;
 
-
 const RestaurantCreate = props => {
 
     return (
