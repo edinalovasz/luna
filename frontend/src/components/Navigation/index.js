@@ -84,9 +84,12 @@ const NavTabWrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
   cursor: pointer;
   margin-right: 7%;
+  :hover {
+    margin-top: 1px;
+  }
+
   :hover:after {
     content: "";
     position: relative;

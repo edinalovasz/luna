@@ -4,6 +4,8 @@ import Navigation from "../components/Navigation";
 import Credentials from "../components/Credentials";
 import Template from "../components/Templates";
 import RestaurantCreate from "../components/RestaurantCreate";
+import Home from "../components/Home";
+
 
 
 const Routes = () => {
@@ -14,7 +16,7 @@ const Routes = () => {
           <Navigation>
           <Route path={"/auth"} component={Credentials} />
           <Route path={"/template"} component={Template} />
-            {/*<Route exact path='/home' />*/}
+          <Route exact path={'/home'} component={Home}/>
             {/*<Route exact path='/search' />*/}
             {/*<Route exact path='/profile'/>*/}
             {/*<Route path='/users/:userId'/>*/}
