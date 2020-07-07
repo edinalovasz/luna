@@ -25,7 +25,6 @@ const Header = styled.div`
   display: flex;
   padding: 0 ${rem("30px")} 0 ${rem("30px")};
   position: fixed;
-  margin-bottom: 100px;
   top: 0;
   z-index: 1000;
   background-color: white;
@@ -107,6 +106,7 @@ const NavTabWrapperActive = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-top: 1px;
   cursor: pointer;
   margin-right: 7%;
   h2 {
