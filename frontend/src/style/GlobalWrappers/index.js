@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 export const PageContainer = styled.div`
   height: 100vh;
-  margin-top: -70px;
-  margin-bottom: -90px;
+
+
 `;
 
 export const StarContainer = styled.div`
