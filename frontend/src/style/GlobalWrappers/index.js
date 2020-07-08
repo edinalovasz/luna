@@ -171,6 +171,12 @@ export const WideUserCardProfile = styled.div`
   }
 `;
 
+export const StarRatingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+
 export const WideReviewCardText = styled.div`
   display: flex;
   justify-content: space-between;

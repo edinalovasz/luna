@@ -11,6 +11,7 @@ import {
   StarContainer,
   WideReviewCardText,
   PostComment,
+  StarRatingWrapper,
 } from "../../style/GlobalWrappers";
 
 import { CommentInput } from "../../style/GlobalInputs";
@@ -20,6 +21,7 @@ import {
   CommentButton,
   SplitButton,
 } from "../../style/GlobalButtons";
+import StarRatingFix from "../StarRatingFix";
 
 const Comments = ({ handleRenderComments }) => {
   return (
@@ -84,15 +86,9 @@ const GenericWideReviewCard = (props) => {
               <h1>Name</h1>
               <p>6 Reviews in Total</p>
             </div>
-            <div>
-              <StarContainer>
-                <FontAwesomeIcon icon={["fas", "star"]} />
-                <FontAwesomeIcon icon={["fas", "star"]} />
-                <FontAwesomeIcon icon={["fas", "star"]} />
-                <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                <FontAwesomeIcon icon={["far", "star"]} />
-              </StarContainer>
-            </div>
+            <StarRatingWrapper>
+              <StarRatingFix />
+            </StarRatingWrapper>
           </div>
           <div>
             <p>01.01.2018 15:22</p>
