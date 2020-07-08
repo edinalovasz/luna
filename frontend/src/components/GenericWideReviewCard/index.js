@@ -67,7 +67,7 @@ const LikeCommentView = ({ handleRenderComments }) => {
   );
 };
 
-const GenericReviewCard = (props) => {
+const GenericWideReviewCard = (props) => {
   const [showComments, setshowComments] = React.useState(false);
 
   const handleRenderComments = () => {
