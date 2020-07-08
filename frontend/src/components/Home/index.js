@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 import { MainTitle, TitleHr } from "../../style/GlobalTitles";
@@ -10,8 +10,9 @@ import { BigButton } from "../../style/GlobalButtons";
 
 import GenericRestaurantCard from "../GenericRestaurantCard";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import { validate } from "../../store/actions/registrationActions";
+import {getTopFourAction} from "../../store/actions/searchActions";
 
 const HomePageWrapper = styled(PageContainer)`
   background: #f2f2f2;
@@ -75,63 +76,80 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
-  const [topFour, settopFour] = useState("");
+    const [topFour, settopFour] = useState(null);
 
-  // useEffect(() => {
+    useEffect(() => {
+        async function fetchData() {
+            const response = await dispatch(getTopFourAction());
+                settopFour(response.data)
+        }
+        fetchData();
+    }, [])
 
-  // }, []);
+    console.log('topFour', topFour)
 
-  const push = useHistory();
-  const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState({
-    searchText: "",
-  });
 
-  const onChangeHandler = (event, property) => {
-    const value = event.currentTarget.value;
-    setUserInfo({ ...userInfo, [property]: value });
-  };
+    const push = useHistory()
+    const dispatch = useDispatch()
+    const [userInfo, setUserInfo] = useState({
+        searchText: "",
+    });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await dispatch(validate(userInfo));
-    if (response.status === 200) {
-      console.log("do something");
-    } else {
-      console.log("error", response);
-    }
-  };
+    const onChangeHandler = (event, property) => {
+        const value = event.currentTarget.value;
+        setUserInfo({ ...userInfo, [property]: value });
+    };
 
-  return (
-    <>
-      <HomePageWrapper>
-        <HeaderHomePage>
-          <SearchForm onSubmit={handleSubmit}>
-            <SearchHomePageInput
-              onChange={(e) => onChangeHandler(e, "searchText")}
-              placeholder="Search..."
-              type="text"
-              required
-            ></SearchHomePageInput>
-            <SearchHomePageButton type="submit">Search</SearchHomePageButton>
-          </SearchForm>
-          {/*<img src={Home_page_Restaurant}></img>*/}
-        </HeaderHomePage>
-        <BestRatedRestaurantsSection>
-          <TitleContainer>
-            <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
-            <Line></Line>
-          </TitleContainer>
-          <BestRatedRestaurantContainer>
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-          </BestRatedRestaurantContainer>
-        </BestRatedRestaurantsSection>
-      </HomePageWrapper>
-    </>
-  );
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(validate(userInfo));
+        if (response.status === 200){
+            console.log('do something')
+        }else{
+            console.log('error', response)
+        }
+    };
+
+    return (
+        <>
+            <HomePageWrapper>
+                <HeaderHomePage>
+                    <SearchForm onSubmit={handleSubmit}>
+                        <SearchHomePageInput
+                                onChange={(e) => onChangeHandler(e, "searchText")}
+                                placeholder="Search..."
+                                type="text"
+                                required
+                        ></SearchHomePageInput>
+                        <SearchHomePageButton type="submit" >Search</SearchHomePageButton>
+                    </SearchForm>
+                    {/*<img src={Home_page_Restaurant}></img>*/}
+                </HeaderHomePage>
+                <BestRatedRestaurantsSection>
+                    <TitleContainer>
+                        <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
+                        <Line></Line>
+                    </TitleContainer>
+                    <BestRatedRestaurantContainer>
+                        {topFour ? topFour.map((restaurant, index) => {
+                            return (
+                                <GenericRestaurantCard
+                                    key={index}
+                                    restaurant={restaurant}
+                                />
+                            )
+                        } ) : null}
+                    </BestRatedRestaurantContainer>
+                </BestRatedRestaurantsSection>
+            </HomePageWrapper>
+        </>
+    )
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    userProfileReducer: state.userProfileReducer,
+  };
+};
+
+export default connect(mapStateToProps)(Home);

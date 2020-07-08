@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import rem from "polished/lib/helpers/rem";
-import { BigButton } from "../../../style/GlobalButtons";
-import { SmallTitleHr, MainTitle } from "../../../style/GlobalTitles";
-import { BaseInput } from "../../../style/GlobalInputs";
-import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
-import { validate } from "../../../store/actions/registrationActions";
+import {BigButton} from "../../../style/GlobalButtons";
+import {SmallTitleHr, MainTitle} from "../../../style/GlobalTitles";
+import {BaseInput} from "../../../style/GlobalInputs";
+import {useHistory} from "react-router";
+import {useDispatch} from "react-redux";
+import {sendCode, validate} from "../../../store/actions/registrationActions";
+
 
 const SignUpWrapper = styled.div`
   width: 100vw;
@@ -57,28 +58,28 @@ const SignUpInput = styled(BaseInput)`
   }
 `;
 
-const SignUp = (props) => {
-  const push = useHistory();
-  const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState({
-    email: "",
-  });
+const SignUp = props => {
+    const history = useHistory();
+    const dispatch = useDispatch()
+    const [userInfo, setUserInfo] = useState({
+        email: "",
+    });
+    console.log(userInfo)
+    const onChangeHandler = (event, property) => {
+        const value = event.currentTarget.value;
+        setUserInfo({ ...userInfo, [property]: value });
+    };
 
-  const onChangeHandler = (event, property) => {
-    const value = event.currentTarget.value;
-    setUserInfo({ ...userInfo, [property]: value });
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(sendCode(userInfo));
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await dispatch(validate(userInfo));
-    debugger;
-    if (response.status === 200) {
-      push("/auth/signup/validation");
-    } else {
-      console.log("error", response);
-    }
-  };
+        if (response.status < 300){
+            history.push("/auth/signup/sent")
+        }else{
+            console.log('error', response)
+        }
+    };
 
   return (
     <SignUpWrapper>

@@ -58,15 +58,16 @@ const ErrorPlaceholder = styled.div`
 `;
 
 const Login = (props) => {
-  const push = useHistory();
-  const dispatch = useDispatch();
-  const [loginInfo, setloginInfo] = useState({
+    const history = useHistory();
+    const dispatch = useDispatch()
+    const [loginInfo, setloginInfo] = useState({
     email: "",
     password: "",
   });
 
-  const handleEmail = (e) => {
-    const value = e.currentTarget.value;
+    console.log('loginInfo', loginInfo)
+    const handleEmail = e => {
+        const value = e.currentTarget.value
     setloginInfo({
       ...loginInfo,
       email: value,
@@ -81,12 +82,14 @@ const Login = (props) => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await dispatch(sendLoginAction);
-    if (response.status === 200) {
-      push("/home");
-    }
+  const handleSubmit = async e => {
+
+      e.preventDefault();
+      console.log("in the ubmit")
+      const response = await dispatch(sendLoginAction(loginInfo));
+      if (response.status === 200) {
+          history.push("/home")
+      }
   };
 
   console.log("data", loginInfo);
@@ -94,23 +97,13 @@ const Login = (props) => {
   return (
     <PageContainer>
       <LoginWrapper>
-        <LoginFormContainer>
+        <LoginFormContainer onSubmit={handleSubmit}>
           <LoginTitle>Login</LoginTitle>
           <LoginTitleHr></LoginTitleHr>
           <ErrorPlaceholder></ErrorPlaceholder>
-          <LoginInput
-            onChange={handleEmail}
-            type="email"
-            placeholder="Email"
-            required
-          />
-          <LoginInput
-            onChange={handlePassword}
-            type="password"
-            placeholder="Password"
-            required
-          />
-          <LoginFormButton onChange={handleSubmit}>Login</LoginFormButton>
+          <LoginInput onChange={handleEmail} type="email" placeholder="Email" required />
+          <LoginInput onChange={handlePassword} type="password" placeholder="Password" required />
+          <LoginFormButton >Login</LoginFormButton>
         </LoginFormContainer>
       </LoginWrapper>
     </PageContainer>
