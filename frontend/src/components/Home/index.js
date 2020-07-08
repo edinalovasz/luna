@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 import { MainTitle, TitleHr } from "../../style/GlobalTitles";
@@ -6,16 +6,15 @@ import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
 import {
     PageContainer,
-    StarContainer,
     TitleContainer
 } from "../../style/GlobalWrappers";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
-import placeHolderRestaurant from "../../assets/images/restaurant.png";
 import { SearchInput } from "../../style/GlobalInputs";
 import { BigButton } from "../../style/GlobalButtons";
 
 import GenericRestaurantCard from "../GenericRestaurantCard";
+import {useHistory} from "react-router";
+import {useDispatch} from "react-redux";
+import {validate} from "../../store/actions/registrationActions";
 
 
 const HomePageWrapper = styled(PageContainer)`
@@ -28,7 +27,6 @@ const HomePageWrapper = styled(PageContainer)`
 
 
 const HeaderHomePage = styled.div`
-    border: solid red;
     display: flex;
     flex-flow: column;
     background-image: url(${Home_page_Restaurant});
@@ -50,25 +48,9 @@ const BestRatedRestaurantsSection = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: solid green;
     width: 100%;
     height: 53vh;
 `
-
-const HeaderHomePageForm = styled.section`
-  display: flex;
-  flex-flow: column;
-  background-image: url(${Home_page_Restaurant}),
-    linear-gradient(102deg, #c468ff, #6e91f6);
-  background-repeat: no-repeat;
-  background-size: cover;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  max-width: 100%;
-  max-height: 100%;
-  height: 45%;
-`;
 
 const BestRatedRestaurantContainer = styled.div`
   display: grid;
@@ -100,16 +82,39 @@ const Line = styled(TitleHr)`
 
 const Home = (props) => {
 
+    const push = useHistory()
+    const dispatch = useDispatch()
+    const [userInfo, setUserInfo] = useState({
+        searchText: "",
+    });
+
+    const onChangeHandler = (event, property) => {
+        const value = event.currentTarget.value;
+        setUserInfo({ ...userInfo, [property]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(validate(userInfo));
+        if (response.status === 200){
+            console.log('do something')
+        }else{
+            console.log('error', response)
+        }
+    };
+
     return (
         <>
             <HomePageWrapper>
                 <HeaderHomePage>
-                    <SearchForm>
+                    <SearchForm onSubmit={handleSubmit}>
                         <SearchHomePageInput
-                        placeholder="Search..."
-                        type="text"
-                    ></SearchHomePageInput>
-                    <SearchHomePageButton>Search</SearchHomePageButton>
+                                onChange={(e) => onChangeHandler(e, "searchText")}
+                                placeholder="Search..."
+                                type="text"
+                                required
+                        ></SearchHomePageInput>
+                        <SearchHomePageButton type="submit" >Search</SearchHomePageButton>
                     </SearchForm>
                     {/*<img src={Home_page_Restaurant}></img>*/}
                 </HeaderHomePage>

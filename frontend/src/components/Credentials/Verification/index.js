@@ -70,7 +70,6 @@ const Verification = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await dispatch(validate(userInfo));
-        debugger
         if (response.status === 200){
             push("/auth/login")
         }else{
@@ -98,7 +97,7 @@ const Verification = (props) => {
                             <VerInput
                                 onChange={(e) => onChangeHandler(e, "code")}
                                 placeholder="Validation Code"
-                                type="text"
+                                type="number"
                                 required
                             />
                             <div></div>
