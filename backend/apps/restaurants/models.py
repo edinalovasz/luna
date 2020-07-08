@@ -5,26 +5,26 @@ User = get_user_model()
 
 
 class Restaurant(models.Model):
-    ETHNIC = 'EF'
-    FAST_FOOD = 'FF'
-    FAST_CASUAL = 'FC'
-    CASUAL_DINING = 'CD'
-    PREMIUM_CASUAL = 'PC'
-    FAMILY_STYLE = 'FS'
-    FINE_DINING = 'FD'
-    PUB = 'PB'
+    ETHNIC = "1"
+    FAST_FOOD = "2"
+    FAST_CASUAL = "3"
+    CASUAL_DINING = "4"
+    PREMIUM_CASUAL = "5"
+    FAMILY_STYLE = "6"
+    FINE_DINING = "7"
+    PUB = "8"
     CATEGORIES_CHOICES = [
-        (ETHNIC, 'ethnic'),
-        (FAST_FOOD, 'fast_food'),
-        (FAST_CASUAL, 'fast_casual'),
-        (CASUAL_DINING, 'casual_dining'),
-        (PREMIUM_CASUAL, 'premium_casual'),
-        (FAMILY_STYLE, 'family_style'),
-        (FINE_DINING, 'fine_dining'),
-        (PUB, 'pub'),
+        (ETHNIC, 'Ethnic'),
+        (FAST_FOOD, 'Fast Food'),
+        (FAST_CASUAL, 'Fast Casual'),
+        (CASUAL_DINING, 'Casual Dining'),
+        (PREMIUM_CASUAL, 'Premium Casual'),
+        (FAMILY_STYLE, 'Family Style'),
+        (FINE_DINING, 'Fine Dining'),
+        (PUB, 'Pub'),
     ]
     name = models.CharField(max_length=100)
-    category = models.TextField(max_length=2, choices=CATEGORIES_CHOICES)
+    category_id = models.TextField(max_length=2, choices=CATEGORIES_CHOICES)
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
     zip = models.CharField(max_length=20)
@@ -34,8 +34,23 @@ class Restaurant(models.Model):
     opening_hours = models.CharField(max_length=50)
     price_level = models.CharField(max_length=50, blank=True, null=True)
     image = models.ImageField(null=True, blank=True)
-    owner = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='owner_restaurants')
+    owner = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='owned_restaurants')
     created = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def no_of_ratings(self):
+        return self.restaurant_reviews.count()
+
+    @property
+    def avg_rating(self):
+        sum = 0
+        reviews = self.restaurant_reviews.all()
+        for review in reviews:
+            sum += review.rating
+        if len(reviews) > 0:
+            return sum / len(reviews)
+        else:
+            return 0
 
     def __str__(self):
         return f'Item ID {self.pk}: Name {self.name}'

@@ -48,3 +48,4 @@ class RetrieveUpdateDestroyLoggedInUser(RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return self.request.user
 
+

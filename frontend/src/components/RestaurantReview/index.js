@@ -2,18 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import {
     PageContainer,
-    StarContainer,
-    WideReviewCard,
-    WideReviewCardText,
-    WideUserCardProfile
+    StarContainerFix,
 } from "../../style/GlobalWrappers";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
-import placeHolderProfilePic from "../../assets/images/small-user-image.png";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {BaseButton, BigButton, Button, CommentButton, LikeButton, SplitButton} from "../../style/GlobalButtons";
-import {FilterListInput, SearchInput} from "../../style/GlobalInputs";
+import {BaseButton, Button} from "../../style/GlobalButtons";
+import {FilterListInput} from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
-import StartRating from "../StarRating";
+import StarRatingFix from "../StarRatingFix";
+import GenericWideReviewCard from "../GenericWideReviewCard";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -64,9 +60,6 @@ const RestaurantCategory = styled.p`
     margin-top: 7px;
 `
 
-const StarsContainer = styled.div`
-  margin-top: 13px;
-`;
 
 const RestaurantReviewInfoContainer = styled.div`
     padding: 15px;
@@ -101,7 +94,6 @@ const FilterForm = styled.div`
   justify-content: flex-end;
 `
 const ReviewsContainer = styled.div`
-  padding-bottom: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -147,9 +139,9 @@ const RestaurantReview = (props) => {
                     <HeaderMainInfo>
                         <RestaurantName>Läderach Chocolatier Suisse</RestaurantName>
                         <RestaurantCategory>Chocolatiers & shops</RestaurantCategory>
-                        <StarsContainer>
-                            <StartRating></StartRating>
-                        </StarsContainer>
+                        <StarContainerFix>
+                            <StarRatingFix></StarRatingFix>
+                        </StarContainerFix>
                     </HeaderMainInfo>
                 </HeaderMainInfoContainer>
             </HeaderRestaurantReview>
@@ -163,7 +155,8 @@ const RestaurantReview = (props) => {
                         <FilterButton>FILTER</FilterButton>
                     </FilterForm>
                     <ReviewsContainer>
-                        TODO ADD REVIEW COMPONENT HERE
+                        <GenericWideReviewCard/>
+                        <GenericWideReviewCard/>
                     </ReviewsContainer>
                 </LeftInfoContainer>
                 <RightInfoContainer>
