@@ -7,7 +7,7 @@ import {getLoggedInUserAction} from "./userActions";
 export const sendLogin = (token) => {
     return {
         type: USER_LOGIN,
-        token,
+        payload: token,
     };
 };
 
@@ -27,7 +27,9 @@ export const sendLoginAction = data => async (dispatch) => {
         const {data: {access: token},} = response
         dispatch(getLoggedInUserAction())
         dispatch(sendLogin(token));
+        console.log('success')
         localStorage.setItem("token", token);
+        return response
     } catch (error) {
         console.log("error", error)
         return error

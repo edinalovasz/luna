@@ -59,13 +59,14 @@ const ErrorPlaceholder = styled.div`
 
 
 const Login = (props) => {
-    const push = useHistory()
+    const history = useHistory();
     const dispatch = useDispatch()
     const [loginInfo, setloginInfo] = useState({
     email: "",
     password: ""
     });
 
+    console.log('loginInfo', loginInfo)
     const handleEmail = e => {
         const value = e.currentTarget.value
     setloginInfo({
@@ -81,10 +82,12 @@ const Login = (props) => {
   }
 
   const handleSubmit = async e => {
+
       e.preventDefault();
-      const response = await dispatch(sendLoginAction);
-      if (response.status < 300) {
-          push("/home")
+      console.log("in the ubmit")
+      const response = await dispatch(sendLoginAction(loginInfo));
+      if (response.status === 200) {
+          history.push("/home")
       }
   };
 
@@ -93,13 +96,13 @@ const Login = (props) => {
   return (
     <PageContainer>
       <LoginWrapper>
-        <LoginFormContainer>
+        <LoginFormContainer onSubmit={handleSubmit}>
           <LoginTitle>Login</LoginTitle>
           <LoginTitleHr></LoginTitleHr>
           <ErrorPlaceholder></ErrorPlaceholder>
           <LoginInput onChange={handleEmail} type="email" placeholder="Email" required />
           <LoginInput onChange={handlePassword} type="password" placeholder="Password" required />
-          <LoginFormButton onChange={handleSubmit}>Login</LoginFormButton>
+          <LoginFormButton >Login</LoginFormButton>
         </LoginFormContainer>
       </LoginWrapper>
     </PageContainer>

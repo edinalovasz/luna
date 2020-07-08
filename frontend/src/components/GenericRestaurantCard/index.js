@@ -5,6 +5,8 @@ import placeHolderRestaurant from "../../assets/images/restaurant.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { BaseCard, StarContainer } from "../../style/GlobalWrappers";
+import StarRatingFix from "../StarRatingFix";
+import {Link} from "react-router-dom";
 
 const RestaurantCard = styled(BaseCard)``;
 
@@ -17,6 +19,7 @@ const RestaurantCardContent = styled.div`
   div {
     display: flex;
     justify-content: space-between;
+    padding-top: ${rem("6px")};
   }
   h2 {
     font-weight: normal;
@@ -39,24 +42,24 @@ const RestaurantCardImg = styled.div`
 `;
 
 const GenericRestaurantCard = (props) => {
+
+    const{restaurant:{id, name, city, avg_rating, no_of_ratings, image}}= props
   return (
     <RestaurantCard>
       <RestaurantCardContent>
-        <h2>Restaurant Name</h2>
-        <p>Address</p>
+        <h2>{name}</h2>
+        <p>{city}</p>
         <div>
-          <StarContainer>
-            <FontAwesomeIcon icon={["fas", "star"]} />
-            <FontAwesomeIcon icon={["fas", "star"]} />
-            <FontAwesomeIcon icon={["fas", "star"]} />
-            <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-            <FontAwesomeIcon icon={["far", "star"]} />
-          </StarContainer>
-          <h2>11</h2>
+          <StarRatingFix avg_rating={
+              parseInt(avg_rating)
+          } />
+          <h2>{no_of_ratings}</h2>
         </div>
       </RestaurantCardContent>
       <RestaurantCardImg>
-        <img src={placeHolderRestaurant}></img>
+          <Link to={`/restaurants/${id}`}>
+            <img src={image}/>
+          </Link>
       </RestaurantCardImg>
     </RestaurantCard>
   );

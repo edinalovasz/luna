@@ -32,7 +32,7 @@ import {
   InputTextArea,
 } from "../../style/GlobalInputs";
 import Spinner from "../GenericSpinner";
-import StarRating from "../StarRatingFix";
+import StarRatingFix from "../StarRatingFix";
 
 function Template() {
   return (
@@ -79,7 +79,7 @@ function Template() {
           <FontAwesomeIcon icon={["fas", "map-marker-alt"]} />
           <FontAwesomeIcon icon={["fas", "mobile"]} />
           <FontAwesomeIcon icon={["fas", "laptop"]} />
-          <StarRating />
+          <StarRatingFix />
         </div>
         <br></br>
         <br></br>

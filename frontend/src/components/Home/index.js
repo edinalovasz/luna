@@ -1,56 +1,52 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {MainTitle, TitleHr} from "../../style/GlobalTitles";
+import { rem } from "polished";
+import { MainTitle, TitleHr } from "../../style/GlobalTitles";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
-import {
-    PageContainer,
-    TitleContainer
-} from "../../style/GlobalWrappers";
+import { PageContainer, TitleContainer } from "../../style/GlobalWrappers";
 import { SearchInput } from "../../style/GlobalInputs";
 import { BigButton } from "../../style/GlobalButtons";
 
 import GenericRestaurantCard from "../GenericRestaurantCard";
-import {useHistory} from "react-router";
-import {useDispatch} from "react-redux";
-import {validate} from "../../store/actions/registrationActions";
-
+import { useHistory } from "react-router";
+import {connect, useDispatch} from "react-redux";
+import { validate } from "../../store/actions/registrationActions";
+import {getTopFourAction} from "../../store/actions/searchActions";
 
 const HomePageWrapper = styled(PageContainer)`
-    background: #F2F2F2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`
-
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const HeaderHomePage = styled.div`
-    display: flex;
-    flex-flow: column;
-    background-image: url(${Home_page_Restaurant});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    justify-content: center;
-    align-items: center;
-    height: 35vh;
-    width: 100%;
-`
+  display: flex;
+  flex-flow: column;
+  background-image: url(${Home_page_Restaurant});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  justify-content: center;
+  align-items: center;
+  height: 35vh;
+  width: 100%;
+`;
 
 const SearchForm = styled.form`
-    position: absolute;
-    z-index: 2;
-`
+  position: absolute;
+  z-index: 2;
+`;
 
 const BestRatedRestaurantsSection = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 53vh;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 53vh;
+`;
 
 const BestRatedRestaurantContainer = styled.div`
   display: grid;
@@ -60,7 +56,6 @@ const BestRatedRestaurantContainer = styled.div`
   grid-template-areas: ". . . .";
   padding: 42px;
 `;
-
 
 const HomePageTitle = styled(MainTitle)`
   margin-top: 50px;
@@ -81,8 +76,18 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
-    const [topFour, settopFour] = useState("");
-    
+    const [topFour, settopFour] = useState(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await dispatch(getTopFourAction());
+                settopFour(response.data)
+        }
+        fetchData();
+    }, [])
+
+    console.log('topFour', topFour)
+
 
     const push = useHistory()
     const dispatch = useDispatch()
@@ -126,10 +131,14 @@ const Home = (props) => {
                         <Line></Line>
                     </TitleContainer>
                     <BestRatedRestaurantContainer>
-                        <GenericRestaurantCard/>
-                        <GenericRestaurantCard/>
-                        <GenericRestaurantCard/>
-                        <GenericRestaurantCard/>
+                        {topFour ? topFour.map((restaurant, index) => {
+                            return (
+                                <GenericRestaurantCard
+                                    key={index}
+                                    restaurant={restaurant}
+                                />
+                            )
+                        } ) : null}
                     </BestRatedRestaurantContainer>
                 </BestRatedRestaurantsSection>
             </HomePageWrapper>
@@ -137,4 +146,10 @@ const Home = (props) => {
     )
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    userProfileReducer: state.userProfileReducer,
+  };
+};
+
+export default connect(mapStateToProps)(Home);
