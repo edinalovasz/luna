@@ -69,7 +69,9 @@ const ReviewStarChoiceContainer = styled.div`
     width: ${rem("450px")};
     align-items: center;
 `;
-
+const BaseRatingInputs = styled.input`
+  display: none;
+`;
 const StarTextContainer = styled.div`
     height: ${rem("45px")};
     width: ${rem("160px")};
@@ -127,6 +129,32 @@ const ReviewCreate = (props) => {
         //author?,
     });
 
+    const [rating, setRating] = useState(null);
+    const [hover, setHover] = useState(null);
+    console.log(rating)
+    const renderRating = [...Array(5)].map((star, i) => {
+              const ratingValue = i + 1;
+              return (
+                  <label>
+                    <BaseRatingInputs
+                        name="rating"
+                        type="radio"
+                        value={ratingValue}
+                        onClick={() => {
+                            setReviewInfo({...reviewInfo, rating: ratingValue})
+                            setRating(ratingValue)
+                        }}
+                    />
+                    <FontAwesomeIcon
+                        icon={["fas", "star"]}
+                        color={ratingValue <= (hover || rating) ? "#f8e71c" : "#e4e5e9"}
+                        onMouseEnter={()=> setHover(ratingValue)}
+                        onMouseLeave={()=> setHover(null)}
+                    />
+                  </label>
+              );
+          })
+
     console.log("reviewInfo", reviewInfo)
 
     const onChangeHandler = (event, property) => {
@@ -161,8 +189,8 @@ const ReviewCreate = (props) => {
             </CreateReviewHeader>
             <CreateReviewMainContainer>
                     <ReviewStarChoiceContainer>
-                        <StarRating/>
-                        <StarTextContainer onChange={(e) => onChangeHandler(e, "rating")}>Select your rating</StarTextContainer>
+                        {renderRating}
+                        <StarTextContainer>Select your rating</StarTextContainer>
                     </ReviewStarChoiceContainer>
                 <ReviewText onChange={(e) => onChangeHandler(e, "content")} placeholder=" Your review helps others learn about great local businesses.
                 Please don't review this business if you received a freebie for writing this review,
