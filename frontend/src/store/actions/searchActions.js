@@ -1,5 +1,6 @@
 import Axios from "../../axios";
 import {
+    RESET_SEARCH,
     SET_RESTAURANTS, SET_REVIEWS, SET_USER_PROFILES
 } from "../actionTypes";
 
@@ -8,6 +9,12 @@ const setUserProfiles = (profiles) => {
     return {
         type: SET_USER_PROFILES,
         payload: profiles,
+    };
+};
+
+export const resetSearch = () => {
+    return {
+        type: RESET_SEARCH,
     };
 };
 

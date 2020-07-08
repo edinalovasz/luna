@@ -13,7 +13,7 @@ import {
     generalSearchAction,
     getAllRestaurantsAction,
     getAllReviewsAction,
-    getAllUserProfilesAction
+    getAllUserProfilesAction, resetSearch
 } from "../../store/actions/searchActions";
 import Spinner from "../GenericSpinner";
 
@@ -142,15 +142,17 @@ const Profile = (props) => {
     };
 
     const keyPressed = (event) => {
-        if (event.key) {
+        if (event.key === "Enter") {
+            dispatch(resetSearch())
             dispatch(generalSearchAction(searchParams.type, searchParams.search_string))
+            setSearchParams({...searchParams, search_string: ""});
         }
     }
     return (
         <>
             <SearchPageWrapper>
                 <SearchPageHeader>
-                    <HeaderSearchInput onKeyPress={keyPressed} onChange={handleSearch} placeholder="Search"/>
+                    <HeaderSearchInput value={searchParams.search_string} onKeyPress={keyPressed} onChange={handleSearch} placeholder="Search"/>
                     <SelectSearchCategory active={active === "restaurants"}>
                         <Options label="Select a category..."/>
                         <Options value={1}>Ethnic</Options>

@@ -1,4 +1,5 @@
 import {
+    RESET_SEARCH,
     SET_RESTAURANTS,
     SET_REVIEWS,
     SET_USER_PROFILES,
@@ -24,6 +25,9 @@ export const searchReducer = (state = initialState, action) => {
         }
         case SET_REVIEWS: {
             return {...newState, allReviewsList: action.payload};
+        }
+        case RESET_SEARCH: {
+            return {...initialState};
         }
         case UPDATE_LIKED_REVIEW_IN_SEARCH_LIST: {
             let index = newState.allReviewsList.findIndex(review => review.id === action.payload.id)
