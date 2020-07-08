@@ -8,7 +8,7 @@ const override = css`
   border-color: red;
 `;
 
-const PurpleSpinner = () => {
+const Spinner = () => {
   return (
     <ScaleLoader
       css={override}
@@ -20,4 +20,4 @@ const PurpleSpinner = () => {
   );
 };
 
-export default PurpleSpinner;
+export default Spinner;

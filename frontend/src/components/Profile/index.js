@@ -18,6 +18,8 @@ import {
   getReviewsByUserIDAction,
 } from "../../store/actions/userProfileActions";
 import { BigButton } from "../../style/GlobalButtons";
+import { Title } from "../../style/GlobalTitles";
+import { BaseInput, InputTextArea } from "../../style/GlobalInputs";
 
 const ProfilePageWrapper = styled.div``;
 
@@ -82,11 +84,15 @@ const ProfileMenuItem = styled.a`
     background-color: #eaeaea;
   }
   p {
+    pointer-events: none;
     margin-left: 10px;
     font-weight: 300;
     font-size: 18px;
     line-height: 21px;
     color: #303030;
+  }
+  svg {
+    pointer-events: none;
   }
 `;
 
@@ -180,8 +186,39 @@ const ProfileAboutWrapper = styled.div`
   }
 `;
 
-const CreateRestaurantBtn = styled(BigButton)`
+const ProfileDetailTitle = styled(Title)`
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+  color: #979797;
+  margin-bottom: ${rem("11px")};
+  margin-top: ${rem("24px")};
+`;
+
+const ProfileCreateInput = styled(BaseInput)`
+  background: #ffffff;
+  box-sizing: border-box;
+  width: ${rem("370px")};
+`;
+
+const ProfileCreateInputWide = styled(BaseInput)`
+  background: #ffffff;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: ${rem("11px")};
+`;
+
+const ProfileCreateInputBig = styled(InputTextArea)`
+  background: #ffffff;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: ${rem("11px")};
+  resize: vertical;
+`;
+
+const ProfileBtn = styled(BigButton)`
   margin-top: 24px;
+  margin-bottom: 24px;
 `;
 
 const Content = styled.div`
@@ -189,6 +226,17 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   ${(props) => (props.active ? "" : "display:none")}
+`;
+
+const SaveDeleteWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  a {
+    color: red;
+    cursor: pointer;
+  }
 `;
 
 const Profile = (props) => {
@@ -275,9 +323,6 @@ const Profile = (props) => {
                     <h1>Reviews</h1>
                     <GenericProfileReview />
                     <GenericProfileReview />
-                    <GenericProfileReview />
-                    <GenericProfileReview />
-                    <GenericProfileReview />
                   </ProfileRightBottomWrapper>
                 </Content>
                 <Content active={active === "comments"}>
@@ -293,11 +338,47 @@ const Profile = (props) => {
                     <h1>Restaurants</h1>
                     <GenericProfileRestaurant />
                   </ProfileRightBottomWrapper>
-                  <CreateRestaurantBtn>Create Restaurant</CreateRestaurantBtn>
+                  <ProfileBtn>Create Restaurant</ProfileBtn>
                 </Content>
                 <Content active={active === "edit"}>
                   <ProfileRightBottomWrapper>
                     <h1>Edit user profile</h1>
+                    <div>
+                      <ProfileDetailTitle>Username </ProfileDetailTitle>
+                      <ProfileCreateInput />
+                    </div>
+                    <div>
+                      <ProfileDetailTitle>First Name </ProfileDetailTitle>
+                      <ProfileCreateInput />
+                    </div>
+                    <div>
+                      <ProfileDetailTitle>Last Name </ProfileDetailTitle>
+                      <ProfileCreateInput />
+                    </div>
+                    <div>
+                      <ProfileDetailTitle>E-Mail</ProfileDetailTitle>
+                      <ProfileCreateInput type={"email"} />
+                    </div>
+                    <div>
+                      <ProfileDetailTitle>Location </ProfileDetailTitle>
+                      <ProfileCreateInput />
+                    </div>
+                    <div>
+                      <ProfileDetailTitle>Phone </ProfileDetailTitle>
+                      <ProfileCreateInput type={"tel"} />
+                    </div>
+                    <div>
+                      <ProfileDetailTitle>Things I love </ProfileDetailTitle>
+                      <ProfileCreateInputWide />
+                    </div>
+                    <div>
+                      <ProfileDetailTitle>Description</ProfileDetailTitle>
+                      <ProfileCreateInputBig />
+                    </div>
+                    <SaveDeleteWrapper>
+                      <ProfileBtn>Save</ProfileBtn>
+                      <a>Delete Account</a>
+                    </SaveDeleteWrapper>
                   </ProfileRightBottomWrapper>
                 </Content>
               </>

@@ -17,7 +17,7 @@ export const StarContainerFix = styled.div`
 
 export const StarContainer = styled.div`
   margin-top: 13px;
-    .star{
+  .star {
     height: 44px;
     width: 50px;
   }
@@ -119,7 +119,7 @@ export const ReviewCardText = styled.div`
 export const WideReviewCard = styled(BaseCard)`
   border-top: none;
   width: ${rem("650px")};
-  height: 200px;
+  /* height: 200px; */
   margin-bottom: ${rem("20px")};
 `;
 
