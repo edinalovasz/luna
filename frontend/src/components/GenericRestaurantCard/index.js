@@ -1,10 +1,10 @@
 import React from "react";
-import { rem } from "polished";
+import {rem} from "polished";
 import styled from "styled-components";
 import placeHolderRestaurant from "../../assets/images/restaurant.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import { BaseCard, StarContainer } from "../../style/GlobalWrappers";
+import {BaseCard, StarContainer} from "../../style/GlobalWrappers";
 import StarRatingFix from "../StarRatingFix";
 import {Link} from "react-router-dom";
 
@@ -41,28 +41,30 @@ const RestaurantCardImg = styled.div`
   }
 `;
 
+const placeholderImage = "https://picsum.photos/200"
+
 const GenericRestaurantCard = (props) => {
 
-    const{restaurant:{id, name, city, avg_rating, no_of_ratings, image}}= props
-  return (
-    <RestaurantCard>
-      <RestaurantCardContent>
-        <h2>{name}</h2>
-        <p>{city}</p>
-        <div>
-          <StarRatingFix avg_rating={
-              parseInt(avg_rating)
-          } />
-          <h2>{no_of_ratings}</h2>
-        </div>
-      </RestaurantCardContent>
-      <RestaurantCardImg>
-          <Link to={`/restaurants/${id}`}>
-            <img src={image}/>
-          </Link>
-      </RestaurantCardImg>
-    </RestaurantCard>
-  );
+    const {restaurant: {id, name, city, avg_rating, no_of_ratings, image}} = props
+    return (
+        <RestaurantCard>
+            <RestaurantCardContent>
+                <h2>{name}</h2>
+                <p>{city}</p>
+                <div>
+                    <StarRatingFix avg_rating={
+                        parseInt(avg_rating)
+                    }/>
+                    <h2>{no_of_ratings}</h2>
+                </div>
+            </RestaurantCardContent>
+            <RestaurantCardImg>
+                <Link to={`/restaurants/${id}`}>
+                    <img alt={"restaurant picture"} src={image ? image : placeholderImage}/>
+                </Link>
+            </RestaurantCardImg>
+        </RestaurantCard>
+    );
 };
 
 export default GenericRestaurantCard;

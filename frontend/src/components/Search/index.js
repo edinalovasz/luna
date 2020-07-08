@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import { rem } from "polished";
-import { connect } from "react-redux";
+import {rem} from "polished";
+import {connect} from "react-redux";
 
-import { BigButton } from "../../style/GlobalButtons";
-import { Title } from "../../style/GlobalTitles";
-import { BaseInput } from "../../style/GlobalInputs";
+import {BigButton} from "../../style/GlobalButtons";
+import {Title} from "../../style/GlobalTitles";
+import {BaseInput} from "../../style/GlobalInputs";
 import GenericRestaurantCard from "../GenericRestaurantCard";
 import GenericReviewCard from "../GenericReviewCard";
 import GenericUserCard from "../GenericUserCard";
+import {
+    generalSearchAction,
+    getAllRestaurantsAction,
+    getAllReviewsAction,
+    getAllUserProfilesAction
+} from "../../store/actions/searchActions";
+import Spinner from "../GenericSpinner";
 
 const SearchPageWrapper = styled.div``;
 
@@ -107,103 +114,109 @@ const Content = styled.div`
 `;
 
 const Profile = (props) => {
-  const [active, setActive] = useState("restaurants");
 
-  const handleClick = (e) => {
-    const value = e.target.id;
-    setActive(value);
-  };
+    const {dispatch, searchReducer: {allUsersList, allRestaurantsList, allReviewsList},} = props
+    useEffect(() => {
+        console.log("getting all again")
+        dispatch(getAllUserProfilesAction())
+        dispatch(getAllRestaurantsAction())
+        dispatch(getAllReviewsAction())
+    }, [])
 
-  return (
-    <>
-      <SearchPageWrapper>
-        <SearchPageHeader>
-          <HeaderSearchInput placeholder="Search"></HeaderSearchInput>
-          <SelectSearchCategory
-            active={active === "restaurants"}
-            // onChange={(e) => onChangeHandler(e, "category")}
-          >
-            <Options label="Select a category..." />
-            <Options value={1}>Ethnic</Options>
-            <Options value={2}>Fast food</Options>
-            <Options value={3}>Fast casual</Options>
-            <Options value={4}>Casual dining</Options>
-            <Options value={5}>Premium casual</Options>
-            <Options value={6}>Family style</Options>
-            <Options value={7}>Fine dining</Options>
-            <Options value={8}>Pub</Options>
-          </SelectSearchCategory>
-        </SearchPageHeader>
-        <SearchPageBody>
-          {/* menu */}
-          <SearchMenuBar>
-            <SearchMenuItem
-              onClick={handleClick}
-              active={active === "restaurants"}
-              id={"restaurants"}
-            >
-              <h2>Restaurants</h2>
-            </SearchMenuItem>
-            <SearchMenuItem
-              onClick={handleClick}
-              active={active === "reviews"}
-              id={"reviews"}
-            >
-              <h2>Reviews</h2>
-            </SearchMenuItem>
-            <SearchMenuItem
-              onClick={handleClick}
-              active={active === "users"}
-              id={"users"}
-            >
-              <h2>Users</h2>
-            </SearchMenuItem>
-          </SearchMenuBar>
-          {/* content */}
-          <Content active={active === "restaurants"}>
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-          </Content>
-          <Content active={active === "reviews"}>
-            <GenericReviewCard />
-            <GenericReviewCard />
-            <GenericReviewCard />
-            <GenericReviewCard />
-            <GenericReviewCard />
-            <GenericReviewCard />
-            <GenericReviewCard />
-            <GenericReviewCard />
-          </Content>
-          <Content active={active === "users"}>
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-            <GenericUserCard />
-          </Content>
-        </SearchPageBody>
-      </SearchPageWrapper>
-    </>
-  );
+    const [active, setActive] = useState("restaurants");
+    const [searchParams, setSearchParams] = useState({
+        type: `restaurants`,
+        search_string: "",
+    });
+
+    const handleSearch = e => {
+        const value = e.currentTarget.value
+        setSearchParams({...searchParams, search_string: value});
+    }
+
+
+    const handleClick = (e) => {
+        const value = e.target.id;
+        setActive(value);
+        setSearchParams({...searchParams, type: value});
+    };
+
+    const keyPressed = (event) => {
+        if (event.key) {
+            dispatch(generalSearchAction(searchParams.type, searchParams.search_string))
+        }
+    }
+    return (
+        <>
+            <SearchPageWrapper>
+                <SearchPageHeader>
+                    <HeaderSearchInput onKeyPress={keyPressed} onChange={handleSearch} placeholder="Search"/>
+                    <SelectSearchCategory active={active === "restaurants"}>
+                        <Options label="Select a category..."/>
+                        <Options value={1}>Ethnic</Options>
+                        <Options value={2}>Fast food</Options>
+                        <Options value={3}>Fast casual</Options>
+                        <Options value={4}>Casual dining</Options>
+                        <Options value={5}>Premium casual</Options>
+                        <Options value={6}>Family style</Options>
+                        <Options value={7}>Fine dining</Options>
+                        <Options value={8}>Pub</Options>
+                    </SelectSearchCategory>
+                </SearchPageHeader>
+                <SearchPageBody>
+                    {/* menu */}
+                    <SearchMenuBar>
+                        <SearchMenuItem
+                            onClick={handleClick}
+                            active={active === "restaurants"}
+                            id={"restaurants"}
+                        >
+                            <h2>Restaurants</h2>
+                        </SearchMenuItem>
+                        <SearchMenuItem
+                            onClick={handleClick}
+                            active={active === "reviews"}
+                            id={"reviews"}
+                        >
+                            <h2>Reviews</h2>
+                        </SearchMenuItem>
+                        <SearchMenuItem
+                            onClick={handleClick}
+                            active={active === "users"}
+                            id={"users"}
+                        >
+                            <h2>Users</h2>
+                        </SearchMenuItem>
+                    </SearchMenuBar>
+                    {/* content */}
+                    <Content active={active === "restaurants"}>
+                        {allRestaurantsList ? allRestaurantsList.map((restaurant, index) => {
+                            return (
+                                <GenericRestaurantCard
+                                    key={index}
+                                    restaurant={restaurant}
+                                />
+                            )
+                        }) : <Spinner/>}
+                    </Content>
+                    <Content active={active === "reviews"}>
+                        {/*<GenericReviewCard />*/}
+                    </Content>
+                    <Content active={active === "users"}>
+                        {/*<GenericUserCard />*/}
+                    </Content>
+                </SearchPageBody>
+            </SearchPageWrapper>
+        </>
+    );
 };
 
 const mapStateToProps = (state) => {
-  return {
-    userProfileReducer: state.userProfileReducer,
-  };
+    console.log(state);
+    return {
+        userProfileReducer: state.userProfileReducer,
+        searchReducer: state.searchReducer,
+    };
 };
 
 export default connect(mapStateToProps)(Profile);
