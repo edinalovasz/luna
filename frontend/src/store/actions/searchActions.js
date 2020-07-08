@@ -68,3 +68,26 @@ export const getRestaurantsByCategoryAction = category => async (dispatch) => {
         console.log('error', error)
     }
 }
+
+export const generalSearchAction = (type,searchField)  => async (dispatch) => {
+    try {
+        const response = await Axios.get(`search/?type=${type}&search_string=${searchField}`);
+        console.log(`General Search list: `, response.data);
+        dispatch(setRestaurants(response.data))
+        return response
+    } catch (error) {
+        console.log('error', error)
+        return error
+    }
+}
+
+export const getTopFourAction = ()  => async () => {
+    try {
+        const response = await Axios.get(`home/`);
+        console.log(`Top four list: `, response.data);
+        return response
+    } catch (error) {
+        console.log('error', error)
+        return error
+    }
+}
