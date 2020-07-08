@@ -17,7 +17,7 @@ import {
   SplitButton,
 } from "../../style/GlobalButtons";
 
-import { StarContainer, TitleContainer } from "../../style/GlobalWrappers";
+import {StarContainer, TitleContainer} from "../../style/GlobalWrappers";
 import {
   MainTitle,
   TitleHr,
