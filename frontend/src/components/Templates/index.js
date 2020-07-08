@@ -31,11 +31,16 @@ import {
   CommentInput,
   InputTextArea,
 } from "../../style/GlobalInputs";
+import Spinner from "../GenericSpinner";
+import StarRating from "../StarRatingFix";
 
 function Template() {
   return (
     <div className="App">
       <header className="App-header">
+        <h1>Spinner</h1>
+        <Spinner />
+        <br></br>
         <h1>Buttons</h1>
         <br></br>
         <Button>Button</Button>
@@ -74,17 +79,11 @@ function Template() {
           <FontAwesomeIcon icon={["fas", "map-marker-alt"]} />
           <FontAwesomeIcon icon={["fas", "mobile"]} />
           <FontAwesomeIcon icon={["fas", "laptop"]} />
+          <StarRating />
         </div>
         <br></br>
         <br></br>
 
-        <StarContainer>
-          <FontAwesomeIcon icon={["fas", "star"]} />
-          <FontAwesomeIcon icon={["fas", "star"]} />
-          <FontAwesomeIcon icon={["fas", "star"]} />
-          <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-          <FontAwesomeIcon icon={["far", "star"]} />
-        </StarContainer>
         <br></br>
         <br></br>
         <h1>Inputs</h1>
