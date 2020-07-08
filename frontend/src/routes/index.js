@@ -6,7 +6,6 @@ import Template from "../components/Templates";
 import RestaurantCreate from "../components/RestaurantCreate";
 import Home from "../components/Home";
 import ReviewCreate from "../components/ReviewCreate";
-
 import RestaurantReview from "../components/RestaurantReview";
 import Profile from "../components/Profile";
 

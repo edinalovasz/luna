@@ -16,10 +16,9 @@ export const StarContainerFix = styled.div`
 `;
 
 export const StarContainer = styled.div`
-  margin-top: 13px;
     .star{
-    height: 44px;
-    width: 50px;
+    height: 34px;
+    width: 40px;
   }
 `;
 
