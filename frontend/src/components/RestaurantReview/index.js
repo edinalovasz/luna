@@ -181,7 +181,6 @@ const RestaurantReview = (props) => {
                     </FilterForm>
                     <ReviewsContainer>
                         <GenericWideReviewCard/>
-                        <GenericWideReviewCard/>
                     </ReviewsContainer>
                 </LeftInfoContainer>
                 <RightInfoContainer>
