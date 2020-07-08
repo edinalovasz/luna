@@ -75,8 +75,8 @@ const SignUp = props => {
         e.preventDefault();
         const response = await dispatch(sendCode(userInfo));
 
-        if (response.status === 201){
-            history.push("/auth/signup/validation")
+        if (response.status < 300){
+            history.push("/auth/signup/sent")
         }else{
             console.log('error', response)
         }

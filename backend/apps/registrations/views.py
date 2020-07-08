@@ -47,7 +47,9 @@ class CreateUserView(CreateAPIView):
         user = User.objects.create_user(request.data['username'], request.data['email'],
                                         request.data['password'],
                                         first_name=request.data['first_name'],
-                                        last_name=request.data['last_name'])
+                                        last_name=request.data['last_name'],
+                                        location=request.data['location'])
+
         self.perform_create(user)
         target_profile.user = user
         target_profile.save()
