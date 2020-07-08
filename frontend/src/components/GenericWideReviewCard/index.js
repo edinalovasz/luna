@@ -21,7 +21,7 @@ import {
   SplitButton,
 } from "../../style/GlobalButtons";
 
-const GenericReviewCard = (props) => {
+const GenericWideReviewCard = (props) => {
   return (
     <>
       <WideReviewCard>
@@ -108,4 +108,4 @@ const GenericReviewCard = (props) => {
   );
 };
 
-export default GenericReviewCard;
+export default GenericWideReviewCard;
