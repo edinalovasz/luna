@@ -7,9 +7,10 @@ const BaseRatingInputs = styled.input`
   display: none;
 `;
 
-const StartRating = () => {
+
+const StarRating = (props) => {
     const [rating, setRating] = useState(null);
-    const [hover, setHover] = useState(null)
+    const [hover, setHover] = useState(null);
 
     return (
       <div>
@@ -36,4 +37,4 @@ const StartRating = () => {
     )
 }
 
-export default StartRating;
+export default StarRating;

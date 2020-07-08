@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {
     PageContainer,
-    StarContainer,
+    StarContainerFix,
     WideReviewCard,
     WideReviewCardText,
     WideUserCardProfile
@@ -13,7 +13,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {BaseButton, BigButton, Button, CommentButton, LikeButton, SplitButton} from "../../style/GlobalButtons";
 import {FilterListInput, SearchInput} from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
-import StartRating from "../StarRating";
+import StarRatingFix from "../StarRatingFix";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -64,9 +64,6 @@ const RestaurantCategory = styled.p`
     margin-top: 7px;
 `
 
-const StarsContainer = styled.div`
-  margin-top: 13px;
-`;
 
 const RestaurantReviewInfoContainer = styled.div`
     padding: 15px;
@@ -147,9 +144,9 @@ const RestaurantReview = (props) => {
                     <HeaderMainInfo>
                         <RestaurantName>Läderach Chocolatier Suisse</RestaurantName>
                         <RestaurantCategory>Chocolatiers & shops</RestaurantCategory>
-                        <StarsContainer>
-                            <StartRating></StartRating>
-                        </StarsContainer>
+                        <StarContainerFix>
+                            <StarRatingFix></StarRatingFix>
+                        </StarContainerFix>
                     </HeaderMainInfo>
                 </HeaderMainInfoContainer>
             </HeaderRestaurantReview>
