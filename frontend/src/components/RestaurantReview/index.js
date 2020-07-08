@@ -1,19 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import {
     PageContainer,
-    StarContainer,
-    WideReviewCard,
-    WideReviewCardText,
-    WideUserCardProfile
+    StarContainerFix,
 } from "../../style/GlobalWrappers";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
-import placeHolderProfilePic from "../../assets/images/small-user-image.png";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {BaseButton, BigButton, Button, CommentButton, LikeButton, SplitButton} from "../../style/GlobalButtons";
-import {FilterListInput, SearchInput} from "../../style/GlobalInputs";
+import {BaseButton, Button} from "../../style/GlobalButtons";
+import {FilterListInput} from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
-import StartRating from "../StarRating";
+import StarRatingFix from "../StarRatingFix";
+import GenericWideReviewCard from "../GenericWideReviewCard";
+import {useHistory} from "react-router";
+import {useDispatch} from "react-redux";
+import {validate} from "../../store/actions/registrationActions";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -64,9 +63,6 @@ const RestaurantCategory = styled.p`
     margin-top: 7px;
 `
 
-const StarsContainer = styled.div`
-  margin-top: 13px;
-`;
 
 const RestaurantReviewInfoContainer = styled.div`
     padding: 15px;
@@ -95,13 +91,12 @@ const RightInfoContainer = styled.div`
   }
 `
 
-const FilterForm = styled.div`
+const FilterForm = styled.form`
   padding-bottom: 15px;
   display: flex;
   justify-content: flex-end;
 `
 const ReviewsContainer = styled.div`
-  padding-bottom: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -137,8 +132,28 @@ const OptionsButton = styled(BaseButton)`
 `;
 
 
-
 const RestaurantReview = (props) => {
+
+    const push = useHistory()
+    const dispatch = useDispatch()
+    const [userInfo, setUserInfo] = useState({
+        filter: "",
+    });
+
+    const onChangeHandler = (event, property) => {
+        const value = event.currentTarget.value;
+        setUserInfo({ ...userInfo, [property]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(validate(userInfo));
+        if (response.status === 200){
+            console.log('do something')
+        }else{
+            console.log('error', response)
+        }
+    };
 
     return (
         <RestaurantReviewWrapper>
@@ -147,9 +162,9 @@ const RestaurantReview = (props) => {
                     <HeaderMainInfo>
                         <RestaurantName>Läderach Chocolatier Suisse</RestaurantName>
                         <RestaurantCategory>Chocolatiers & shops</RestaurantCategory>
-                        <StarsContainer>
-                            <StartRating></StartRating>
-                        </StarsContainer>
+                        <StarContainerFix>
+                            <StarRatingFix></StarRatingFix>
+                        </StarContainerFix>
                     </HeaderMainInfo>
                 </HeaderMainInfoContainer>
             </HeaderRestaurantReview>
@@ -157,13 +172,16 @@ const RestaurantReview = (props) => {
                 <LeftInfoContainer>
                     <FilterForm>
                         <FilterInput
-                            placeholder="Filter list..."
+                            onChange={(e) => onChangeHandler(e, "filter")}
                             type="text"
+                            placeholder="Filter list..."
+                            required
                         ></FilterInput>
-                        <FilterButton>FILTER</FilterButton>
+                        <FilterButton type="submit" >FILTER</FilterButton>
                     </FilterForm>
                     <ReviewsContainer>
-                        TODO ADD REVIEW COMPONENT HERE
+                        <GenericWideReviewCard/>
+                        <GenericWideReviewCard/>
                     </ReviewsContainer>
                 </LeftInfoContainer>
                 <RightInfoContainer>

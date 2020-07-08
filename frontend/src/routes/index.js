@@ -18,13 +18,13 @@ const Routes = () => {
       <Router>
         <Switch>
           <Navigation>
-            <Route exact path="/auth" component={Credentials} />
+            <Route path="/auth" component={Credentials} />
             <Route exact path="/template" component={Template} />
-            <Route exact exact path="/home" component={Home} />
+            <Route exact path="/home" component={Home} />
             <Route exact path="/profile" component={Profile} />
             {/*<Route exact path='/search' component={}/>*/}
             {/*<Route path='/users/:userId'/>*/}
-            <Route exact path='/restaurant/:restaurantId' component={RestaurantReview} />
+            <Route path='/restaurants/:restaurantId' component={RestaurantReview} />
             <Route exact path='/restaurant/create' component={RestaurantCreate} />
             <Route exact path='/restaurant/review/create' component={ReviewCreate} />
             {/*<Route exact path='/userProfileUpdate' />*/}

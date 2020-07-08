@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import {BaseInput} from "../../../style/GlobalInputs";
 import {BigButton} from "../../../style/GlobalButtons";
 import styled from "styled-components";
 import {rem} from "polished";
 import {MainTitle, TitleHr} from "../../../style/GlobalTitles";
 import {TitleContainer} from "../../../style/GlobalWrappers";
+import {validate} from "../../../store/actions/registrationActions";
+import {useHistory} from "react-router";
+import {useDispatch} from "react-redux";
 
 const VerificationWrapper = styled.div`
     background: #F2F2F2;
@@ -49,11 +52,35 @@ const VerInput = styled(BaseInput)`
 
 
 const Verification = (props) => {
+    const push = useHistory()
+    const dispatch = useDispatch()
+    const [userInfo, setUserInfo] = useState({
+        email: "",
+        username: "",
+        code: "",
+        password: "",
+        password_repeat: "",
+    });
+
+    const onChangeHandler = (event, property) => {
+        const value = event.currentTarget.value;
+        setUserInfo({ ...userInfo, [property]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(validate(userInfo));
+        if (response.status === 200){
+            push("/auth/login")
+        }else{
+            console.log('error', response)
+        }
+    };
 
     return (
         <>
             <VerificationWrapper>
-                <VerificationForm>
+                <VerificationForm onSubmit={handleSubmit}>
                         <TitleContainer>
                             <MainTitle>Verification</MainTitle>
                             <Line></Line>
@@ -62,41 +89,47 @@ const Verification = (props) => {
                             <div></div>
                             <div></div>
                             <VerInput
-                                type='text'
-                                placeholder='Email address'
-                                name='email'
+                                onChange={(e) => onChangeHandler(e, "email")}
+                                placeholder="E-Mail address"
+                                type="email"
+                                required
                             />
                             <VerInput
-                                type='text'
-                                placeholder='Validation code'
-                                name='email'
-                            />
-                            <div></div>
-                            <div></div>
-                            <VerInput
-                                type='text'
-                                placeholder='Username'
-                                name='email'
-                            />
-                            <VerInput
-                                type='text'
-                                placeholder='Location'
-                                name='email'
+                                onChange={(e) => onChangeHandler(e, "code")}
+                                placeholder="Validation Code"
+                                type="number"
+                                required
                             />
                             <div></div>
                             <div></div>
                             <VerInput
-                                type='text'
-                                placeholder='Password'
-                                name='email'
+                                onChange={(e) => onChangeHandler(e, "username")}
+                                placeholder="Username"
+                                type="text"
+                                required
                             />
                             <VerInput
-                                type='text'
-                                placeholder='Password repeat'
-                                name='email'
+                                onChange={(e) => onChangeHandler(e, "location")}
+                                placeholder="Location"
+                                type="text"
+                                required
+                            />
+                            <div></div>
+                            <div></div>
+                            <VerInput
+                                onChange={(e) => onChangeHandler(e, "password")}
+                                type="password"
+                                placeholder="Password"
+                                required
+                            />
+                            <VerInput
+                                onChange={(e) => onChangeHandler(e, "password_repeat")}
+                                type="password"
+                                placeholder="Password Repeat"
+                                required
                             />
                         </InputsContainers>
-                        <BigButton>Finish Registration</BigButton>
+                        <BigButton type="submit" >Finish Registration</BigButton>
                 </VerificationForm>
             </VerificationWrapper>
         </>

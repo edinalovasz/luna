@@ -5,13 +5,22 @@ export const PageContainer = styled.div`
   height: 87.5vh;
 `;
 
+export const StarContainerFix = styled.div`
+  // display: grid;
+  // grid-template-columns: auto auto auto auto auto;
+  // justify-content: center;
+  // grid-column-gap: ${rem("2px")};
+  // align-items: center;
+  // color: #f8e71c;
+  margin-top: 13px;
+`;
+
 export const StarContainer = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  justify-content: center;
-  grid-column-gap: ${rem("2px")};
-  align-items: center;
-  color: #f8e71c;
+  margin-top: 13px;
+    .star{
+    height: 44px;
+    width: 50px;
+  }
 `;
 
 export const TitleContainer = styled.div`
@@ -111,6 +120,7 @@ export const WideReviewCard = styled(BaseCard)`
   border-top: none;
   width: ${rem("650px")};
   height: 200px;
+  margin-bottom: ${rem("20px")};
 `;
 
 export const WideUserCardProfile = styled.div`
