@@ -13,6 +13,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {BaseButton, BigButton, Button, CommentButton, LikeButton, SplitButton} from "../../style/GlobalButtons";
 import {FilterListInput, SearchInput} from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
+import StartRating from "../StarRating";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -62,6 +63,10 @@ const RestaurantCategory = styled.p`
     color: #FFFFFF;
     margin-top: 7px;
 `
+
+const StarsContainer = styled.div`
+  margin-top: 13px;
+`;
 
 const RestaurantReviewInfoContainer = styled.div`
     padding: 15px;
@@ -118,11 +123,6 @@ const OtherOptions = styled.div`
   align-items: flex-start;
 `
 
-const Stars = styled(StarContainer)`
-  justify-content: flex-start;
-  margin-top: 7px;
-`;
-
 const FilterInput = styled(FilterListInput)`
   background: #FFFFFF
 `;
@@ -147,13 +147,9 @@ const RestaurantReview = (props) => {
                     <HeaderMainInfo>
                         <RestaurantName>Läderach Chocolatier Suisse</RestaurantName>
                         <RestaurantCategory>Chocolatiers & shops</RestaurantCategory>
-                        <Stars>
-                            <FontAwesomeIcon icon={["fas", "star"]} />
-                            <FontAwesomeIcon icon={["fas", "star"]} />
-                            <FontAwesomeIcon icon={["fas", "star"]} />
-                            <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                            <FontAwesomeIcon icon={["far", "star"]} />
-                        </Stars>
+                        <StarsContainer>
+                            <StartRating></StartRating>
+                        </StarsContainer>
                     </HeaderMainInfo>
                 </HeaderMainInfoContainer>
             </HeaderRestaurantReview>
