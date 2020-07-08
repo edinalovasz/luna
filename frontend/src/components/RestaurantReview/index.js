@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {
     PageContainer,
@@ -11,8 +11,9 @@ import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
 import {useHistory} from "react-router";
-import {useDispatch} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {validate} from "../../store/actions/registrationActions";
+import {getTopFourAction} from "../../store/actions/searchActions";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -133,6 +134,18 @@ const OptionsButton = styled(BaseButton)`
 
 
 const RestaurantReview = (props) => {
+    const {
+        match: {
+            params: {restaurantId},
+        },
+        restaurantReducer:{restaurantObj, restaurantReviews}} = props
+
+     useEffect(() => {
+         async function fetchData() {
+            const response = await dispatch(getTopFourAction());
+         }
+  fetchData();
+}, [])
 
     const push = useHistory()
     const dispatch = useDispatch()
@@ -181,7 +194,6 @@ const RestaurantReview = (props) => {
                     </FilterForm>
                     <ReviewsContainer>
                         <GenericWideReviewCard/>
-                        <GenericWideReviewCard/>
                     </ReviewsContainer>
                 </LeftInfoContainer>
                 <RightInfoContainer>
@@ -201,4 +213,10 @@ const RestaurantReview = (props) => {
     )
 };
 
-export default RestaurantReview;
+const mapStateToProps = (state) => {
+  return {
+    restaurantReducer: state.restaurantReducer,
+  };
+};
+
+export default connect(mapStateToProps)(RestaurantReview);
