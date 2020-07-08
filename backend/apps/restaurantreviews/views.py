@@ -5,6 +5,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDe
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from apps.comments.serializers import CommentSerializer
 from apps.restaurantreviews.models import RestaurantReview
 from apps.restaurantreviews.permissions import IsAuthorOrAdminOrReadOnly, CannotLikeOwnReview
 from apps.restaurantreviews.serializers import RestaurantReviewSerializer
@@ -106,4 +107,27 @@ class ListReviewsUserLikesView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = request.user.liked_reviews.all().order_by('-created')
         serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ListReviewsUserCommentedView(ListAPIView):
+    permission_classes = []
+    serializer_class = RestaurantReviewSerializer
+
+    def list(self, request, *args, **kwargs):
+        target_reviews = RestaurantReview.objects.filter(comments__author=request.user).order_by('-created')
+        serializer = self.get_serializer(target_reviews, many=True)
+        return Response(serializer.data)
+
+
+class ListCommentsOfSpecificReview(ListAPIView):
+    permission_classes = []
+    serializer_class = CommentSerializer
+    lookup_url_kwarg = 'review_id'
+    queryset = RestaurantReview
+
+    def list(self, request, *args, **kwargs):
+        target_review = self.get_object()
+        target_comments = target_review.comments.all()
+        serializer = self.get_serializer(target_comments, many=True)
         return Response(serializer.data)

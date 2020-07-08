@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import { rem } from "polished";
-import { MainTitle, TitleHr } from "../../style/GlobalTitles";
+import {rem} from "polished";
+import {MainTitle, TitleHr} from "../../style/GlobalTitles";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
 import {
@@ -12,8 +12,8 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import placeHolderRestaurant from "../../assets/images/restaurant.png";
-import { SearchInput } from "../../style/GlobalInputs";
-import { BigButton } from "../../style/GlobalButtons";
+import {SearchInput} from "../../style/GlobalInputs";
+import {BigButton} from "../../style/GlobalButtons";
 
 import GenericRestaurantCard from "../GenericRestaurantCard";
 
@@ -99,17 +99,20 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
+    const [topFour, settopFour] = useState("");
+
+    useEffect(() => {
+
+    }, []);
+    
 
     return (
         <>
             <HomePageWrapper>
                 <HeaderHomePage>
                     <SearchForm>
-                        <SearchHomePageInput
-                        placeholder="Search..."
-                        type="text"
-                    ></SearchHomePageInput>
-                    <SearchHomePageButton>Search</SearchHomePageButton>
+                        <SearchHomePageInput placeholder="Search..." type="text"/>
+                        <SearchHomePageButton>Search</SearchHomePageButton>
                     </SearchForm>
                     {/*<img src={Home_page_Restaurant}></img>*/}
                 </HeaderHomePage>

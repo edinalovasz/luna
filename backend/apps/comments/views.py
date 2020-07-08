@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -12,6 +13,8 @@ from apps.comments.serializers import CommentSerializer
 from apps.restaurantreviews.models import RestaurantReview
 from apps.restaurantreviews.permissions import IsAuthorOrAdminOrReadOnly
 from apps.users.permissions import ReadOnly
+
+User = get_user_model()
 
 
 class CreateCommentView(CreateAPIView):
@@ -62,3 +65,19 @@ class ToggleLikeCommentVew(CreateAPIView):
         else:
             receiver.likes.add(requester)
         return Response(self.get_serializer(receiver).data)
+
+
+class ListCommentsOfSpecificUser(ListAPIView):
+    permission_classes = []
+    serializer_class = CommentSerializer
+    lookup_url_kwarg = 'user_id'
+    queryset = User
+
+    def list(self, request, *args, **kwargs):
+        target_user = self.get_object()
+        target_comments = target_user.author_comments.all()
+        serializer = self.get_serializer(target_comments, many=True)
+        return Response(serializer.data)
+
+
+
