@@ -1,19 +1,17 @@
 import React, {useState} from "react";
 import {InputTextArea} from "../../style/GlobalInputs";
 import styled from "styled-components";
-import {PageContainer, StarContainer} from "../../style/GlobalWrappers";
+import {PageContainer, StarContainer, StarContainerFix} from "../../style/GlobalWrappers";
 import Food_pic from "../../assets/images/food-4505943_1920.jpg";
 import star from "../../assets/icons/star.svg";
 import rem from "polished/lib/helpers/rem";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {RequiredText} from "../RestaurantCreate";
 import {BigButton} from "../../style/GlobalButtons";
-import StartRating from "../StarRating";
 import {useHistory} from "react-router";
 import {useDispatch, connect} from "react-redux";
-import {sendLoginAction} from "../../store/actions/loginActions";
 import {createReviewAction} from "../../store/actions/reviewActions";
-import StarRating from "../StarRating";
+import StarRatingFix from "../StarRatingFix";
 
 
 const CreateReviewWrapper = styled(PageContainer)`
@@ -131,7 +129,6 @@ const ReviewCreate = (props) => {
 
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
-    console.log(rating)
     const renderRating = [...Array(5)].map((star, i) => {
               const ratingValue = i + 1;
               return (
@@ -145,7 +142,7 @@ const ReviewCreate = (props) => {
                             setRating(ratingValue)
                         }}
                     />
-                    <FontAwesomeIcon
+                    <FontAwesomeIcon className="star"
                         icon={["fas", "star"]}
                         color={ratingValue <= (hover || rating) ? "#f8e71c" : "#e4e5e9"}
                         onMouseEnter={()=> setHover(ratingValue)}
@@ -178,18 +175,16 @@ const ReviewCreate = (props) => {
                 <HeaderText>
                     <RestaurantName>Läderach Chocolatier Suisse</RestaurantName>
                     <RestaurantCategory>Chocolatiers & Shops</RestaurantCategory>
-                    <StarsRated>
-                        <FontAwesomeIcon icon={["fas", "star"]} />
-                        <FontAwesomeIcon icon={["fas", "star"]} />
-                        <FontAwesomeIcon icon={["fas", "star"]} />
-                        <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-                        <FontAwesomeIcon icon={["far", "star"]} />
-                    </StarsRated>
+                    <StarContainerFix>
+                            <StarRatingFix></StarRatingFix>
+                    </StarContainerFix>
                 </HeaderText>
             </CreateReviewHeader>
             <CreateReviewMainContainer>
                     <ReviewStarChoiceContainer>
-                        {renderRating}
+                            <StarContainer>
+                                {renderRating}
+                            </StarContainer>
                         <StarTextContainer>Select your rating</StarTextContainer>
                     </ReviewStarChoiceContainer>
                 <ReviewText onChange={(e) => onChangeHandler(e, "content")} placeholder=" Your review helps others learn about great local businesses.

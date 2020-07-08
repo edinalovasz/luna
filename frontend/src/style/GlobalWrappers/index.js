@@ -16,10 +16,9 @@ export const StarContainerFix = styled.div`
 `;
 
 export const StarContainer = styled.div`
-  margin-top: 13px;
-  .star {
-    height: 44px;
-    width: 50px;
+    .star{
+    height: 34px;
+    width: 40px;
   }
 `;
 
@@ -169,6 +168,12 @@ export const WideUserCardProfile = styled.div`
     line-height: 16px;
     padding-top: 5px;
   }
+`;
+
+export const StarRatingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 export const WideReviewCardText = styled.div`
