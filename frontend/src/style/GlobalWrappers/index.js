@@ -118,7 +118,7 @@ export const ReviewCardText = styled.div`
 export const WideReviewCard = styled(BaseCard)`
   border-top: none;
   width: ${rem("650px")};
-  height: 200px;
+  /* height: 200px; */
   margin-bottom: ${rem("20px")};
 `;
 
@@ -168,6 +168,12 @@ export const WideUserCardProfile = styled.div`
     line-height: 16px;
     padding-top: 5px;
   }
+`;
+
+export const StarRatingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 export const WideReviewCardText = styled.div`

@@ -3,12 +3,13 @@ import { rem } from "polished";
 import styled from "styled-components";
 import { StarContainer } from "../../../style/GlobalWrappers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import StarRating from "../../StarRatingFix";
 
 const ProfileReviewCard = styled.div`
   border-bottom: 1px solid #ebebeb;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   border-bottom: 1px solid #ebebeb;
   padding: ${rem("26px")} 0 ${rem("22px")} 0;
@@ -52,13 +53,9 @@ const GenericProfileReview = (props) => {
         <h2>Läderach Chocolatier Suisse</h2>
         <p>01.01.2018 15:22</p>
       </div>
-      <StarContainer>
-        <FontAwesomeIcon icon={["fas", "star"]} />
-        <FontAwesomeIcon icon={["fas", "star"]} />
-        <FontAwesomeIcon icon={["fas", "star"]} />
-        <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-        <FontAwesomeIcon icon={["far", "star"]} />
-      </StarContainer>
+      <span>
+        <StarRating />
+      </span>
       <div>
         <Content>
           This location at the Bahnhofstrasse is quite friendly and easily

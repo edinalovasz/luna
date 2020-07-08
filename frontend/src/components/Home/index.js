@@ -1,56 +1,51 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 import { MainTitle, TitleHr } from "../../style/GlobalTitles";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
-import {
-    PageContainer,
-    TitleContainer
-} from "../../style/GlobalWrappers";
+import { PageContainer, TitleContainer } from "../../style/GlobalWrappers";
 import { SearchInput } from "../../style/GlobalInputs";
 import { BigButton } from "../../style/GlobalButtons";
 
 import GenericRestaurantCard from "../GenericRestaurantCard";
-import {useHistory} from "react-router";
-import {useDispatch} from "react-redux";
-import {validate} from "../../store/actions/registrationActions";
-
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { validate } from "../../store/actions/registrationActions";
 
 const HomePageWrapper = styled(PageContainer)`
-    background: #F2F2F2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`
-
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const HeaderHomePage = styled.div`
-    display: flex;
-    flex-flow: column;
-    background-image: url(${Home_page_Restaurant});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    justify-content: center;
-    align-items: center;
-    height: 35vh;
-    width: 100%;
-`
+  display: flex;
+  flex-flow: column;
+  background-image: url(${Home_page_Restaurant});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  justify-content: center;
+  align-items: center;
+  height: 35vh;
+  width: 100%;
+`;
 
 const SearchForm = styled.form`
-    position: absolute;
-    z-index: 2;
-`
+  position: absolute;
+  z-index: 2;
+`;
 
 const BestRatedRestaurantsSection = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 53vh;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 53vh;
+`;
 
 const BestRatedRestaurantContainer = styled.div`
   display: grid;
@@ -60,7 +55,6 @@ const BestRatedRestaurantContainer = styled.div`
   grid-template-areas: ". . . .";
   padding: 42px;
 `;
-
 
 const HomePageTitle = styled(MainTitle)`
   margin-top: 50px;
@@ -81,58 +75,63 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
+  const [topFour, settopFour] = useState("");
 
-    const push = useHistory()
-    const dispatch = useDispatch()
-    const [userInfo, setUserInfo] = useState({
-        searchText: "",
-    });
+  // useEffect(() => {
 
-    const onChangeHandler = (event, property) => {
-        const value = event.currentTarget.value;
-        setUserInfo({ ...userInfo, [property]: value });
-    };
+  // }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const response = await dispatch(validate(userInfo));
-        if (response.status === 200){
-            console.log('do something')
-        }else{
-            console.log('error', response)
-        }
-    };
+  const push = useHistory();
+  const dispatch = useDispatch();
+  const [userInfo, setUserInfo] = useState({
+    searchText: "",
+  });
 
-    return (
-        <>
-            <HomePageWrapper>
-                <HeaderHomePage>
-                    <SearchForm onSubmit={handleSubmit}>
-                        <SearchHomePageInput
-                                onChange={(e) => onChangeHandler(e, "searchText")}
-                                placeholder="Search..."
-                                type="text"
-                                required
-                        ></SearchHomePageInput>
-                        <SearchHomePageButton type="submit" >Search</SearchHomePageButton>
-                    </SearchForm>
-                    {/*<img src={Home_page_Restaurant}></img>*/}
-                </HeaderHomePage>
-                <BestRatedRestaurantsSection>
-                    <TitleContainer>
-                        <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
-                        <Line></Line>
-                    </TitleContainer>
-                    <BestRatedRestaurantContainer>
-                        <GenericRestaurantCard/>
-                        <GenericRestaurantCard/>
-                        <GenericRestaurantCard/>
-                        <GenericRestaurantCard/>
-                    </BestRatedRestaurantContainer>
-                </BestRatedRestaurantsSection>
-            </HomePageWrapper>
-        </>
-    )
+  const onChangeHandler = (event, property) => {
+    const value = event.currentTarget.value;
+    setUserInfo({ ...userInfo, [property]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await dispatch(validate(userInfo));
+    if (response.status === 200) {
+      console.log("do something");
+    } else {
+      console.log("error", response);
+    }
+  };
+
+  return (
+    <>
+      <HomePageWrapper>
+        <HeaderHomePage>
+          <SearchForm onSubmit={handleSubmit}>
+            <SearchHomePageInput
+              onChange={(e) => onChangeHandler(e, "searchText")}
+              placeholder="Search..."
+              type="text"
+              required
+            ></SearchHomePageInput>
+            <SearchHomePageButton type="submit">Search</SearchHomePageButton>
+          </SearchForm>
+          {/*<img src={Home_page_Restaurant}></img>*/}
+        </HeaderHomePage>
+        <BestRatedRestaurantsSection>
+          <TitleContainer>
+            <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
+            <Line></Line>
+          </TitleContainer>
+          <BestRatedRestaurantContainer>
+            <GenericRestaurantCard />
+            <GenericRestaurantCard />
+            <GenericRestaurantCard />
+            <GenericRestaurantCard />
+          </BestRatedRestaurantContainer>
+        </BestRatedRestaurantsSection>
+      </HomePageWrapper>
+    </>
+  );
 };
 
 export default Home;

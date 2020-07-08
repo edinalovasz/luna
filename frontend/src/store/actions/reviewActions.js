@@ -25,7 +25,7 @@ export const getReviews = (array, typeProperty) => {
     };
 };
 
-export const getLikedCommentedReviewsAction = typeProperty => async (dispatch) => {
+export const getLikedOrCommentedReviewsAction = typeProperty => async (dispatch) => {
 
     let path;
     if (typeProperty === GET_MY_LIKED_REVIEWS) {
