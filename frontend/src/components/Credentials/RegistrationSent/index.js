@@ -18,7 +18,16 @@ const SignUpWrapper = styled.div`
 `;
 
 const SignUpSentContainer = styled.div`
-    flex-direction: column ;
+  flex-direction: column;
+  display: flex;
+  height: ${rem("250px")};
+  width: ${rem("500px")};
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  margin-bottom: ${rem("250px")};
+
+  p {
     display: flex;
     height: ${rem("250px")};
     width: ${rem("500px")};
@@ -37,8 +46,8 @@ const SignUpSentContainer = styled.div`
 `;
 
 const SignUpTitle = styled(MainTitle)`
-        margin-bottom: ${rem("16px")};
-    `
+  margin-bottom: ${rem("16px")};
+`;
 
 const SignUpTitleHr = styled(SmallTitleHr)`
         margin-bottom: ${rem("68px")};
@@ -69,5 +78,24 @@ const SignUpSent = () => {
     )
 }
 
+  return (
+    <SignUpWrapper>
+      <SignUpSentContainer>
+        <SignUpTitle>Registration</SignUpTitle>
+        <SignUpTitleHr></SignUpTitleHr>
+        <p>
+          Thanks for your registration.
+          <br />
+          Our hard working monkeys are preparing a digital
+          <br /> message called E-Mail that will be sent to you soon.
+          <br />
+          Since monkeys aren't good in writing the message could
+          <br /> end up in your junk folder. Our apologies for any
+          <br /> inconvenience.
+        </p>
+      </SignUpSentContainer>
+    </SignUpWrapper>
+  );
+};
 
 export default SignUpSent;

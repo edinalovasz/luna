@@ -6,9 +6,9 @@ import { BigButton } from "../../../style/GlobalButtons";
 import { MainTitle, SmallTitleHr, TitleHr } from "../../../style/GlobalTitles";
 import { BaseInput } from "../../../style/GlobalInputs";
 import { PageContainer } from "../../../style/GlobalWrappers";
-import {sendLoginAction} from "../../../store/actions/loginActions";
-import {useHistory} from "react-router";
-import {useDispatch} from "react-redux";
+import { sendLoginAction } from "../../../store/actions/loginActions";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
 
 const LoginWrapper = styled(PageContainer)`
   width: 100vw;
@@ -16,7 +16,7 @@ const LoginWrapper = styled(PageContainer)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f2f2f2;
+  /* background: #f2f2f2; */
 `;
 
 const LoginFormContainer = styled.form`
@@ -42,44 +42,45 @@ const LoginTitleHr = styled(SmallTitleHr)`
 `;
 
 export const LoginInput = styled(BaseInput)`
-      background: #FFFFFF;
-      box-sizing: border-box;
-      width: ${rem("340px")};
-      margin-bottom: ${rem("20px")};
-      
-      ::placeholder{
-          font-weight: bold;
-      }
+  background: #ffffff;
+  box-sizing: border-box;
+  width: ${rem("340px")};
+  margin-bottom: ${rem("20px")};
+
+  ::placeholder {
+    font-weight: bold;
+  }
 `;
 
 const ErrorPlaceholder = styled.div`
-        width: ${rem("340px")};
-        height: ${rem("52px")};
+  width: ${rem("340px")};
+  height: ${rem("52px")};
 `;
-
 
 const Login = (props) => {
     const history = useHistory();
     const dispatch = useDispatch()
     const [loginInfo, setloginInfo] = useState({
     email: "",
-    password: ""
-    });
+    password: "",
+  });
 
     console.log('loginInfo', loginInfo)
     const handleEmail = e => {
         const value = e.currentTarget.value
     setloginInfo({
-      ...loginInfo, email: value
-    })
-  }
+      ...loginInfo,
+      email: value,
+    });
+  };
 
-  const handlePassword = e => {
-   const value = e.currentTarget.value
+  const handlePassword = (e) => {
+    const value = e.currentTarget.value;
     setloginInfo({
-      ...loginInfo, password: value
-    })
-  }
+      ...loginInfo,
+      password: value,
+    });
+  };
 
   const handleSubmit = async e => {
 
@@ -91,7 +92,7 @@ const Login = (props) => {
       }
   };
 
-    console.log("data", loginInfo)
+  console.log("data", loginInfo);
 
   return (
     <PageContainer>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { rem } from "polished";
@@ -76,7 +76,7 @@ const TabTitles = styled(Title)`
 `;
 
 const NavTabWrapper = styled.div`
-  width: ${rem("85px")};
+  /* width: ${rem("85px")};
   height: 100%;
   padding: 0 ${rem("3px")} 0 ${rem("3px")};
   display: flex;
@@ -95,30 +95,7 @@ const NavTabWrapper = styled.div`
     bottom: ${rem("-23px")};
     width: ${rem("45px")};
     border-bottom: 3px solid #e47d31;
-  }
-`;
-
-const NavTabWrapperActive = styled.div`
-  width: ${rem("85px")};
-  height: 100%;
-  padding: 0 ${rem("3px")} 0 ${rem("3px")};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 1px;
-  cursor: pointer;
-  margin-right: 7%;
-  h2 {
-    font-weight: bold;
-  }
-  &:after {
-    content: "";
-    position: relative;
-    bottom: ${rem("-23px")};
-    width: ${rem("45px")};
-    border-bottom: 3px solid #e47d31;
-  }
+  } */
 `;
 
 const SignupButton = styled(BaseButton)`
@@ -250,6 +227,43 @@ const FooterLinkTitle = styled(Title)`
   text-decoration: none;
 `;
 
+const activeClassName = "nav-item-active";
+
+const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
+  &.${activeClassName} {
+    margin-top: 1px;
+    h2 {
+      font-weight: bold;
+    }
+    &:after {
+      content: "";
+      position: relative;
+      bottom: ${rem("-23px")};
+      width: ${rem("45px")};
+      border-bottom: 3px solid #e47d31;
+    }
+  }
+  width: ${rem("85px")};
+  height: 100%;
+  padding: 0 ${rem("3px")} 0 ${rem("3px")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  :hover {
+    margin-top: 1px;
+  }
+
+  :hover:after {
+    content: "";
+    position: relative;
+    bottom: ${rem("-23px")};
+    width: ${rem("45px")};
+    border-bottom: 3px solid #e47d31;
+  }
+`;
+
 const Navigation = ({ children }) => {
   return (
     <div>
@@ -259,24 +273,23 @@ const Navigation = ({ children }) => {
             <LunaLogo src={LunaLogoSvg} />
           </NavSectionLeft>
           <NavSectionRight>
-            <Link to="/">
-              <NavTabWrapperActive>
-                <TabTitles>Home</TabTitles>
-              </NavTabWrapperActive>
-            </Link>
-            <Link to="/search">
-              <NavTabWrapper>
-                <TabTitles>Search</TabTitles>
-              </NavTabWrapper>
-            </Link>
-            <Link to="/profile">
-              <NavTabWrapper>
-                <TabTitles>Profile</TabTitles>
-              </NavTabWrapper>
-            </Link>
+            <StyledNavLink exact to="/">
+              <TabTitles>Home</TabTitles>
+            </StyledNavLink>
+            <StyledNavLink to="/search">
+              <TabTitles>Search</TabTitles>
+            </StyledNavLink>
+            <StyledNavLink to="/profile">
+              <TabTitles>Profile</TabTitles>
+            </StyledNavLink>
             <SplitButton>
-              <SignupButton>Signup</SignupButton>
-              <LoginButton>Login</LoginButton>
+              <Link to="/auth/signup">
+                <SignupButton>Signup </SignupButton>
+              </Link>
+
+              <Link to="/auth/login">
+                <LoginButton>Login</LoginButton>{" "}
+              </Link>
             </SplitButton>
           </NavSectionRight>
         </Header>

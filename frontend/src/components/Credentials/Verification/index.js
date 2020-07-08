@@ -1,29 +1,29 @@
-import React, {useState} from "react";
-import {BaseInput} from "../../../style/GlobalInputs";
-import {BigButton} from "../../../style/GlobalButtons";
+import React, { useState } from "react";
+import { BaseInput } from "../../../style/GlobalInputs";
+import { BigButton } from "../../../style/GlobalButtons";
 import styled from "styled-components";
-import {rem} from "polished";
-import {MainTitle, TitleHr} from "../../../style/GlobalTitles";
-import {TitleContainer} from "../../../style/GlobalWrappers";
-import {validate} from "../../../store/actions/registrationActions";
-import {useHistory} from "react-router";
-import {useDispatch} from "react-redux";
+import { rem } from "polished";
+import { MainTitle, TitleHr } from "../../../style/GlobalTitles";
+import { TitleContainer } from "../../../style/GlobalWrappers";
+import { validate } from "../../../store/actions/registrationActions";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
 
 const VerificationWrapper = styled.div`
-    background: #F2F2F2;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`
+  /* background: #F2F2F2; */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const VerificationForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 200px;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 200px;
+`;
 
 const Line = styled(TitleHr)`
   border: 2px solid #e47d31;
@@ -38,18 +38,17 @@ const InputsContainers = styled.div`
   gap: 0px 30px;
   grid-template-areas: ". ." ". ." ". .";
   margin: 100px;
-    div {
-      border: solid red;
-      margin: 10px;
-    }
-`
+  div {
+    border: solid red;
+    margin: 10px;
+  }
+`;
 const VerInput = styled(BaseInput)`
   width: ${rem("500px")};
   height: ${rem("55px")};
   font-size: ${rem("20px")};
-  background: #FFFFFF
+  background: #ffffff;
 `;
-
 
 const Verification = (props) => {
     const history = useHistory()
@@ -64,10 +63,10 @@ const Verification = (props) => {
         password_repeat: "",
     });
 
-    const onChangeHandler = (event, property) => {
-        const value = event.currentTarget.value;
-        setUserInfo({ ...userInfo, [property]: value });
-    };
+  const onChangeHandler = (event, property) => {
+    const value = event.currentTarget.value;
+    setUserInfo({ ...userInfo, [property]: value });
+  };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -153,6 +152,5 @@ const Verification = (props) => {
         </>
     )
 };
-
 
 export default Verification;
