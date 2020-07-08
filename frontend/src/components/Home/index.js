@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import { rem } from "polished";
-import { MainTitle, TitleHr } from "../../style/GlobalTitles";
+import {rem} from "polished";
+import {MainTitle, TitleHr} from "../../style/GlobalTitles";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
 import {
@@ -81,6 +81,12 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
+    const [topFour, settopFour] = useState("");
+
+    useEffect(() => {
+
+    }, []);
+    
 
     const push = useHistory()
     const dispatch = useDispatch()

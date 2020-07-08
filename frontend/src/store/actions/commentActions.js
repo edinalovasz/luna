@@ -25,7 +25,7 @@ export const deleteCommentAction = commentID => async (dispatch) => {
 
 export const getReviewCommentsAction = reviewID => async (dispatch) => {
     try {
-        const response = await Axios.get(`review/comment/${reviewID}/`);
+        const response = await Axios.get(`reviews/comments/${reviewID}/`);
         return response
     } catch (error) {
         console.log(`error`, error);

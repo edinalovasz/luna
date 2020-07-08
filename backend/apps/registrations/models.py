@@ -6,8 +6,13 @@ from django.utils import timezone
 
 User = get_user_model()
 
+def get_or_none(model, *args, **kwargs):
+    try:
+        return model.objects.get(*args, **kwargs)
+    except model.DoesNotExist:
+        return None
 
-def code_generator(length=10):
+def code_generator(length=5):
     numbers = '0123456789'
     return ''.join(random.choice(numbers) for _ in range(length))
 
@@ -22,10 +27,11 @@ class Registration(models.Model):
     )
     email = models.EmailField(
         unique=True,
-        null=False
+        null=False,
+        default='example@email.com'
     )
     code = models.CharField(
-        max_length=10,
+        max_length=5,
         null=False,
         default=code_generator,
     )

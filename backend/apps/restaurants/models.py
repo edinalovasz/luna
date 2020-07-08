@@ -27,6 +27,8 @@ class Restaurant(models.Model):
     category_id = models.TextField(max_length=2, choices=CATEGORIES_CHOICES)
     street = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
+    description = models.CharField(max_length=500)
+    country = models.CharField(max_length=50)
     zip = models.CharField(max_length=20)
     website = models.CharField(max_length=150, blank=True, null=True)
     phone = models.CharField(max_length=50)
