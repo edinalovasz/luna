@@ -87,7 +87,7 @@ const CategoryDetailTitle = styled(Title)`
     margin-bottom: ${rem("11px")};
 `;
 
-const RequiredText = styled.p`
+export const RequiredText = styled.p`
     font-family: Helvetica;
     font-style: normal;
     font-weight: normal;
