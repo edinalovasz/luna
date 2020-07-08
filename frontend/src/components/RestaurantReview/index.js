@@ -3,17 +3,13 @@ import styled from "styled-components";
 import {
     PageContainer,
     StarContainerFix,
-    WideReviewCard,
-    WideReviewCardText,
-    WideUserCardProfile
 } from "../../style/GlobalWrappers";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
-import placeHolderProfilePic from "../../assets/images/small-user-image.png";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {BaseButton, BigButton, Button, CommentButton, LikeButton, SplitButton} from "../../style/GlobalButtons";
-import {FilterListInput, SearchInput} from "../../style/GlobalInputs";
+import {BaseButton, Button} from "../../style/GlobalButtons";
+import {FilterListInput} from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
+import GenericWideReviewCard from "../GenericWideReviewCard";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -98,7 +94,6 @@ const FilterForm = styled.div`
   justify-content: flex-end;
 `
 const ReviewsContainer = styled.div`
-  padding-bottom: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -160,7 +155,8 @@ const RestaurantReview = (props) => {
                         <FilterButton>FILTER</FilterButton>
                     </FilterForm>
                     <ReviewsContainer>
-                        TODO ADD REVIEW COMPONENT HERE
+                        <GenericWideReviewCard/>
+                        <GenericWideReviewCard/>
                     </ReviewsContainer>
                 </LeftInfoContainer>
                 <RightInfoContainer>

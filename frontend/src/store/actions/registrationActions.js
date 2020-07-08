@@ -20,8 +20,6 @@ export const sendCode = data => async (dispatch) => {
 export const validate = data => async (dispatch) => {
     try {
         const response = await Axios.post('auth/registration/validation/', data);
-        // TODO clear registration data in COMPONENT when successfull
-        // TODO push to sign in page on COMPONENT with axios await
         return response
     } catch (error) {
         return error.response
