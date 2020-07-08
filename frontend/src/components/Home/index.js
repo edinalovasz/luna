@@ -82,10 +82,6 @@ const Line = styled(TitleHr)`
 
 const Home = (props) => {
     const [topFour, settopFour] = useState("");
-
-    useEffect(() => {
-
-    }, []);
     
 
     const push = useHistory()
