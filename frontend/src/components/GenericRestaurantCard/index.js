@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { BaseCard, StarContainer } from "../../style/GlobalWrappers";
 import StarRatingFix from "../StarRatingFix";
+import {Link} from "react-router-dom";
 
 const RestaurantCard = styled(BaseCard)``;
 
@@ -42,7 +43,7 @@ const RestaurantCardImg = styled.div`
 
 const GenericRestaurantCard = (props) => {
 
-    const{restaurant:{name, city, avg_rating, no_of_ratings, image}}= props
+    const{restaurant:{id, name, city, avg_rating, no_of_ratings, image}}= props
   return (
     <RestaurantCard>
       <RestaurantCardContent>
@@ -56,7 +57,9 @@ const GenericRestaurantCard = (props) => {
         </div>
       </RestaurantCardContent>
       <RestaurantCardImg>
-        <img src={image}></img>
+          <Link to={`/restaurants/${id}`}>
+            <img src={image}/>
+          </Link>
       </RestaurantCardImg>
     </RestaurantCard>
   );

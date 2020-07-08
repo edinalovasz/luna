@@ -79,13 +79,12 @@ const Home = (props) => {
     const [topFour, settopFour] = useState(null);
 
     useEffect(() => {
-  async function fetchData() {
-
-    const response = await dispatch(getTopFourAction());
-   settopFour(response.data)
-  }
-  fetchData();
-}, [])
+        async function fetchData() {
+            const response = await dispatch(getTopFourAction());
+                settopFour(response.data)
+        }
+        fetchData();
+    }, [])
 
     console.log('topFour', topFour)
 
