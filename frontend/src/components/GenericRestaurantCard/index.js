@@ -5,6 +5,7 @@ import placeHolderRestaurant from "../../assets/images/restaurant.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { BaseCard, StarContainer } from "../../style/GlobalWrappers";
+import StarRatingFix from "../StarRatingFix";
 
 const RestaurantCard = styled(BaseCard)``;
 
@@ -17,6 +18,7 @@ const RestaurantCardContent = styled.div`
   div {
     display: flex;
     justify-content: space-between;
+    padding-top: ${rem("6px")};
   }
   h2 {
     font-weight: normal;
@@ -45,13 +47,7 @@ const GenericRestaurantCard = (props) => {
         <h2>Restaurant Name</h2>
         <p>Address</p>
         <div>
-          <StarContainer>
-            <FontAwesomeIcon icon={["fas", "star"]} />
-            <FontAwesomeIcon icon={["fas", "star"]} />
-            <FontAwesomeIcon icon={["fas", "star"]} />
-            <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
-            <FontAwesomeIcon icon={["far", "star"]} />
-          </StarContainer>
+          <StarRatingFix />
           <h2>11</h2>
         </div>
       </RestaurantCardContent>
