@@ -108,4 +108,4 @@ const GenericReviewCard = (props) => {
   );
 };
 
-export default GenericReviewCard;
+export default GenericWideReviewCard;

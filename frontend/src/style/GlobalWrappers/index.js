@@ -119,7 +119,8 @@ export const ReviewCardText = styled.div`
 export const WideReviewCard = styled(BaseCard)`
   border-top: none;
   width: ${rem("650px")};
-  /*height: 200px;*/
+  height: 200px;
+  margin-bottom: ${rem("20px")};
 `;
 
 export const WideUserCardProfile = styled.div`
