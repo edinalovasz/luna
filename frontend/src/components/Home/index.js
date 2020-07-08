@@ -75,63 +75,60 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
-  const [topFour, settopFour] = useState("");
+    const [topFour, settopFour] = useState("");
+    
 
-  // useEffect(() => {
+    const push = useHistory()
+    const dispatch = useDispatch()
+    const [userInfo, setUserInfo] = useState({
+        searchText: "",
+    });
 
-  // }, []);
+    const onChangeHandler = (event, property) => {
+        const value = event.currentTarget.value;
+        setUserInfo({ ...userInfo, [property]: value });
+    };
 
-  const push = useHistory();
-  const dispatch = useDispatch();
-  const [userInfo, setUserInfo] = useState({
-    searchText: "",
-  });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(validate(userInfo));
+        if (response.status === 200){
+            console.log('do something')
+        }else{
+            console.log('error', response)
+        }
+    };
 
-  const onChangeHandler = (event, property) => {
-    const value = event.currentTarget.value;
-    setUserInfo({ ...userInfo, [property]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await dispatch(validate(userInfo));
-    if (response.status === 200) {
-      console.log("do something");
-    } else {
-      console.log("error", response);
-    }
-  };
-
-  return (
-    <>
-      <HomePageWrapper>
-        <HeaderHomePage>
-          <SearchForm onSubmit={handleSubmit}>
-            <SearchHomePageInput
-              onChange={(e) => onChangeHandler(e, "searchText")}
-              placeholder="Search..."
-              type="text"
-              required
-            ></SearchHomePageInput>
-            <SearchHomePageButton type="submit">Search</SearchHomePageButton>
-          </SearchForm>
-          {/*<img src={Home_page_Restaurant}></img>*/}
-        </HeaderHomePage>
-        <BestRatedRestaurantsSection>
-          <TitleContainer>
-            <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
-            <Line></Line>
-          </TitleContainer>
-          <BestRatedRestaurantContainer>
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-            <GenericRestaurantCard />
-          </BestRatedRestaurantContainer>
-        </BestRatedRestaurantsSection>
-      </HomePageWrapper>
-    </>
-  );
+    return (
+        <>
+            <HomePageWrapper>
+                <HeaderHomePage>
+                    <SearchForm onSubmit={handleSubmit}>
+                        <SearchHomePageInput
+                                onChange={(e) => onChangeHandler(e, "searchText")}
+                                placeholder="Search..."
+                                type="text"
+                                required
+                        ></SearchHomePageInput>
+                        <SearchHomePageButton type="submit" >Search</SearchHomePageButton>
+                    </SearchForm>
+                    {/*<img src={Home_page_Restaurant}></img>*/}
+                </HeaderHomePage>
+                <BestRatedRestaurantsSection>
+                    <TitleContainer>
+                        <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
+                        <Line></Line>
+                    </TitleContainer>
+                    <BestRatedRestaurantContainer>
+                        <GenericRestaurantCard/>
+                        <GenericRestaurantCard/>
+                        <GenericRestaurantCard/>
+                        <GenericRestaurantCard/>
+                    </BestRatedRestaurantContainer>
+                </BestRatedRestaurantsSection>
+            </HomePageWrapper>
+        </>
+    )
 };
 
 export default Home;
