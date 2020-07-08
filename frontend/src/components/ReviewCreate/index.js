@@ -13,6 +13,7 @@ import {useHistory} from "react-router";
 import {useDispatch, connect} from "react-redux";
 import {sendLoginAction} from "../../store/actions/loginActions";
 import {createReviewAction} from "../../store/actions/reviewActions";
+import StarRating from "../StarRating";
 
 
 const CreateReviewWrapper = styled(PageContainer)`
@@ -113,7 +114,7 @@ const CreateReviewButton = styled(BigButton)`
 const ReviewCreate = (props) => {
     const {
         restaurantReducer:{
-            restaurantObj:{id},
+            //restaurantObj:{id},
             restaurantReviews
     }
     } = props
@@ -160,7 +161,7 @@ const ReviewCreate = (props) => {
             </CreateReviewHeader>
             <CreateReviewMainContainer>
                     <ReviewStarChoiceContainer>
-                        <StartRating/>
+                        <StarRating/>
                         <StarTextContainer onChange={(e) => onChangeHandler(e, "rating")}>Select your rating</StarTextContainer>
                     </ReviewStarChoiceContainer>
                 <ReviewText onChange={(e) => onChangeHandler(e, "content")} placeholder=" Your review helps others learn about great local businesses.
