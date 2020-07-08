@@ -60,6 +60,9 @@ export const SplitButton = styled.div`
   position: relative;
   display: inline-flex;
   vertical-align: middle;
+  a {
+    margin: 0 !important;
+  }
 `;
 
 export const LikeButton = styled(BaseButton)`
