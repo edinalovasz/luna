@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import rem from "polished/lib/helpers/rem";
 import {SmallTitleHr, MainTitle} from "../../../style/GlobalTitles";
+import {BigButton} from "../../../style/GlobalButtons";
+import {useHistory} from "react-router";
+import { Link } from "react-router-dom";
 
 
 const SignUpWrapper = styled.div`
@@ -11,7 +14,7 @@ const SignUpWrapper = styled.div`
     justify-content: center;
     align-items: center;
     background: #F2F2F2;
-    height: ${rem("603px")};
+    height: 81vh;
 `;
 
 const SignUpSentContainer = styled.div`
@@ -22,7 +25,7 @@ const SignUpSentContainer = styled.div`
     justify-content: center;
     align-items: center;
     height: auto;
-    margin-bottom: ${rem("250px")};
+    margin-bottom: ${rem("50px")};
     
     p{
         display: flex;
@@ -42,10 +45,12 @@ const SignUpTitleHr = styled(SmallTitleHr)`
     `
 
 
-const SignUpSent = props => {
-    //const [email, setEmail] = useState([]);
-    //const [password, setPassword] = useState([]);
+const SignUpSent = () => {
+    /*const history = useHistory();
 
+    const handleNextButton = () => {
+        history.push("/auth/signup/validation")
+    };*/
 
     return (
         <SignUpWrapper>
@@ -57,6 +62,9 @@ const SignUpSent = props => {
                     Since monkeys aren't good in writing the message could<br/> end up in your junk folder.
                     Our apologies for any<br/> inconvenience.</p>
             </SignUpSentContainer>
+            <Link to="/auth/signup/validation">
+                <BigButton>Next</BigButton>
+            </Link>
         </SignUpWrapper>
     )
 }

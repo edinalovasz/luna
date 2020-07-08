@@ -83,7 +83,7 @@ const Login = (props) => {
   const handleSubmit = async e => {
       e.preventDefault();
       const response = await dispatch(sendLoginAction);
-      if (response.status === 200) {
+      if (response.status < 300) {
           push("/home")
       }
   };
