@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import {BaseInput} from "../../style/GlobalInputs";
 import styled from "styled-components";
 import rem from "polished/lib/helpers/rem";
 import {MainTitle, Title, TitleHr} from "../../style/GlobalTitles";
 import {PageContainer} from "../../style/GlobalWrappers";
 import {BigButton} from "../../style/GlobalButtons";
+import {createRestaurantAction} from "../../store/actions/restaurantActions";
+import {useHistory} from "react-router";
+import {useDispatch} from "react-redux";
 
 const RestaurantCreateWrapper = styled(PageContainer)`
     flex-direction: column ;
@@ -130,7 +133,60 @@ const CreateRestaurantButton = styled(BigButton)`
 `;
 
 
-const RestaurantCreate = props => {
+const RestaurantCreate = (props) => {
+    const push = useHistory()
+    const dispatch = useDispatch()
+    const [restaurantInfo, setRestaurantInfo] = useState({
+        name: "",
+        category: "",
+        country: "",
+        street: "",
+        city: "",
+        zip: "",
+        website: "",
+        phone: "",
+        email: "",
+        opening_hours: "",
+        price_level: "",
+        image: ""
+    })
+
+    const onChangeHandler = (event, property) => {
+    const value = event.currentTarget.value;
+    setRestaurantInfo({ ...restaurantInfo, [property]: value });
+    };
+
+    const imageSelectHandler = e => {
+        if (e.target.files[0]) {
+            setRestaurantInfo({...restaurantInfo, image: e.target.files[0]})
+        }
+    }
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const form = new FormData()
+        form.append('name', restaurantInfo.name)
+        form.append('category', restaurantInfo.category)
+        form.append('country', restaurantInfo.country)
+        form.append('street', restaurantInfo.street)
+        form.append('city', restaurantInfo.city)
+        form.append('zip', restaurantInfo.zip)
+        form.append('website', restaurantInfo.website)
+        form.append('phone', restaurantInfo.phone)
+        form.append('email', restaurantInfo.email)
+        form.append('opening_hours', restaurantInfo.opening_hours)
+        form.append('price_level', restaurantInfo.price_level)
+        if (restaurantInfo.image) {
+            form.append('image', restaurantInfo.image)
+        }
+        const response = await dispatch(createRestaurantAction(form));
+        if (response.status === 200) {
+            const restaurantId = response.data.id
+            push(`/restaurant/${restaurantId}`)
+        }
+    };
+
+    console.log("restinfo", restaurantInfo)
 
     return (
         <RestaurantCreateWrapper>
@@ -141,13 +197,13 @@ const RestaurantCreate = props => {
                     <InputContainer>
                         <CategoryTitle>Basic</CategoryTitle>
                         <CategoryDetailTitle>Name *</CategoryDetailTitle>
-                        <RestaurantCreateInput/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "name")}/>
                         <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Category *</CategoryDetailTitle>
-                        <RestaurantCreateSelect>
+                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "category")}>
                             <Options label="Select a value..."/>
                             <Options value={1}>Ethnic</Options>
                             <Options value={2}>Fast food</Options>
@@ -163,7 +219,7 @@ const RestaurantCreate = props => {
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Country *</CategoryDetailTitle>
-                        <RestaurantCreateSelect>
+                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "country")}>
                             <Options label={"Select a value..."}/>
                             <Options>Switzerland</Options>
                             <Options>Germany</Options>
@@ -175,51 +231,51 @@ const RestaurantCreate = props => {
                     <InputContainer>
                         <CategoryTitle>Address</CategoryTitle>
                         <CategoryDetailTitle>Street *</CategoryDetailTitle>
-                        <RestaurantCreateInput/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "street")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>City *</CategoryDetailTitle>
-                        <RestaurantCreateInput/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "city")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Zip</CategoryDetailTitle>
-                        <RestaurantCreateInput/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "zip")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle>Contact</CategoryTitle>
                         <CategoryDetailTitle>Website</CategoryDetailTitle>
-                        <RestaurantCreateInput/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "contact")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle type={"tel"}>Phone *</CategoryDetailTitle>
-                        <RestaurantCreateInput/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "phone")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle type={"email"}>Email</CategoryDetailTitle>
-                        <RestaurantCreateInput/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "email")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle>Details</CategoryTitle>
                         <CategoryDetailTitle>Opening hours *</CategoryDetailTitle>
-                        <RestaurantCreateInput/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "opening_hours")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Price level</CategoryDetailTitle>
-                        <RestaurantCreateSelect/>
+                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "price_level")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Image</CategoryDetailTitle>
                         <InputLabel htmlFor="restaurant_image">Choose a file...</InputLabel>
-                            <InputFile id="restaurant_image" accept={"image/*"} type="file"/>
+                            <InputFile id="restaurant_image" accept={"image/*"} type="file" onChange={imageSelectHandler}/>
                     </InputContainer>
                 </FormContainer>
-                <CreateRestaurantButton>Submit</CreateRestaurantButton>
+                <CreateRestaurantButton onChange={handleSubmit}>Submit</CreateRestaurantButton>
             </FormWrapper>
         </RestaurantCreateWrapper>
     )

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {InputTextArea} from "../../style/GlobalInputs";
 import styled from "styled-components";
 import {PageContainer, StarContainer} from "../../style/GlobalWrappers";
@@ -8,6 +8,13 @@ import rem from "polished/lib/helpers/rem";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {RequiredText} from "../RestaurantCreate";
 import {BigButton} from "../../style/GlobalButtons";
+import StartRating from "../StarRating";
+import {useHistory} from "react-router";
+import {useDispatch, connect} from "react-redux";
+import {sendLoginAction} from "../../store/actions/loginActions";
+import {createReviewAction} from "../../store/actions/reviewActions";
+import StarRating from "../StarRating";
+
 
 const CreateReviewWrapper = styled(PageContainer)`
     flex-direction: column ;
@@ -48,10 +55,10 @@ const RestaurantCategory = styled.p`
     font-size: 24px;
     line-height: 28px;
     color: #FFFFFF;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 `;
 
-const Stars = styled(StarContainer)`
+const StarsRated = styled(StarContainer)`
     justify-content: flex-start;
 `;
 
@@ -60,20 +67,11 @@ const ReviewStarChoiceContainer = styled.div`
     height: ${rem("45px")};
     margin-left: ${rem("30px")};
     width: ${rem("450px")};
-`
-
-const ReviewStarContainer = styled.div`
-    width: ${rem("250px")};
-    height: ${rem("45px")};
-`
-
-/*const Star = styled.img`
-    border: 1px solid red;
-    background: #F0F0F0;
-    width: ${rem("50px")};
-    height: ${rem("44px")};
-`*/
-
+    align-items: center;
+`;
+const BaseRatingInputs = styled.input`
+  display: none;
+`;
 const StarTextContainer = styled.div`
     height: ${rem("45px")};
     width: ${rem("160px")};
@@ -84,7 +82,7 @@ const StarTextContainer = styled.div`
     display: flex;
     align-items: center;
     margin-left: ${rem("30px")};
-`
+`;
 
 const CreateReviewMainContainer = styled.section`
     height: 67.5vh;
@@ -113,9 +111,66 @@ const RequiredAndButtonContainer = styled.div`
 
 const CreateReviewButton = styled(BigButton)`
     margin-top: ${rem("10px")};
-`
+`;
 
-const ReviewCreate = props => {
+const ReviewCreate = (props) => {
+    const {
+        restaurantReducer:{
+            //restaurantObj:{id},
+            restaurantReviews
+    }
+    } = props
+    const push = useHistory()
+    const dispatch = useDispatch()
+    const [reviewInfo, setReviewInfo] = useState({
+        content: "",
+        rating: "",
+        //restaurant: `${id}`,
+        //author?,
+    });
+
+    const [rating, setRating] = useState(null);
+    const [hover, setHover] = useState(null);
+    console.log(rating)
+    const renderRating = [...Array(5)].map((star, i) => {
+              const ratingValue = i + 1;
+              return (
+                  <label>
+                    <BaseRatingInputs
+                        name="rating"
+                        type="radio"
+                        value={ratingValue}
+                        onClick={() => {
+                            setReviewInfo({...reviewInfo, rating: ratingValue})
+                            setRating(ratingValue)
+                        }}
+                    />
+                    <FontAwesomeIcon
+                        icon={["fas", "star"]}
+                        color={ratingValue <= (hover || rating) ? "#f8e71c" : "#e4e5e9"}
+                        onMouseEnter={()=> setHover(ratingValue)}
+                        onMouseLeave={()=> setHover(null)}
+                    />
+                  </label>
+              );
+          })
+
+    console.log("reviewInfo", reviewInfo)
+
+    const onChangeHandler = (event, property) => {
+        const value = event.currentTarget.value;
+        setReviewInfo({ ...reviewInfo, [property]: value})
+    };
+
+    const handleSubmit = async e => {
+      e.preventDefault();
+      const response = await dispatch(createReviewAction);
+      if (response.status === 200) {
+          push("/home" /*`/restaurant/${restaurantId}` */)
+      }
+      console.log("response", response)
+    };
+
 
     return (
         <CreateReviewWrapper>
@@ -123,39 +178,38 @@ const ReviewCreate = props => {
                 <HeaderText>
                     <RestaurantName>Läderach Chocolatier Suisse</RestaurantName>
                     <RestaurantCategory>Chocolatiers & Shops</RestaurantCategory>
-                    <Stars>
+                    <StarsRated>
                         <FontAwesomeIcon icon={["fas", "star"]} />
                         <FontAwesomeIcon icon={["fas", "star"]} />
                         <FontAwesomeIcon icon={["fas", "star"]} />
                         <FontAwesomeIcon icon={["fas", "star-half-alt"]} />
                         <FontAwesomeIcon icon={["far", "star"]} />
-                    </Stars>
+                    </StarsRated>
                 </HeaderText>
             </CreateReviewHeader>
             <CreateReviewMainContainer>
-                <ReviewStarContainer>
                     <ReviewStarChoiceContainer>
-                        <img src={star} alt="star"/>
-                        <img src={star} alt="star"/>
-                        <img src={star} alt="star"/>
-                        <img src={star} alt="star"/>
-                        <img src={star} alt="star"/>
+                        {renderRating}
                         <StarTextContainer>Select your rating</StarTextContainer>
-                        </ReviewStarChoiceContainer>
-                </ReviewStarContainer>
-                <ReviewText placeholder=" Your review helps others learn about great local businesses.
+                    </ReviewStarChoiceContainer>
+                <ReviewText onChange={(e) => onChangeHandler(e, "content")} placeholder=" Your review helps others learn about great local businesses.
                 Please don't review this business if you received a freebie for writing this review,
                 or if you're connected in any way to the owner or employees."
                         rows={20}>
                 </ReviewText>
                 <RequiredAndButtonContainer>
                     <RequiredText>This field is required</RequiredText>
-                    <CreateReviewButton>Submit</CreateReviewButton>
+                    <CreateReviewButton onChange={handleSubmit}>Submit</CreateReviewButton>
                 </RequiredAndButtonContainer>
             </CreateReviewMainContainer>
         </CreateReviewWrapper>
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        restaurantReducer: state.restaurantReducer,
+    }
+}
 
-export default ReviewCreate;
+export default connect(mapStateToProps)(ReviewCreate)

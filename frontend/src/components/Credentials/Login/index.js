@@ -6,6 +6,9 @@ import { BigButton } from "../../../style/GlobalButtons";
 import { MainTitle, SmallTitleHr, TitleHr } from "../../../style/GlobalTitles";
 import { BaseInput } from "../../../style/GlobalInputs";
 import { PageContainer } from "../../../style/GlobalWrappers";
+import {sendLoginAction} from "../../../store/actions/loginActions";
+import {useHistory} from "react-router";
+import {useDispatch} from "react-redux";
 
 const LoginWrapper = styled(PageContainer)`
   width: 100vw;
@@ -56,8 +59,36 @@ const ErrorPlaceholder = styled.div`
 
 
 const Login = (props) => {
-  //const [email, setEmail] = useState([]);
-  //const [password, setPassword] = useState([]);
+    const push = useHistory()
+    const dispatch = useDispatch()
+    const [loginInfo, setloginInfo] = useState({
+    email: "",
+    password: ""
+    });
+
+    const handleEmail = e => {
+        const value = e.currentTarget.value
+    setloginInfo({
+      ...loginInfo, email: value
+    })
+  }
+
+  const handlePassword = e => {
+   const value = e.currentTarget.value
+    setloginInfo({
+      ...loginInfo, password: value
+    })
+  }
+
+  const handleSubmit = async e => {
+      e.preventDefault();
+      const response = await dispatch(sendLoginAction);
+      if (response.status === 200) {
+          push("/home")
+      }
+  };
+
+    console.log("data", loginInfo)
 
   return (
     <PageContainer>
@@ -66,9 +97,9 @@ const Login = (props) => {
           <LoginTitle>Login</LoginTitle>
           <LoginTitleHr></LoginTitleHr>
           <ErrorPlaceholder></ErrorPlaceholder>
-          <LoginInput type="text" placeholder="Username" required />
-          <LoginInput type="password" placeholder="Password" required />
-          <LoginFormButton>Login</LoginFormButton>
+          <LoginInput onChange={handleEmail} type="email" placeholder="Email" required />
+          <LoginInput onChange={handlePassword} type="password" placeholder="Password" required />
+          <LoginFormButton onChange={handleSubmit}>Login</LoginFormButton>
         </LoginFormContainer>
       </LoginWrapper>
     </PageContainer>
