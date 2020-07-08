@@ -67,7 +67,7 @@ export const deleteRestaurantAction = (restaurantID) => async (dispatch) => {
 export const getRestaurantByIDAction = restaurantID => async (dispatch) => {
 
     try {
-        const response = await Axios.get(`/api/restaurants/${restaurantID}/`);
+        const response = await Axios.get(`/restaurants/${restaurantID}/`);
         console.log(`Restaurant ID ${restaurantID}`, response.data)
         dispatch(setRestaurantObj(response.data))
         return response

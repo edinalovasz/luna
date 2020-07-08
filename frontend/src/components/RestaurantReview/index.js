@@ -14,6 +14,8 @@ import {useHistory} from "react-router";
 import {connect, useDispatch} from "react-redux";
 import {validate} from "../../store/actions/registrationActions";
 import {getTopFourAction} from "../../store/actions/searchActions";
+import {getReviews} from "../../store/actions/reviewActions";
+import {getRestaurantByIDAction} from "../../store/actions/restaurantActions";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -134,21 +136,27 @@ const OptionsButton = styled(BaseButton)`
 
 
 const RestaurantReview = (props) => {
+    const push = useHistory()
     const {
+        dispatch,
         match: {
             params: {restaurantId},
         },
-        restaurantReducer:{restaurantObj, restaurantReviews}} = props
+       restaurantReducer:{restaurantObj}
+    } = props
+
+    console.log(restaurantId)
 
      useEffect(() => {
-         async function fetchData() {
-            const response = await dispatch(getTopFourAction());
-         }
-  fetchData();
-}, [])
 
-    const push = useHistory()
-    const dispatch = useDispatch()
+
+       dispatch(getRestaurantByIDAction(restaurantId));
+
+
+         console.log('hola')
+     }, [])
+
+
     const [userInfo, setUserInfo] = useState({
         filter: "",
     });
@@ -173,9 +181,11 @@ const RestaurantReview = (props) => {
             <HeaderRestaurantReview>
                 <HeaderMainInfoContainer>
                     <HeaderMainInfo>
-                        <RestaurantName>Läderach Chocolatier Suisse</RestaurantName>
-                        <RestaurantCategory>Chocolatiers & shops</RestaurantCategory>
-                        <StarContainerFix>
+                        <RestaurantName>{restaurantObj ? restaurantObj.name : null}</RestaurantName>
+                        <RestaurantCategory>{restaurantObj ? restaurantObj.category : null}</RestaurantCategory>
+                        <StarContainerFix avg_rating={
+                            parseInt(restaurantObj ? restaurantObj.avg_rating : null)
+                        }>
                             <StarRatingFix></StarRatingFix>
                         </StarContainerFix>
                     </HeaderMainInfo>
@@ -198,10 +208,10 @@ const RestaurantReview = (props) => {
                 </LeftInfoContainer>
                 <RightInfoContainer>
                     <ScheduleInfo>
-                        <p>Monday-Friday 9:00 am - 8:00 pm</p>
+                        <p>{restaurantObj ? restaurantObj.opening_hours : null}</p>
                     </ScheduleInfo>
                     <PriceInfo>
-                        <p>Price level: $$$</p>
+                        <p>{restaurantObj ? restaurantObj.price_level : null}</p>
                     </PriceInfo>
                     <OtherOptions>
                         <OptionsButton>WRITE A REVIEW</OptionsButton>
