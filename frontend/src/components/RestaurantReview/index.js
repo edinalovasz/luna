@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { PageContainer, StarContainerFix } from "../../style/GlobalWrappers";
-import { BaseButton, Button } from "../../style/GlobalButtons";
+import {BaseButton, Button, SplitButton} from "../../style/GlobalButtons";
 import { FilterListInput } from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
@@ -155,6 +155,7 @@ const RestaurantReview = (props) => {
       params: { restaurantId },
     },
     restaurantReducer: { restaurantObj, restaurantReviews },
+    authReducer: { authenticated }
   } = props;
 
   console.log(restaurantId);
@@ -189,7 +190,6 @@ const RestaurantReview = (props) => {
   };
 
   const placeholderImage = "https://picsum.photos/2000/2000";
-
   return (
     <RestaurantReviewWrapper>
       <HeaderRestaurantReview>
@@ -248,10 +248,11 @@ const RestaurantReview = (props) => {
           <PriceInfo>
             <p>{restaurantObj ? restaurantObj.price_level : null}</p>
           </PriceInfo>
-          <OtherOptions>
+          {authenticated ? <OtherOptions>
             <OptionsButton>WRITE A REVIEW</OptionsButton>
             <OptionsButton>EDIT DATA</OptionsButton>
-          </OtherOptions>
+          </OtherOptions> : <SignInMessage>Please login to write a review</SignInMessage>}
+
         </RightInfoContainer>
       </RestaurantReviewInfoContainer>
     </RestaurantReviewWrapper>
@@ -261,6 +262,7 @@ const RestaurantReview = (props) => {
 const mapStateToProps = (state) => {
   return {
     restaurantReducer: state.restaurantReducer,
+    authReducer: state.authReducer,
   };
 };
 
