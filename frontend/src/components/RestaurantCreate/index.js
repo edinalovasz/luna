@@ -185,7 +185,7 @@ const RestaurantCreate = (props) => {
         if (response.status < 300) {
             console.log("woohooo", response)
             const restaurantId = response.data.id
-            history.push(`/restaurant/${restaurantId}`)
+            history.push(`/restaurants/${restaurantId}`)
         } else {
             console.log('error', response)
         }

@@ -10,11 +10,8 @@ import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
 import {useHistory} from "react-router";
-import {connect, useDispatch} from "react-redux";
-import {sendCode, validate} from "../../store/actions/registrationActions";
-import {getTopFourAction} from "../../store/actions/searchActions";
-import {createReviewAction, getReviews} from "../../store/actions/reviewActions";
-import {getRestaurantByIDAction, getRestaurantReviewsAction} from "../../store/actions/restaurantActions";
+import {connect} from "react-redux";
+import {getRestaurantByIDAction, getRestaurantReviewsAction, resetRestaurantObj} from "../../store/actions/restaurantActions";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -140,6 +137,7 @@ const OptionsButton = styled(BaseButton)`
   margin-right: 40px;
 `;
 
+const placeholderImage = "https://picsum.photos/2550/1440"
 
 const RestaurantReview = (props) => {
     const push = useHistory()
@@ -171,16 +169,6 @@ const RestaurantReview = (props) => {
     const onChangeHandler = (event, property) => {
         const value = event.currentTarget.value;
         setUserInfo({...userInfo, [property]: value});
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const response = await dispatch(validate(userInfo));
-        if (response.status === 200) {
-            console.log('do something')
-        } else {
-            console.log('error', response)
-        }
     };
 
     const handleWriteReviewButton = async (e) => {
