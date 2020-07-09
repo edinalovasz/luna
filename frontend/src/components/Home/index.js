@@ -90,7 +90,7 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
-  const [topFour, settopFour] = useState(null);
+  const [topFour, settopFour] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
