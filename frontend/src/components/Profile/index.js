@@ -19,6 +19,7 @@ import {
 } from "../../store/actions/userProfileActions";
 import {BigButton} from "../../style/GlobalButtons";
 import Spinner from "../GenericSpinner";
+import DayJS from "react-dayjs";
 
 const ProfilePageWrapper = styled.div``;
 
@@ -313,33 +314,30 @@ const Profile = (props) => {
                                             />)
                                         }) : <Spinner/>}
                                     </ProfileRightBottomWrapper>
-                                    <ProfileBtn>Create Restaurant</ProfileBtn>
                                 </Content>
                             </>
                         </ProfileRightWrapper>
                     </ProfileWrapper>
                     <ProfileAboutWrapper>
-                        <h1>About Laurent</h1>
+                        <h1>About {userObj ? userObj.first_name : null}</h1>
                         <div>
                             <h2>Location</h2>
-                            <p>Zürich, CH</p>
+                            <p>{userObj ? userObj.location : null}</p>
                         </div>
                         <div>
                             <h2>Luna member since</h2>
-                            <p>April, 1615</p>
+                            {userObj ? <p><DayJS format="MM.DD.YYYY HH:mm">{userObj.date_joined}</DayJS></p> : null}
                         </div>
                         <div>
-                            <h2>Things i love</h2>
-                            <p>Everything</p>
+                            <h2>Things {userObj ? userObj.first_name : null} loves</h2>
+                            <div>{userObj ? userObj.things_user_loves.map((thing, i) => (<p key={i}>{thing}</p>)) : null}</div>
                         </div>
                         <div>
-                            <h2>Description</h2>
+                            <h2>More about {userObj ? userObj.first_name : null}</h2>
                             <p>
-                                Im professional photographer with an eye for details in every
-                                thing I do in my live. Every time a pass by a nice restaurant i
-                                have to stop and take notes
+                                {userObj ? userObj.about_me : null}
                             </p>
-                        </div>
+                        </div>>
                     </ProfileAboutWrapper>
                 </ProfilePageBody>
             </ProfilePageWrapper>

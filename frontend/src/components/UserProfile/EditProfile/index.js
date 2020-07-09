@@ -118,7 +118,7 @@ const EditProfile = (props) => {
         location: `${location}`,
         about_me: `${about_me}`,
         phone_number: `${phone_number}`,
-        things_user_likes: `${things_user_loves}`,
+        things_user_loves: `${things_user_loves}`,
         avatar: null,
         avatarUrl: ``,
         banner: null,
@@ -139,9 +139,9 @@ const EditProfile = (props) => {
         form.append('location', userInfo.location)
         form.append('about_me', userInfo.about_me)
         form.append('phone_number', userInfo.phone_number)
-        if (userInfo.things_user_likes.length) {
-            userInfo.things_user_likes.split(",").forEach((el, ind) => {
-                form.append(`things_user_likes`, el)
+        if (userInfo.things_user_loves.length) {
+            userInfo.things_user_loves.split(",").forEach((el, ind) => {
+                form.append(`things_user_loves`, el)
             })
         }
         if (userInfo.avatar) {
@@ -214,7 +214,7 @@ const EditProfile = (props) => {
             </div>
             <div>
                 <ProfileDetailTitle>Things I love </ProfileDetailTitle>
-                <ProfileCreateInputWide onChange={(e) => onChangeHandler(e, "things_user_likes")}
+                <ProfileCreateInputWide onChange={(e) => onChangeHandler(e, "things_user_loves")}
                                         placeholder="Add things you love separated by comas..."
                                         defaultValue={things_user_loves}
                                         type="text"/>

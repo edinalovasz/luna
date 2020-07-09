@@ -59,7 +59,8 @@ class GeneralSearchView(ListAPIView):
                 author__username__icontains=param))
         elif type == "users":
             results = User.objects.filter(
-                Q(first_name__icontains=param) | Q(last_name__icontains=param) | Q(username__icontains=param))
+                Q(first_name__icontains=param) | Q(last_name__icontains=param) | Q(about_me__icontains=param) | Q(
+                    username__icontains=param))
         else:
             results = []
         serializer = self.get_serializer(results, many=True)

@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import Credentials from "../components/Credentials";
@@ -16,6 +15,7 @@ import Profile from "../components/Profile";
 import Search from "../components/Search";
 import UserProfile from "../components/UserProfile";
 import RestaurantEdit from "../components/RestaurantEdit";
+import authComponent from '../HOCs/AuthComponent/'
 
 const Routes = () => {
   return (
@@ -26,7 +26,7 @@ const Routes = () => {
             <Route path="/auth" component={Credentials} />
             <Route exact path="/template" component={Template} />
             <Route exact path="/" component={Home} />
-            <Route exact path="/profile" component={UserProfile} />
+            <Route exact path="/profile" component={authComponent(UserProfile)}/>
             <Route exact path="/search" component={Search} />
             <Route path='/users/:userId' component={Profile}/>
             <Route
@@ -48,7 +48,6 @@ const Routes = () => {
               path="/restaurant/review/create/:restaurantId"
               component={ReviewCreate}
             />
-            {/*<Route exact path='/userProfileUpdate' />*/}
           </Navigation>
         </Switch>
       </Router>
