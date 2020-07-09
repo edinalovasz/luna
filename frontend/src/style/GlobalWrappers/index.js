@@ -16,7 +16,7 @@ export const StarContainerFix = styled.div`
 `;
 
 export const StarContainer = styled.div`
-    .star{
+  .star {
     height: 34px;
     width: 40px;
   }
@@ -90,12 +90,14 @@ export const ReviewCardText = styled.div`
     font-weight: 300;
     font-size: ${rem("20px")};
     line-height: ${rem("23px")};
+    margin-bottom: ${rem("6px")};
   }
   h3 {
     font-weight: bold;
     font-size: ${rem("14px")};
     line-height: ${rem("16px")};
     color: #e47d31;
+    margin-top: ${rem("12px")};
   }
   p:first-child {
     display: inline;
@@ -112,6 +114,10 @@ export const ReviewCardText = styled.div`
     :hover {
       color: #cb641a;
     }
+  }
+  > div:first-child,
+  div:last-child {
+    height: 120px;
   }
 `;
 

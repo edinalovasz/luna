@@ -14,46 +14,71 @@ import {
 } from "../../style/GlobalButtons";
 
 import { BaseCard } from "../../style/GlobalWrappers";
+import Spinner from "../GenericSpinner";
 
 export const ReviewCard = styled(BaseCard)``;
 
+const MAX_REVIEW_LENGTH = 133;
+const MAX_COMMENT_LENGTH = 27;
+
 const GenericReviewCard = (props) => {
+  const {
+    review: {
+      content,
+      restaurant: { name },
+      author: { first_name, last_name },
+      amount_of_likes,
+      amount_of_comments,
+      top_2_comments,
+    },
+  } = props;
   return (
     <ReviewCard>
       <UserCardProfile>
         <img src={placeHolderProfilePic}></img>
         <div>
-          <h1>Name</h1>
+          <h1>{first_name + " " + last_name}</h1>
           <p>6 Reviews in Total</p>
         </div>
       </UserCardProfile>
       <ReviewCardText>
         <div>
-          <h1>Colins Bar</h1>
-          <div>
-            <p>
-              Ugh. Don't waste your time. Pizza dough good, thin crust but
-              ingredients so so. Side of mixed vegetables very oily and mainly
-              bell...
-            </p>
-            <a>read more</a>
-          </div>
+          <h1>{name}</h1>
+          {content.length > MAX_REVIEW_LENGTH ? (
+            <div>
+              {`${content.substring(0, MAX_REVIEW_LENGTH)}...`}
+              <a href="#">Read more</a>
+            </div>
+          ) : (
+            <p>{content}</p>
+          )}
         </div>
         <SplitButton>
           <LikeButton>
             <FontAwesomeIcon icon={["fa", "thumbs-up"]} />
-            Like 11
+            Like {amount_of_likes}
           </LikeButton>
-          <CommentButton>Comment 22</CommentButton>
+          <CommentButton>Comment {amount_of_comments}</CommentButton>
         </SplitButton>
-        <h2>Latest Comments</h2>
         <div>
-          <h3>Colin Wirz</h3>
-          <p>Actually you have no taste!</p>
-        </div>
-        <div>
-          <h3>Laurent Meyer</h3>
-          <p>Sorry Bro!</p>
+          <h2>Latest Comments</h2>
+          {top_2_comments ? (
+            top_2_comments.map((comment, index) => {
+              return (
+                <div>
+                  <h3>
+                    {comment.author.first_name + " " + comment.author.last_name}
+                  </h3>
+                  <p>{`${comment.content.substring(
+                    0,
+                    MAX_COMMENT_LENGTH
+                  )}...`}</p>
+                </div>
+              );
+            })
+          ) : (
+            <Spinner />
+          )}
         </div>
       </ReviewCardText>
     </ReviewCard>
