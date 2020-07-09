@@ -17,7 +17,7 @@ const RestaurantCreateWrapper = styled(PageContainer)`
     background: #F2F2F2;
 `;
 
-const FormWrapper = styled.div`
+const FormWrapper = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,7 +25,7 @@ const FormWrapper = styled.div`
     height: 95%;
 `;
 
-const FormContainer = styled.form`
+const FormContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -134,7 +134,7 @@ const CreateRestaurantButton = styled(BigButton)`
 
 
 const RestaurantCreate = (props) => {
-    const push = useHistory()
+    const history = useHistory()
     const dispatch = useDispatch()
     const [restaurantInfo, setRestaurantInfo] = useState({
         name: "",
@@ -152,8 +152,8 @@ const RestaurantCreate = (props) => {
     })
 
     const onChangeHandler = (event, property) => {
-    const value = event.currentTarget.value;
-    setRestaurantInfo({ ...restaurantInfo, [property]: value });
+        const value = event.currentTarget.value;
+        setRestaurantInfo({...restaurantInfo, [property]: value});
     };
 
     const imageSelectHandler = e => {
@@ -162,7 +162,7 @@ const RestaurantCreate = (props) => {
         }
     }
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = new FormData()
         form.append('name', restaurantInfo.name)
@@ -180,9 +180,12 @@ const RestaurantCreate = (props) => {
             form.append('image', restaurantInfo.image)
         }
         const response = await dispatch(createRestaurantAction(form));
-        if (response.status === 200) {
+        if (response.status < 300) {
+            console.log("woohooo", response)
             const restaurantId = response.data.id
-            push(`/restaurant/${restaurantId}`)
+            history.push(`/restaurant/${restaurantId}`)
+        } else {
+            console.log('error', response)
         }
     };
 
@@ -190,10 +193,10 @@ const RestaurantCreate = (props) => {
 
     return (
         <RestaurantCreateWrapper>
-            <FormWrapper>
+            <FormWrapper onSubmit={handleSubmit}>
                 <RestaurantCreateTitle>Create new restaurant</RestaurantCreateTitle>
                 <RestaurantCreateTitleHr/>
-                <FormContainer>
+                <FormContainer >
                     <InputContainer>
                         <CategoryTitle>Basic</CategoryTitle>
                         <CategoryDetailTitle>Name *</CategoryDetailTitle>
@@ -266,16 +269,20 @@ const RestaurantCreate = (props) => {
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Price level</CategoryDetailTitle>
-                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "price_level")}/>
+                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "price_level")}>
+                            <Options>$</Options>
+                            <Options>$$</Options>
+                            <Options>$$$</Options>
+                        </RestaurantCreateSelect>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Image</CategoryDetailTitle>
                         <InputLabel htmlFor="restaurant_image">Choose a file...</InputLabel>
-                            <InputFile id="restaurant_image" accept={"image/*"} type="file" onChange={imageSelectHandler}/>
+                        <InputFile id="restaurant_image" accept={"image/*"} type="file" onChange={imageSelectHandler}/>
                     </InputContainer>
                 </FormContainer>
-                <CreateRestaurantButton onChange={handleSubmit}>Submit</CreateRestaurantButton>
+                <CreateRestaurantButton>Submit</CreateRestaurantButton>
             </FormWrapper>
         </RestaurantCreateWrapper>
     )
