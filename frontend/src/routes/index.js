@@ -14,6 +14,7 @@ import ReviewCreate from "../components/ReviewCreate";
 import RestaurantReview from "../components/RestaurantReview";
 import Profile from "../components/Profile";
 import Search from "../components/Search";
+import UserProfile from "../components/UserProfile";
 import RestaurantEdit from "../components/RestaurantEdit";
 
 const Routes = () => {
@@ -25,9 +26,9 @@ const Routes = () => {
             <Route path="/auth" component={Credentials} />
             <Route exact path="/template" component={Template} />
             <Route exact path="/" component={Home} />
-            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/profile" component={UserProfile} />
             <Route exact path="/search" component={Search} />
-            {/*<Route path='/users/:userId'/>*/}
+            <Route path='/users/:userId' component={Profile}/>
             <Route
               path="/restaurants/:restaurantId"
               component={RestaurantReview}
