@@ -7,7 +7,7 @@ import {PageContainer} from "../../style/GlobalWrappers";
 import {BigButton} from "../../style/GlobalButtons";
 import {createRestaurantAction} from "../../store/actions/restaurantActions";
 import {useHistory} from "react-router";
-import {useDispatch} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 
 const RestaurantCreateWrapper = styled(PageContainer)`
     flex-direction: column ;
@@ -134,11 +134,13 @@ const CreateRestaurantButton = styled(BigButton)`
 
 
 const RestaurantCreate = (props) => {
+    const {authReducer} = props
+    console.log("authReducer", authReducer)
     const history = useHistory()
     const dispatch = useDispatch()
     const [restaurantInfo, setRestaurantInfo] = useState({
         name: "",
-        category: "",
+        category_id: "",
         country: "",
         street: "",
         city: "",
@@ -166,7 +168,7 @@ const RestaurantCreate = (props) => {
         e.preventDefault();
         const form = new FormData()
         form.append('name', restaurantInfo.name)
-        form.append('category', restaurantInfo.category)
+        form.append('category_id', restaurantInfo.category_id)
         form.append('country', restaurantInfo.country)
         form.append('street', restaurantInfo.street)
         form.append('city', restaurantInfo.city)
@@ -183,7 +185,7 @@ const RestaurantCreate = (props) => {
         if (response.status < 300) {
             console.log("woohooo", response)
             const restaurantId = response.data.id
-            history.push(`/restaurant/${restaurantId}`)
+            history.push(`/restaurants/${restaurantId}`)
         } else {
             console.log('error', response)
         }
@@ -206,7 +208,7 @@ const RestaurantCreate = (props) => {
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Category *</CategoryDetailTitle>
-                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "category")}>
+                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "category_id")}>
                             <Options label="Select a value..."/>
                             <Options value={1}>Ethnic</Options>
                             <Options value={2}>Fast food</Options>
@@ -288,5 +290,11 @@ const RestaurantCreate = (props) => {
     )
 }
 
+const mapStateToProps = (state) => {
+    console.log("state", state)
+  return {
+    authReducer: state.authReducer,
+  };
+};
 
-export default RestaurantCreate;
+export default connect(mapStateToProps)(RestaurantCreate);

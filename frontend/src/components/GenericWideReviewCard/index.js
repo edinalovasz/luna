@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import placeHolderProfilePic from "../../assets/images/small-user-image.png";
+import DayJS from "react-dayjs";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -22,16 +23,16 @@ import {
   SplitButton,
 } from "../../style/GlobalButtons";
 import StarRatingFix from "../StarRatingFix";
+import { getReviewCommentsAction } from "../../store/actions/commentActions";
+import { connect, useDispatch } from "react-redux";
+import Spinner from "../GenericSpinner";
 
-const Comments = ({ handleRenderComments }) => {
+const Comments = ({ handleRenderComments, commentsList, content }) => {
+  console.log(commentsList);
   return (
     <>
       <WideReviewCardText>
-        <p>
-          This location at the Bahnhofstrasse is quite friendly and easily
-          located across the street from the train station. The people there
-          seem to be quite good and helpful in their service.
-        </p>
+        <p>{content}</p>
 
         <PostComment>
           <CommentInput
@@ -42,26 +43,36 @@ const Comments = ({ handleRenderComments }) => {
           <a onClick={handleRenderComments}>Hide</a>
         </PostComment>
       </WideReviewCardText>
-      <GenericReviewComment />
+      {commentsList ? (
+        commentsList.map((comment, index) => {
+          return <GenericReviewComment key={index} comment={comment} />;
+        })
+      ) : (
+        <Spinner />
+      )}
     </>
   );
 };
 
-const LikeCommentView = ({ handleRenderComments }) => {
+const LikeCommentView = ({
+  handleRenderComments,
+  content,
+  amount_of_comments,
+  amount_of_likes,
+}) => {
   return (
     <WideReviewCardText>
-      <p>
-        This location at the Bahnhofstrasse is quite friendly and easily located
-        across the street from the train station. The people there seem to be
-        quite good and helpful in their service.
-      </p>
+      <p>{content}</p>
+
       <div>
         <SplitButton>
           <LikeButton>
             <FontAwesomeIcon icon={["fa", "thumbs-up"]} />
-            Like 11
+            Like {amount_of_likes}
           </LikeButton>
-          <CommentButton>Comment 22</CommentButton>
+          <CommentButton onClick={handleRenderComments}>
+            Comment {amount_of_comments}
+          </CommentButton>
         </SplitButton>
         <a onClick={handleRenderComments}>View all comments</a>
       </div>
@@ -70,10 +81,41 @@ const LikeCommentView = ({ handleRenderComments }) => {
 };
 
 const GenericWideReviewCard = (props) => {
-  const [showComments, setshowComments] = React.useState(false);
+  const dispatch = useDispatch();
+  const {
+    review: {
+      content,
+      restaurant: { name },
+      author: { first_name, last_name, amount_of_reviews },
+      created,
+      rating,
+      amount_of_comments,
+      amount_of_likes,
+      id,
+    },
+  } = props;
 
-  const handleRenderComments = () => {
-    setshowComments(!showComments);
+  const [commentsData, setComments] = useState({
+    showComments: false,
+    commentsList: null,
+    content: ``,
+  });
+
+  const handleRenderComments = async (e) => {
+    if (commentsData.showComments === false) {
+      const response = await dispatch(getReviewCommentsAction(id));
+      setComments({
+        ...commentsData,
+        commentsList: response.data,
+        showComments: !commentsData.showComments,
+      });
+    } else {
+      setComments({
+        showComments: false,
+        commentsList: null,
+        content: ``,
+      });
+    }
   };
 
   return (
@@ -83,21 +125,30 @@ const GenericWideReviewCard = (props) => {
           <div>
             <img src={placeHolderProfilePic}></img>
             <div>
-              <h1>Name</h1>
-              <p>6 Reviews in Total</p>
+              <h1>{first_name + " " + last_name}</h1>
+              <p>{amount_of_reviews} Reviews in Total</p>
             </div>
             <StarRatingWrapper>
-              <StarRatingFix />
+              <StarRatingFix avg_rating={rating} />
             </StarRatingWrapper>
           </div>
           <div>
-            <p>01.01.2018 15:22</p>
+            <p>
+              <DayJS format="MM.DD.YYYY HH:mm">{created}</DayJS>
+            </p>
           </div>
         </WideUserCardProfile>
-        {showComments ? (
-          <Comments handleRenderComments={handleRenderComments} />
+        {commentsData.showComments ? (
+          <Comments
+            handleRenderComments={handleRenderComments}
+            commentsList={commentsData.commentsList}
+            content={content}
+          />
         ) : (
-          <LikeCommentView handleRenderComments={handleRenderComments} />
+          <LikeCommentView
+            handleRenderComments={handleRenderComments}
+            content={content}
+          />
         )}
       </WideReviewCard>
     </>

@@ -1,132 +1,131 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {
-    PageContainer,
-    StarContainerFix,
-} from "../../style/GlobalWrappers";
-import {BaseButton, Button} from "../../style/GlobalButtons";
-import {FilterListInput} from "../../style/GlobalInputs";
+import { PageContainer, StarContainerFix } from "../../style/GlobalWrappers";
+import { BaseButton, Button } from "../../style/GlobalButtons";
+import { FilterListInput } from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
-import {useHistory} from "react-router";
-import {connect} from "react-redux";
-import {validate} from "../../store/actions/registrationActions";
-import {getRestaurantByIDAction, resetRestaurantObj} from "../../store/actions/restaurantActions";
+import { useHistory } from "react-router";
+import { connect } from "react-redux";
+import { validate } from "../../store/actions/registrationActions";
+import {
+  getRestaurantByIDAction,
+  resetRestaurantObj,
+  getRestaurantReviewsAction,
+} from "../../store/actions/restaurantActions";
+import Spinner from "../GenericSpinner";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
-    background: #F2F2F2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
-const HeaderRestaurantReview = styled.div` 
-    display: flex;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    justify-content: center;
-    align-content: flex-start;
-    height: 35vh;
-    width: 100%;
-    img{
-      object-fit: cover;
-    }
-`
+const HeaderRestaurantReview = styled.div`
+  display: flex;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  justify-content: center;
+  align-content: flex-start;
+  height: 35vh;
+  width: 100%;
+  img {
+    object-fit: cover;
+  }
+`;
 
 const HeaderMainInfoContainer = styled.div`
-    position: absolute;
-    height: 204px;
-    background: rgba(0, 0, 0, 0.5);
-    width: 100%;
-`
+  position: absolute;
+  height: 204px;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+`;
 
 const HeaderMainInfo = styled.div`
-    margin: 33px 130px;
-    display: flex;
-    flex-direction: column;
-    height: 204px;
-`
+  margin: 33px 130px;
+  display: flex;
+  flex-direction: column;
+  height: 204px;
+`;
 
 const RestaurantName = styled.p`
-    font-family: Helvetica;
-    font-weight: bold;
-    font-size: 30px;
-    color: #FFFFFF;
-`
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 30px;
+  color: #ffffff;
+`;
 
 const RestaurantCategory = styled.p`
-    font-family: Helvetica;
-    font-weight: lighter;
-    font-size: 19px;
-    line-height: 34px;
-    color: #FFFFFF;
-    margin-top: 7px;
-`
-
+  font-family: Helvetica;
+  font-weight: lighter;
+  font-size: 19px;
+  line-height: 34px;
+  color: #ffffff;
+  margin-top: 7px;
+`;
 
 const RestaurantReviewInfoContainer = styled.div`
-    padding: 15px;
-    display: flex;
-    width: 100vw;
-    height: 53vh;
-`
+  padding: 15px;
+  display: flex;
+  width: 100vw;
+  height: 53vh;
+`;
 
 const LeftInfoContainer = styled.div`
   width: 60vw;
   display: flex;
   flex-direction: column;
   padding-right: 39px;
-`
+`;
 
 const RightInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 40vw;
-  p{
+  p {
     font-family: Helvetica;
     font-style: normal;
     font-weight: 400;
     font-size: ${rem("20px")};
     line-height: 23px;
   }
-`
+`;
 
 const FilterForm = styled.form`
   padding-bottom: 15px;
   display: flex;
   justify-content: flex-end;
-`
+`;
 const ReviewsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-`
+`;
 
 const ScheduleInfo = styled.div`
   padding-bottom: 15px;
   display: flex;
   align-items: flex-start;
-`
+`;
 const PriceInfo = styled.div`
   padding-bottom: 15px;
   display: flex;
   align-items: flex-start;
-`
+`;
 
 const OtherOptions = styled.div`
   display: flex;
   align-items: flex-start;
-`
+`;
 
-const Par = styled.p`
-
-`
+const Par = styled.p``;
 
 const FilterInput = styled(FilterListInput)`
-  background: #FFFFFF
+  background: #ffffff;
 `;
 
 const FilterButton = styled(Button)`
@@ -138,102 +137,121 @@ const OptionsButton = styled(BaseButton)`
   margin-right: 40px;
 `;
 
-
 const RestaurantReview = (props) => {
-    const push = useHistory()
-    const {
-        dispatch,
-        match: {
-            params: {restaurantId},
-        },
-        restaurantReducer: {restaurantObj}
-    } = props
+  const push = useHistory();
+  const {
+    dispatch,
+    match: {
+      params: { restaurantId },
+    },
+    restaurantReducer: { restaurantObj, restaurantReviews },
+  } = props;
 
-    console.log(restaurantId)
+  console.log(restaurantId);
+  console.log(restaurantReviews, "reviews");
 
-    useEffect(() => {
-        dispatch(getRestaurantByIDAction(restaurantId));
-        console.log('hola')
-        return () => {
-            dispatch(resetRestaurantObj())
-        }
-
-
-    }, [])
-
-
-    const [userInfo, setUserInfo] = useState({
-        filter: "",
-    });
-
-    const onChangeHandler = (event, property) => {
-        const value = event.currentTarget.value;
-        setUserInfo({...userInfo, [property]: value});
+  useEffect(() => {
+    dispatch(getRestaurantByIDAction(restaurantId));
+    dispatch(getRestaurantReviewsAction(restaurantId));
+    console.log("hola");
+    return () => {
+      dispatch(resetRestaurantObj());
     };
+  }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const response = await dispatch(validate(userInfo));
-        if (response.status === 200) {
-            console.log('do something')
-        } else {
-            console.log('error', response)
-        }
-    };
+  const [userInfo, setUserInfo] = useState({
+    filter: "",
+  });
 
-    const placeholderImage = "https://picsum.photos/2000/2000"
+  const onChangeHandler = (event, property) => {
+    const value = event.currentTarget.value;
+    setUserInfo({ ...userInfo, [property]: value });
+  };
 
-    return (
-        <RestaurantReviewWrapper>
-            <HeaderRestaurantReview>
-                {restaurantObj ? <img alt={"restaurant picture"} src={restaurantObj.image ? restaurantObj.image : placeholderImage}/> : null}
-                <HeaderMainInfoContainer>
-                    <HeaderMainInfo>
-                        <RestaurantName>{restaurantObj ? restaurantObj.name : null}</RestaurantName>
-                        <RestaurantCategory>{restaurantObj ? restaurantObj.category : null}</RestaurantCategory>
-                        <StarContainerFix>
-                            {restaurantObj ? <StarRatingFix avg_rating={parseInt(restaurantObj.avg_rating)}/> : null}
-                            <p>{restaurantObj ? restaurantObj.no_of_ratings : null} reviews</p>
-                        </StarContainerFix>
-                    </HeaderMainInfo>
-                </HeaderMainInfoContainer>
-            </HeaderRestaurantReview>
-            <RestaurantReviewInfoContainer>
-                <LeftInfoContainer>
-                    <FilterForm>
-                        <FilterInput
-                            onChange={(e) => onChangeHandler(e, "filter")}
-                            type="text"
-                            placeholder="Filter list..."
-                            required
-                        ></FilterInput>
-                        <FilterButton type="submit">FILTER</FilterButton>
-                    </FilterForm>
-                    <ReviewsContainer>
-                        <GenericWideReviewCard/>
-                    </ReviewsContainer>
-                </LeftInfoContainer>
-                <RightInfoContainer>
-                    <ScheduleInfo>
-                        <p>{restaurantObj ? restaurantObj.opening_hours : null}</p>
-                    </ScheduleInfo>
-                    <PriceInfo>
-                        <p>{restaurantObj ? restaurantObj.price_level : null}</p>
-                    </PriceInfo>
-                    <OtherOptions>
-                        <OptionsButton>WRITE A REVIEW</OptionsButton>
-                        <OptionsButton>EDIT DATA</OptionsButton>
-                    </OtherOptions>
-                </RightInfoContainer>
-            </RestaurantReviewInfoContainer>
-        </RestaurantReviewWrapper>
-    )
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await dispatch(validate(userInfo));
+    if (response.status === 200) {
+      console.log("do something");
+    } else {
+      console.log("error", response);
+    }
+  };
+
+  const placeholderImage = "https://picsum.photos/2000/2000";
+
+  return (
+    <RestaurantReviewWrapper>
+      <HeaderRestaurantReview>
+        {restaurantObj ? (
+          <img
+            alt={"restaurant picture"}
+            src={restaurantObj.image ? restaurantObj.image : placeholderImage}
+          />
+        ) : null}
+        <HeaderMainInfoContainer>
+          <HeaderMainInfo>
+            <RestaurantName>
+              {restaurantObj ? restaurantObj.name : null}
+            </RestaurantName>
+            <RestaurantCategory>
+              {restaurantObj ? restaurantObj.category : null}
+            </RestaurantCategory>
+            <StarContainerFix>
+              {restaurantObj ? (
+                <StarRatingFix
+                  avg_rating={parseInt(restaurantObj.avg_rating)}
+                />
+              ) : null}
+              <p>
+                {restaurantObj ? restaurantObj.no_of_ratings : null} reviews
+              </p>
+            </StarContainerFix>
+          </HeaderMainInfo>
+        </HeaderMainInfoContainer>
+      </HeaderRestaurantReview>
+      <RestaurantReviewInfoContainer>
+        <LeftInfoContainer>
+          <FilterForm>
+            <FilterInput
+              onChange={(e) => onChangeHandler(e, "filter")}
+              type="text"
+              placeholder="Filter list..."
+              required
+            ></FilterInput>
+            <FilterButton type="submit">FILTER</FilterButton>
+          </FilterForm>
+          <ReviewsContainer>
+            {restaurantReviews ? (
+              restaurantReviews.map((review, index) => {
+                return <GenericWideReviewCard key={index} review={review} />;
+              })
+            ) : (
+              <Spinner />
+            )}
+          </ReviewsContainer>
+        </LeftInfoContainer>
+        <RightInfoContainer>
+          <ScheduleInfo>
+            <p>{restaurantObj ? restaurantObj.opening_hours : null}</p>
+          </ScheduleInfo>
+          <PriceInfo>
+            <p>{restaurantObj ? restaurantObj.price_level : null}</p>
+          </PriceInfo>
+          <OtherOptions>
+            <OptionsButton>WRITE A REVIEW</OptionsButton>
+            <OptionsButton>EDIT DATA</OptionsButton>
+          </OtherOptions>
+        </RightInfoContainer>
+      </RestaurantReviewInfoContainer>
+    </RestaurantReviewWrapper>
+  );
 };
 
 const mapStateToProps = (state) => {
-    return {
-        restaurantReducer: state.restaurantReducer,
-    };
+  return {
+    restaurantReducer: state.restaurantReducer,
+  };
 };
 
 export default connect(mapStateToProps)(RestaurantReview);

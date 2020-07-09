@@ -1,5 +1,3 @@
-
-
 import Axios from "../../axios";
 
 import {
@@ -44,6 +42,8 @@ export const getLikedOrCommentedReviewsAction = typeProperty => async (dispatch)
 }
 
 export const addReviewToList = (review) => {
+    console.log("revsdfsdfiew", review);
+
     return {
         type: ADD_REVIEW_TO_LIST,
         payload: review,

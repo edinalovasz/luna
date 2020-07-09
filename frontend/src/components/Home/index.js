@@ -20,6 +20,8 @@ const HomePageWrapper = styled(PageContainer)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  padding-bottom: 40px;
 `;
 
 const HeaderHomePage = styled.div`
@@ -31,13 +33,22 @@ const HeaderHomePage = styled.div`
   background-position: center;
   justify-content: center;
   align-items: center;
-  height: 35vh;
+  height: 400px;
   width: 100%;
 `;
 
 const SearchForm = styled.form`
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
   position: absolute;
   z-index: 2;
+  input {
+  margin-top: 10px;
+  }
+  button {
+  margin-top: 10px;
+  }
 `;
 
 const BestRatedRestaurantsSection = styled.div`
@@ -45,16 +56,16 @@ const BestRatedRestaurantsSection = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 53vh;
 `;
 
 const BestRatedRestaurantContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
-  gap: 0px 30px;
-  grid-template-areas: ". . . .";
-  padding: 42px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  > div {
+  text-align:center;
+  margin:5px;  /* and that, will result in a 10px gap */
+  }
 `;
 
 const HomePageTitle = styled(MainTitle)`
@@ -63,10 +74,13 @@ const HomePageTitle = styled(MainTitle)`
 
 const SearchHomePageInput = styled(SearchInput)`
   background: #ffffff;
+  min-width: ${rem("430px")};
+  
 `;
 
 const SearchHomePageButton = styled(BigButton)`
   margin-left: 25px;
+  
 `;
 
 const Line = styled(TitleHr)`
@@ -112,38 +126,38 @@ const Home = (props) => {
     };
 
     return (
-        <>
-            <HomePageWrapper>
-                <HeaderHomePage>
-                    <SearchForm onSubmit={handleSubmit}>
-                        <SearchHomePageInput
-                            onChange={(e) => onChangeHandler(e, "searchText")}
-                            placeholder="Search..."
-                            type="text"
-                            required
-                        ></SearchHomePageInput>
-                        <SearchHomePageButton type="submit">Search</SearchHomePageButton>
-                    </SearchForm>
-                    {/*<img src={Home_page_Restaurant}></img>*/}
-                </HeaderHomePage>
-                <BestRatedRestaurantsSection>
-                    <TitleContainer>
-                        <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
-                        <Line></Line>
-                    </TitleContainer>
-                    <BestRatedRestaurantContainer>
-                        {topFour ? topFour.map((restaurant, index) => {
-                            return (
-                                <GenericRestaurantCard
-                                    key={index}
-                                    restaurant={restaurant}
-                                />
-                            )
-                        }) : null}
-                    </BestRatedRestaurantContainer>
-                </BestRatedRestaurantsSection>
-            </HomePageWrapper>
-        </>
+
+        <HomePageWrapper>
+            <HeaderHomePage>
+                <SearchForm onSubmit={handleSubmit}>
+                    <SearchHomePageInput
+                        onChange={(e) => onChangeHandler(e, "searchText")}
+                        placeholder="Search..."
+                        type="text"
+                        required
+                    />
+                    <SearchHomePageButton type="submit">Search</SearchHomePageButton>
+                </SearchForm>
+                {/*<img src={Home_page_Restaurant}></img>*/}
+            </HeaderHomePage>
+            <BestRatedRestaurantsSection>
+                <TitleContainer>
+                    <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
+                    <Line></Line>
+                </TitleContainer>
+                <BestRatedRestaurantContainer>
+                    {topFour ? topFour.map((restaurant, index) => {
+                        return (
+                            <GenericRestaurantCard
+                                key={index}
+                                restaurant={restaurant}
+                            />
+                        )
+                    }) : null}
+                </BestRatedRestaurantContainer>
+            </BestRatedRestaurantsSection>
+        </HomePageWrapper>
+
     )
 };
 
