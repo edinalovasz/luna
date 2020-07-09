@@ -12,10 +12,10 @@ import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
 import {useHistory} from "react-router";
 import {connect, useDispatch} from "react-redux";
-import {validate} from "../../store/actions/registrationActions";
+import {sendCode, validate} from "../../store/actions/registrationActions";
 import {getTopFourAction} from "../../store/actions/searchActions";
-import {getReviews} from "../../store/actions/reviewActions";
-import {getRestaurantByIDAction} from "../../store/actions/restaurantActions";
+import {createReviewAction, getReviews} from "../../store/actions/reviewActions";
+import {getRestaurantByIDAction, getRestaurantReviewsAction} from "../../store/actions/restaurantActions";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -176,6 +176,18 @@ const RestaurantReview = (props) => {
         }
     };
 
+    const handleWriteReviewButton = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(getRestaurantReviewsAction(restaurantId));
+
+        if (response.status < 300){
+            push.push(`/restaurant/review/create/${restaurantId}`)
+        }else{
+            console.log('error', response)
+        }
+    };
+
+
     return (
         <RestaurantReviewWrapper>
             <HeaderRestaurantReview>
@@ -214,7 +226,7 @@ const RestaurantReview = (props) => {
                         <p>{restaurantObj ? restaurantObj.price_level : null}</p>
                     </PriceInfo>
                     <OtherOptions>
-                        <OptionsButton>WRITE A REVIEW</OptionsButton>
+                        <OptionsButton onClick={handleWriteReviewButton}>WRITE A REVIEW</OptionsButton>
                         <OptionsButton>EDIT DATA</OptionsButton>
                     </OtherOptions>
                 </RightInfoContainer>
