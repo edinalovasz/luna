@@ -55,7 +55,7 @@ export const getRestaurantsByUserIDAction = (userID) => async (dispatch, getStat
 export const getCommentsByUserIDAction = (userID) => async (dispatch, getState) => {
 
     try {
-        const response = await Axios.get(`review/comment/${userID}/`)
+        const response = await Axios.get(`review/comment/user/${userID}/`)
         console.log("Comments of specific User", response.data)
         dispatch(setProfileComments(response.data))
         return response
@@ -65,7 +65,7 @@ export const getCommentsByUserIDAction = (userID) => async (dispatch, getState) 
     }
 }
 
-const setUserProfileObj = (profile) => {
+export const setUserProfileObj = (profile) => {
     return {
         type: SET_USER_PROFILE_USER,
         payload: profile

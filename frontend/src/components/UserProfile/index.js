@@ -18,7 +18,10 @@ import {
     getReviewsByUserIDAction,
 } from "../../store/actions/userProfileActions";
 import {BigButton} from "../../style/GlobalButtons";
+import {Title} from "../../style/GlobalTitles";
+import {BaseInput, InputTextArea} from "../../style/GlobalInputs";
 import Spinner from "../GenericSpinner";
+import EditProfile from "./EditProfile";
 
 const ProfilePageWrapper = styled.div``;
 
@@ -199,17 +202,16 @@ const Content = styled.div`
 `;
 
 
-
-const Profile = (props) => {
+const UserProfile = (props) => {
     const {
         dispatch,
-        match: {params: {userId}},
         userProfileReducer: {userObj, userReviews, userRestaurants, userComments},
+        authReducer: {userObj: {id: loggedInUserID}}
     } = props;
 
     useEffect(() => {
-        console.log(userId);
-        const ID = Number(userId);
+        console.log(loggedInUserID);
+        const ID = Number(loggedInUserID);
 
         dispatch(getCommentsByUserIDAction(ID));
         dispatch(getUserByIDAction(ID));
@@ -264,6 +266,14 @@ const Profile = (props) => {
                                     <FontAwesomeIcon icon={["fas", "store"]}/>
                                     <p>Restaurant</p>
                                 </ProfileMenuItem>
+                                <ProfileMenuItem
+                                    onClick={handleClick}
+                                    active={active === "edit"}
+                                    id={"edit"}
+                                >
+                                    <FontAwesomeIcon icon={["fas", "pencil-alt"]}/>
+                                    <p>Edit profile</p>
+                                </ProfileMenuItem>
                             </ProfileMenuWrapper>
                         </ProfileLeftWrapper>
                         <ProfileRightWrapper>
@@ -315,6 +325,10 @@ const Profile = (props) => {
                                     </ProfileRightBottomWrapper>
                                     <ProfileBtn>Create Restaurant</ProfileBtn>
                                 </Content>
+                                <Content active={active === "edit"}>
+                                    {userObj ? <EditProfile handleClick={handleClick} dispatch={dispatch}
+                                                            userObj={userObj}/> : null}
+                                </Content>
                             </>
                         </ProfileRightWrapper>
                     </ProfileWrapper>
@@ -351,7 +365,8 @@ const mapStateToProps = (state) => {
     console.log("state", state)
     return {
         userProfileReducer: state.userProfileReducer,
+        authReducer: state.authReducer,
     };
 };
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(UserProfile);

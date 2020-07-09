@@ -1,13 +1,18 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {BaseInput} from "../../style/GlobalInputs";
 import styled from "styled-components";
 import rem from "polished/lib/helpers/rem";
 import {MainTitle, Title, TitleHr} from "../../style/GlobalTitles";
 import {PageContainer} from "../../style/GlobalWrappers";
 import {BigButton} from "../../style/GlobalButtons";
-import {createRestaurantAction} from "../../store/actions/restaurantActions";
+import {
+    createRestaurantAction,
+    getRestaurantByIDAction,
+    updateRestaurantAction
+} from "../../store/actions/restaurantActions";
 import {useHistory} from "react-router";
 import {connect, useDispatch} from "react-redux";
+import {restaurantReducer} from "../../store/reducers/restaurantReducer";
 import TextareaAutosize from "react-autosize-textarea";
 
 const RestaurantCreateWrapper = styled(PageContainer)`
@@ -43,7 +48,7 @@ const DesciptionContainer = styled.div`
 `;
 
 const RestaurantCreateTitle = styled(MainTitle)`
-        margin-bottom: ${rem("16px")};
+    margin-bottom: ${rem("16px")};
 `;
 
 const RestaurantCreateTitleHr = styled(TitleHr)`
@@ -162,12 +167,15 @@ const Input = styled(TextareaAutosize)`
 `;
 
 
-const RestaurantCreate = (props) => {
-    const {authReducer} = props
-    console.log("authReducer", authReducer)
+const RestaurantEdit = (props) => {
+    const {
+        match: {
+            params: {restaurantId},
+        },
+    } = props
     const history = useHistory()
     const dispatch = useDispatch()
-    const [restaurantInfo, setRestaurantInfo] = useState({
+    const [RestInfo, setRestInfo] = useState({
         name: "",
         category_id: "",
         country: "",
@@ -181,65 +189,75 @@ const RestaurantCreate = (props) => {
         price_level: "",
         image: "",
         description: ""
-    })
+    });
+
+    console.log("RestInfo", RestInfo)
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await dispatch(getRestaurantByIDAction(restaurantId));
+            setRestInfo(response.data)
+        }
+
+        fetchData();
+    }, [])
+
 
     const onChangeHandler = (event, property) => {
         const value = event.currentTarget.value;
-        setRestaurantInfo({...restaurantInfo, [property]: value});
+        setRestInfo({...RestInfo, [property]: value});
     };
 
     const imageSelectHandler = e => {
         if (e.target.files[0]) {
-            setRestaurantInfo({...restaurantInfo, image: e.target.files[0]})
+            setRestInfo({...RestInfo, image: e.target.files[0]})
         }
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = new FormData()
-        form.append('name', restaurantInfo.name)
-        form.append('category_id', restaurantInfo.category_id)
-        form.append('country', restaurantInfo.country)
-        form.append('street', restaurantInfo.street)
-        form.append('city', restaurantInfo.city)
-        form.append('zip', restaurantInfo.zip)
-        form.append('website', restaurantInfo.website)
-        form.append('phone', restaurantInfo.phone)
-        form.append('email', restaurantInfo.email)
-        form.append('opening_hours', restaurantInfo.opening_hours)
-        form.append('price_level', restaurantInfo.price_level)
-        form.append('description', restaurantInfo.description)
-        if (restaurantInfo.image) {
-            form.append('image', restaurantInfo.image)
+        form.append('name', RestInfo.name)
+        form.append('category_id', RestInfo.category_id)
+        form.append('country', RestInfo.country)
+        form.append('street', RestInfo.street)
+        form.append('city', RestInfo.city)
+        form.append('zip', RestInfo.zip)
+        form.append('website', RestInfo.website)
+        form.append('phone', RestInfo.phone)
+        form.append('email', RestInfo.email)
+        form.append('opening_hours', RestInfo.opening_hours)
+        form.append('price_level', RestInfo.price_level)
+        form.append('description', RestInfo.description)
+        if (RestInfo.image) {
+            form.append('image', RestInfo.image)
         }
-        const response = await dispatch(createRestaurantAction(form));
+        const response = await dispatch(updateRestaurantAction(restaurantId, form));
         if (response.status < 300) {
             console.log("woohooo", response)
-            const restaurantId = response.data.id
             history.push(`/restaurants/${restaurantId}`)
         } else {
-            console.log('error', response)
+            console.log('error in da dispatch', response)
         }
     };
 
-    console.log("restinfo", restaurantInfo)
 
     return (
         <RestaurantCreateWrapper>
             <FormWrapper onSubmit={handleSubmit}>
-                <RestaurantCreateTitle>Create new restaurant</RestaurantCreateTitle>
+                <RestaurantCreateTitle>Edit restaurant</RestaurantCreateTitle>
                 <RestaurantCreateTitleHr/>
-                <FormContainer >
+                <FormContainer>
                     <InputContainer>
                         <CategoryTitle>Basic</CategoryTitle>
                         <CategoryDetailTitle>Name *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "name")}/>
+                        <RestaurantCreateInput value={RestInfo.name} onChange={(e) => onChangeHandler(e, "name")}/>
                         <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Category *</CategoryDetailTitle>
-                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "category_id")}>
+                        <RestaurantCreateSelect value={RestInfo.category} onChange={(e) => onChangeHandler(e, "category_id")}>
                             <Options label="Select a value..."/>
                             <Options value={1}>Ethnic</Options>
                             <Options value={2}>Fast food</Options>
@@ -255,7 +273,7 @@ const RestaurantCreate = (props) => {
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Country *</CategoryDetailTitle>
-                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "country")}>
+                        <RestaurantCreateSelect value={RestInfo.country} onChange={(e) => onChangeHandler(e, "country")}>
                             <Options label={"Select a value..."}/>
                             <Options>Switzerland</Options>
                             <Options>Germany</Options>
@@ -267,42 +285,42 @@ const RestaurantCreate = (props) => {
                     <InputContainer>
                         <CategoryTitle>Address</CategoryTitle>
                         <CategoryDetailTitle>Street *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "street")}/>
+                        <RestaurantCreateInput value={RestInfo.street} onChange={(e) => onChangeHandler(e, "street")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>City *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "city")}/>
+                        <RestaurantCreateInput value={RestInfo.city} onChange={(e) => onChangeHandler(e, "city")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Zip</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "zip")}/>
+                        <RestaurantCreateInput value={RestInfo.zip} onChange={(e) => onChangeHandler(e, "zip")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle>Contact</CategoryTitle>
                         <CategoryDetailTitle>Website</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "contact")}/>
+                        <RestaurantCreateInput value={RestInfo.website} onChange={(e) => onChangeHandler(e, "contact")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle type={"tel"}>Phone *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "phone")}/>
+                        <RestaurantCreateInput value={RestInfo.phone} onChange={(e) => onChangeHandler(e, "phone")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle type={"email"}>Email</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "email")}/>
+                        <RestaurantCreateInput value={RestInfo.email} onChange={(e) => onChangeHandler(e, "email")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle>Details</CategoryTitle>
                         <CategoryDetailTitle>Opening hours *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "opening_hours")}/>
+                        <RestaurantCreateInput value={RestInfo.opening_hours} onChange={(e) => onChangeHandler(e, "opening_hours")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Price level</CategoryDetailTitle>
-                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "price_level")}>
+                        <RestaurantCreateSelect value={RestInfo.price_level} onChange={(e) => onChangeHandler(e, "price_level")}>
                             <Options>$</Options>
                             <Options>$$</Options>
                             <Options>$$$</Options>
@@ -317,7 +335,7 @@ const RestaurantCreate = (props) => {
                 </FormContainer>
                 <DesciptionContainer>
                             <Input onResize={(e) => {
-                }} value={restaurantInfo.description} onChange={(e) => onChangeHandler(e, "description")} placeholder="Description..."/>
+                }} value={RestInfo.description} onChange={(e) => onChangeHandler(e, "description")} placeholder="Description..."/>
                 </DesciptionContainer>
                 <CreateRestaurantButton>Submit</CreateRestaurantButton>
             </FormWrapper>
@@ -327,9 +345,9 @@ const RestaurantCreate = (props) => {
 
 const mapStateToProps = (state) => {
     console.log("state", state)
-  return {
-    authReducer: state.authReducer,
-  };
+    return {
+        restaurantReducer: state.restaurantReducer,
+    };
 };
 
-export default connect(mapStateToProps)(RestaurantCreate);
+export default connect(mapStateToProps)(RestaurantEdit);

@@ -8,3 +8,4 @@ static-files
 /app/.coverage
 /app/htmlcov
 /node_modules
+/frontend/node_modules/

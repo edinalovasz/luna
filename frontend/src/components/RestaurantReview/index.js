@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { PageContainer, StarContainerFix } from "../../style/GlobalWrappers";
-import { BaseButton, Button } from "../../style/GlobalButtons";
-import { FilterListInput } from "../../style/GlobalInputs";
+import {PageContainer, StarContainerFix} from "../../style/GlobalWrappers";
+import {BaseButton, Button, SplitButton} from "../../style/GlobalButtons";
+import {FilterListInput} from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
-import { useHistory } from "react-router";
-import { connect } from "react-redux";
-import { validate } from "../../store/actions/registrationActions";
+
+
+import {connect} from "react-redux";
 import {
-  getRestaurantByIDAction,
-  resetRestaurantObj,
-  getRestaurantReviewsAction,
+    getRestaurantByIDAction,
+    getRestaurantReviewsAction,
+    resetRestaurantObj,
+    updateRestaurantAction
 } from "../../store/actions/restaurantActions";
+
+import {useHistory} from "react-router";
+import {validate} from "../../store/actions/registrationActions";
 import Spinner from "../GenericSpinner";
 import {
   reviewSearchAction,
   resetSearch,
 } from "../../store/actions/searchActions";
+
 
 const RestaurantReviewWrapper = styled(PageContainer)`
   background: #f2f2f2;
@@ -124,9 +129,19 @@ const PriceInfo = styled.div`
 const OtherOptions = styled.div`
   display: flex;
   align-items: flex-start;
-`;
+`
 
-const Par = styled.p``;
+const SignInMessage = styled.div`
+  background-color: Red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 380px;
+  height: 50px;
+  font-size: 25px;
+  margin-top: 40px;
+`
 
 const FilterInput = styled(FilterListInput)`
   background: #ffffff;
@@ -259,9 +274,10 @@ const RestaurantReview = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return {
-    restaurantReducer: state.restaurantReducer,
-  };
+    return {
+        restaurantReducer: state.restaurantReducer,
+        authReducer: state.authReducer,
+    };
 };
 
 export default connect(mapStateToProps)(RestaurantReview);
