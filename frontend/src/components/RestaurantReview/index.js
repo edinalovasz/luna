@@ -15,6 +15,10 @@ import {
   getRestaurantReviewsAction,
 } from "../../store/actions/restaurantActions";
 import Spinner from "../GenericSpinner";
+import {
+  reviewSearchAction,
+  resetSearch,
+} from "../../store/actions/searchActions";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
   background: #f2f2f2;
@@ -147,9 +151,6 @@ const RestaurantReview = (props) => {
     restaurantReducer: { restaurantObj, restaurantReviews },
   } = props;
 
-  console.log(restaurantId);
-  console.log(restaurantReviews, "reviews");
-
   useEffect(() => {
     dispatch(getRestaurantByIDAction(restaurantId));
     dispatch(getRestaurantReviewsAction(restaurantId));
@@ -163,22 +164,31 @@ const RestaurantReview = (props) => {
     filter: "",
   });
 
-  const onChangeHandler = (event, property) => {
-    const value = event.currentTarget.value;
-    setUserInfo({ ...userInfo, [property]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await dispatch(validate(userInfo));
-    if (response.status === 200) {
-      console.log("do something");
-    } else {
-      console.log("error", response);
-    }
-  };
-
   const placeholderImage = "https://picsum.photos/2000/2000";
+
+  const [searchParams, setSearchParams] = useState({
+    search_string: "",
+  });
+
+  const handleSearch = (e) => {
+    const value = e.currentTarget.value;
+    setSearchParams({ ...searchParams, search_string: value });
+  };
+
+  //   const keyPressed = (event) => {
+  //     if (event.key === "Enter") {
+  //       dispatch(resetSearch());
+  //       dispatch(reviewSearchAction(searchParams.search_string));
+  //       setSearchParams({ ...searchParams, search_string: "" });
+  //     }
+  //   };
+
+  const btnPressed = (e) => {
+    e.preventDefault();
+    console.log("search parms :  ", searchParams.search_string);
+    dispatch(reviewSearchAction(searchParams.search_string));
+    setSearchParams({ ...searchParams, search_string: "" });
+  };
 
   return (
     <RestaurantReviewWrapper>
@@ -214,12 +224,12 @@ const RestaurantReview = (props) => {
         <LeftInfoContainer>
           <FilterForm>
             <FilterInput
-              onChange={(e) => onChangeHandler(e, "filter")}
-              type="text"
-              placeholder="Filter list..."
-              required
+              value={searchParams.search_string}
+              //   onKeyPress={keyPressed}
+              onChange={handleSearch}
+              placeholder="Filter Reviews"
             ></FilterInput>
-            <FilterButton type="submit">FILTER</FilterButton>
+            <FilterButton onClick={btnPressed}>FILTER</FilterButton>
           </FilterForm>
           <ReviewsContainer>
             {restaurantReviews ? (

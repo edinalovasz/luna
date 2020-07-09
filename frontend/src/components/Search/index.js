@@ -114,7 +114,7 @@ const Content = styled.div`
   ${(props) => (props.active ? "" : "display:none")}
 `;
 
-const Profile = (props) => {
+const Search = (props) => {
   const {
     dispatch,
     searchReducer: { allUsersList, allRestaurantsList, allReviewsList },
@@ -243,4 +243,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(Search);

@@ -4,6 +4,7 @@ import {
   SET_RESTAURANTS,
   SET_REVIEWS,
   SET_USER_PROFILES,
+  SET_RESTAURANT_REVIEWS,
 } from "../actionTypes";
 
 const setUserProfiles = (profiles) => {
@@ -97,11 +98,19 @@ export const generalSearchAction = (type, searchField) => async (dispatch) => {
   }
 };
 
+export const setRestaurantReviews = (reviews) => {
+  return {
+    type: SET_RESTAURANT_REVIEWS,
+    payload: reviews,
+  };
+};
+
 export const reviewSearchAction = (searchField) => async (dispatch) => {
   try {
     const response = await Axios.get(
       `search/?type=reviews&search_string=${searchField}`
     );
+    dispatch(setRestaurantReviews(response.data));
     console.log(`reviews in profile Search list: `, response.data);
     return response;
   } catch (error) {
