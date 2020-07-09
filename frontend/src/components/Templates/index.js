@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import placeHolderProfilePic from "../../assets/images/small-user-image.png";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,8 +33,14 @@ import {
 } from "../../style/GlobalInputs";
 import Spinner from "../GenericSpinner";
 import StarRatingFix from "../StarRatingFix";
+import {
+  getAllUserProfilesAction,
+  getAllRestaurantsAction,
+  getAllReviewsAction,
+} from "../../store/actions/searchActions";
+import { connect } from "react-redux";
 
-function Template() {
+function Template(props) {
   return (
     <div className="App">
       <header className="App-header">
@@ -151,11 +157,9 @@ function Template() {
           }}
         >
           {/* Restaurant CARD */}
-          <GenericRestaurantCard />
           {/* USER CARD */}
           <GenericUserCard />
           {/* review CARD */}
-          <GenericReviewCard />
         </div>
         <br></br>
         <div
