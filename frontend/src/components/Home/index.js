@@ -76,6 +76,8 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
+    const {authReducer} = props
+    console.log("authReducer", authReducer)
     const [topFour, settopFour] = useState(null);
 
     useEffect(() => {
@@ -150,6 +152,7 @@ const Home = (props) => {
 const mapStateToProps = (state) => {
     return {
         userProfileReducer: state.userProfileReducer,
+        authReducer: state.authReducer,
     };
 };
 

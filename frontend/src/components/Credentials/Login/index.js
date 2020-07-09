@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import rem from "polished/lib/helpers/rem";
-import { useState } from "react";
-import { BigButton } from "../../../style/GlobalButtons";
-import { MainTitle, SmallTitleHr, TitleHr } from "../../../style/GlobalTitles";
-import { BaseInput } from "../../../style/GlobalInputs";
-import { PageContainer } from "../../../style/GlobalWrappers";
-import { sendLoginAction } from "../../../store/actions/loginActions";
-import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import {useState} from "react";
+import {BigButton} from "../../../style/GlobalButtons";
+import {MainTitle, SmallTitleHr, TitleHr} from "../../../style/GlobalTitles";
+import {BaseInput} from "../../../style/GlobalInputs";
+import {PageContainer} from "../../../style/GlobalWrappers";
+import {sendLoginAction} from "../../../store/actions/loginActions";
+import {useHistory} from "react-router";
+import {connect, useDispatch} from "react-redux";
 
 const LoginWrapper = styled(PageContainer)`
   width: 100vw;
@@ -58,56 +58,65 @@ const ErrorPlaceholder = styled.div`
 `;
 
 const Login = (props) => {
+    const {authReducer} = props
+    console.log("authReducer", authReducer)
     const history = useHistory();
     const dispatch = useDispatch()
     const [loginInfo, setloginInfo] = useState({
-    email: "",
-    password: "",
-  });
+        email: "",
+        password: "",
+    });
 
     console.log('loginInfo', loginInfo)
     const handleEmail = e => {
         const value = e.currentTarget.value
-    setloginInfo({
-      ...loginInfo,
-      email: value,
-    });
-  };
+        setloginInfo({
+            ...loginInfo,
+            email: value,
+        });
+    };
 
-  const handlePassword = (e) => {
-    const value = e.currentTarget.value;
-    setloginInfo({
-      ...loginInfo,
-      password: value,
-    });
-  };
+    const handlePassword = (e) => {
+        const value = e.currentTarget.value;
+        setloginInfo({
+            ...loginInfo,
+            password: value,
+        });
+    };
 
-  const handleSubmit = async e => {
+    const handleSubmit = async e => {
 
-      e.preventDefault();
-      console.log("in the ubmit")
-      const response = await dispatch(sendLoginAction(loginInfo));
-      if (response.status === 200) {
-          history.push("/home")
-      }
-  };
+        e.preventDefault();
+        console.log("in the ubmit")
+        const response = await dispatch(sendLoginAction(loginInfo));
+        if (response.status === 200) {
+            history.push("/")
+        }
+    };
 
-  console.log("data", loginInfo);
+    console.log("data", loginInfo);
 
-  return (
-    <PageContainer>
-      <LoginWrapper>
-        <LoginFormContainer onSubmit={handleSubmit}>
-          <LoginTitle>Login</LoginTitle>
-          <LoginTitleHr></LoginTitleHr>
-          <ErrorPlaceholder></ErrorPlaceholder>
-          <LoginInput onChange={handleEmail} type="email" placeholder="Email" required />
-          <LoginInput onChange={handlePassword} type="password" placeholder="Password" required />
-          <LoginFormButton >Login</LoginFormButton>
-        </LoginFormContainer>
-      </LoginWrapper>
-    </PageContainer>
-  );
+    return (
+        <PageContainer>
+            <LoginWrapper>
+                <LoginFormContainer onSubmit={handleSubmit}>
+                    <LoginTitle>Login</LoginTitle>
+                    <LoginTitleHr></LoginTitleHr>
+                    <ErrorPlaceholder></ErrorPlaceholder>
+                    <LoginInput onChange={handleEmail} type="email" placeholder="Email" required/>
+                    <LoginInput onChange={handlePassword} type="password" placeholder="Password" required/>
+                    <LoginFormButton>Login</LoginFormButton>
+                </LoginFormContainer>
+            </LoginWrapper>
+        </PageContainer>
+    );
 };
 
-export default Login;
+const mapStateToProps = (state) => {
+    console.log("state", state)
+    return {
+        authReducer: state.authReducer,
+    };
+};
+
+export default connect(mapStateToProps)(Login);

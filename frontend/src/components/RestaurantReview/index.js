@@ -10,9 +10,11 @@ import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
 import {useHistory} from "react-router";
-import {connect} from "react-redux";
-import {validate} from "../../store/actions/registrationActions";
-import {getRestaurantByIDAction, resetRestaurantObj} from "../../store/actions/restaurantActions";
+import {connect, useDispatch} from "react-redux";
+import {sendCode, validate} from "../../store/actions/registrationActions";
+import {getTopFourAction} from "../../store/actions/searchActions";
+import {createReviewAction, getReviews} from "../../store/actions/reviewActions";
+import {getRestaurantByIDAction, getRestaurantReviewsAction} from "../../store/actions/restaurantActions";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -181,7 +183,17 @@ const RestaurantReview = (props) => {
         }
     };
 
-    const placeholderImage = "https://picsum.photos/2000/2000"
+    const handleWriteReviewButton = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(getRestaurantReviewsAction(restaurantId));
+
+        if (response.status < 300){
+            push.push(`/restaurant/review/create/${restaurantId}`)
+        }else{
+            console.log('error', response)
+        }
+    };
+
 
     return (
         <RestaurantReviewWrapper>
@@ -221,7 +233,7 @@ const RestaurantReview = (props) => {
                         <p>{restaurantObj ? restaurantObj.price_level : null}</p>
                     </PriceInfo>
                     <OtherOptions>
-                        <OptionsButton>WRITE A REVIEW</OptionsButton>
+                        <OptionsButton onClick={handleWriteReviewButton}>WRITE A REVIEW</OptionsButton>
                         <OptionsButton>EDIT DATA</OptionsButton>
                     </OtherOptions>
                 </RightInfoContainer>
