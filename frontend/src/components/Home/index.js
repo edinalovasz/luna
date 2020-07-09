@@ -101,7 +101,6 @@ const Home = (props) => {
     fetchData();
   }, []);
 
-  console.log("topFour", topFour);
 
   const push = useHistory();
   const dispatch = useDispatch();

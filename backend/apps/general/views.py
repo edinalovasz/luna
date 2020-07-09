@@ -19,7 +19,7 @@ class ListTopFourRestaurants(generics.ListAPIView):
     GET:
     List the top 4 rated reviews.
     """
-    permission_classes = [CanBeAnonymous]
+    permission_classes = []
     serializer_class = RestaurantSerializer
 
     def list(self, request, *args, **kwargs):
@@ -29,7 +29,7 @@ class ListTopFourRestaurants(generics.ListAPIView):
 
 
 class GeneralSearchView(ListAPIView):
-    permission_classes = [CanBeAnonymous]
+    permission_classes = []
 
     def get_serializer_class(self):
         type = self.request.query_params.get('type')
