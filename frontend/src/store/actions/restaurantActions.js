@@ -1,5 +1,5 @@
 import Axios from "../../axios";
-import {SET_RESTAURANT_OBJ, SET_RESTAURANT_REVIEWS} from "../actionTypes";
+import {RESET_RESTAURANT, SET_RESTAURANT_OBJ, SET_RESTAURANT_REVIEWS} from "../actionTypes";
 
 const setRestaurantReviews = (reviews) => {
     return {
@@ -12,6 +12,12 @@ const setRestaurantObj = (restaurant) => {
     return {
         type: SET_RESTAURANT_OBJ,
         payload: restaurant,
+    };
+};
+
+export const resetRestaurantObj = () => {
+    return {
+        type: RESET_RESTAURANT,
     };
 };
 

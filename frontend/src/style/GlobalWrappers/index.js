@@ -6,13 +6,12 @@ export const PageContainer = styled.div`
 `;
 
 export const StarContainerFix = styled.div`
-  // display: grid;
-  // grid-template-columns: auto auto auto auto auto;
-  // justify-content: center;
-  // grid-column-gap: ${rem("2px")};
-  // align-items: center;
-  // color: #f8e71c;
   margin-top: 13px;
+  display: flex;
+  p{
+    color: white;
+    margin-left: 30px;
+  }
 `;
 
 export const StarContainer = styled.div`

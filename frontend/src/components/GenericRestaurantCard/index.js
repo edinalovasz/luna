@@ -1,10 +1,7 @@
 import React from "react";
 import {rem} from "polished";
 import styled from "styled-components";
-import placeHolderRestaurant from "../../assets/images/restaurant.png";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
-import {BaseCard, StarContainer} from "../../style/GlobalWrappers";
+import {BaseCard} from "../../style/GlobalWrappers";
 import StarRatingFix from "../StarRatingFix";
 import {Link} from "react-router-dom";
 

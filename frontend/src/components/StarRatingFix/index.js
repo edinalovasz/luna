@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const StarRatingFix = ({ avg_rating }) => {
+console.log("avg rating", avg_rating)
   const [rating, setRating] = useState(avg_rating);
   return (
     <div>
