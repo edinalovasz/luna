@@ -8,6 +8,7 @@ import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
 
 
+
 import {connect} from "react-redux";
 import {
     getRestaurantByIDAction,
@@ -23,6 +24,12 @@ import {
   reviewSearchAction,
   resetSearch,
 } from "../../store/actions/searchActions";
+import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
+import placeholderImageMap from "../../assets/images/map.png";
+import placeholderImageLocation from "../../assets/images/location.png";
+import placeholderImagePhone from "../../assets/images/phone.png";
+import placeholderImageWebsite from "../../assets/images/website.png";
+
 
 
 const RestaurantReviewWrapper = styled(PageContainer)`
@@ -59,6 +66,96 @@ const HeaderMainInfo = styled.div`
   display: flex;
   flex-direction: column;
   height: 204px;
+`;
+
+const MapInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 361px;
+  width: 336px;
+  position: absolute;
+  top: 50px;
+  right: 200px;
+`;
+
+const MapContainer = styled.div`
+  flex-grow: 1;
+  background-image: url(${placeholderImageMap});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+`;
+
+const InfoContainer = styled.div`
+  height: 50%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const IconContainer = styled.div`
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  height: 30%;
+`;
+
+const LocationContainer = styled(IconContainer)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  p{
+    margin-left: 20px;
+    font-size: 25px;
+  }
+`;
+
+const PhoneContainer = styled(IconContainer)`
+    display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  p{
+    margin-left: 20px;
+    font-size: 25px;
+    color
+  }
+`;
+
+const WebsiteContainer = styled(IconContainer)`
+    display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  p{
+    margin-left: 20px;
+    font-size: 25px;
+  }
+`;
+
+const Icon = styled.div`
+  background-image: url(${placeholderImageLocation});
+  height: 35px;
+  width: 35px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+`;
+
+const Location = styled(Icon)`
+  background-image: url(${placeholderImageLocation});
+`;
+
+const Phone = styled(Icon)`
+  background-image: url(${placeholderImagePhone});
+`;
+
+const Website = styled(Icon)`
+  background-image: url(${placeholderImageWebsite});
 `;
 
 const RestaurantName = styled.p`
@@ -164,6 +261,7 @@ const RestaurantReview = (props) => {
       params: { restaurantId },
     },
     restaurantReducer: { restaurantObj, restaurantReviews },
+    authReducer: { authenticated }
   } = props;
 
   useEffect(() => {
@@ -233,6 +331,20 @@ const RestaurantReview = (props) => {
               </p>
             </StarContainerFix>
           </HeaderMainInfo>
+          <MapInfoContainer>
+            <MapContainer/>
+            <InfoContainer>
+              <LocationContainer>
+                <Location/> <p>{restaurantObj ? restaurantObj.street : null}</p>
+              </LocationContainer>
+              <PhoneContainer>
+                <Phone/> <p>{restaurantObj ? restaurantObj.phone : null}</p>
+              </PhoneContainer>
+              <WebsiteContainer>
+                <Website/> <p>{restaurantObj ? restaurantObj.website : null}</p>
+              </WebsiteContainer>
+            </InfoContainer>
+          </MapInfoContainer>
         </HeaderMainInfoContainer>
       </HeaderRestaurantReview>
       <RestaurantReviewInfoContainer>
@@ -263,10 +375,10 @@ const RestaurantReview = (props) => {
           <PriceInfo>
             <p>{restaurantObj ? restaurantObj.price_level : null}</p>
           </PriceInfo>
-          <OtherOptions>
+          {authenticated ? <OtherOptions>
             <OptionsButton>WRITE A REVIEW</OptionsButton>
             <OptionsButton>EDIT DATA</OptionsButton>
-          </OtherOptions>
+          </OtherOptions> : <SignInMessage>Please login to write a review</SignInMessage>}
         </RightInfoContainer>
       </RestaurantReviewInfoContainer>
     </RestaurantReviewWrapper>
