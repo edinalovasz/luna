@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { connect } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import { rem } from "polished";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,14 @@ import { Icon } from "../../style/GlobalIcons";
 import { Title } from "../../style/GlobalTitles";
 
 import { SplitButton, BaseButton } from "../../style/GlobalButtons";
+import {userLogout} from "../../store/actions/logoutActions";
+import {validate} from "../../store/actions/registrationActions";
+import {
+  getCommentsByUserIDAction,
+  getRestaurantsByUserIDAction, getReviewsByUserIDAction,
+  getUserByIDAction
+} from "../../store/actions/userProfileActions";
+import {useHistory} from "react-router";
 
 const Wrapper = styled.div`
   padding-top: 70px; /* Needs to be exactly the same height as the Header, offsets content because it's fixed */
@@ -112,6 +120,10 @@ const LoginButton = styled(BaseButton)`
   height: ${rem("40px")};
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  text-transform: uppercase;
+`;
+
+const LogOutButton = styled(BaseButton)`
   text-transform: uppercase;
 `;
 
@@ -264,13 +276,24 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
   }
 `;
 
-const Navigation = ({ children }) => {
+const Navigation = ({ children, authReducer:{authenticated}}) => {
+
+  const {push} = useHistory();
+  const dispatch = useDispatch()
+
+  const handeLogout = () => {
+    dispatch(userLogout());
+    push("/");
+  };
+
   return (
     <div>
       <Wrapper>
         <Header>
           <NavSectionLeft to="/feed">
-            <LunaLogo src={LunaLogoSvg} />
+            <Link to="/">
+                <LunaLogo src={LunaLogoSvg} />
+              </Link>
           </NavSectionLeft>
           <NavSectionRight>
             <StyledNavLink exact to="/">
@@ -279,18 +302,17 @@ const Navigation = ({ children }) => {
             <StyledNavLink to="/search">
               <TabTitles>Search</TabTitles>
             </StyledNavLink>
-            <StyledNavLink to="/profile">
+            {authenticated ? <StyledNavLink to="/profile">
               <TabTitles>Profile</TabTitles>
-            </StyledNavLink>
-            <SplitButton>
+            </StyledNavLink> : null}
+            {authenticated ? <LogOutButton onClick={handeLogout}>Logout</LogOutButton> : <SplitButton>
               <Link to="/auth/signup">
                 <SignupButton>Signup </SignupButton>
               </Link>
-
               <Link to="/auth/login">
                 <LoginButton>Login</LoginButton>{" "}
               </Link>
-            </SplitButton>
+            </SplitButton>}
           </NavSectionRight>
         </Header>
         {children}
@@ -349,4 +371,11 @@ const Navigation = ({ children }) => {
   );
 };
 
-export default Navigation;
+
+const mapStateToProps = (state) => {
+    return {
+        authReducer: state.authReducer,
+    }
+};
+
+export default connect(mapStateToProps)(Navigation);

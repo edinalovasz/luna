@@ -39,7 +39,7 @@ const Routes = () => {
             />
             <Route
               exact
-              path="/restaurant/review/create"
+              path="/restaurant/review/create/:restaurantId"
               component={ReviewCreate}
             />
             {/*<Route exact path='/userProfileUpdate' />*/}

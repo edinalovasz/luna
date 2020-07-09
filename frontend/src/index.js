@@ -19,12 +19,10 @@ if (localStorage.getItem("token")) {
   const token = localStorage.getItem("token");
   store.dispatch(sendLogin(token));
 }
-
 if (localStorage.getItem("user")) {
   const user = localStorage.getItem("user");
   store.dispatch(setLoggedInUser(JSON.parse(user)));
 }
-
 
 ReactDOM.render(
   <Provider store={store}>

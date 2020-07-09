@@ -1,5 +1,5 @@
 import {
-    ADD_REVIEW_TO_LIST, LIKE_RESTAURANT_PROFILE_REVIEW, REMOVE_REVIEW_IN_LIST,
+    ADD_REVIEW_TO_LIST, LIKE_RESTAURANT_PROFILE_REVIEW, RESET_RESTAURANT, REMOVE_REVIEW_IN_LIST,
     SET_RESTAURANT_OBJ, SET_RESTAURANT_REVIEWS, UPDATE_REVIEW_IN_LIST
 
 } from "../actionTypes";
@@ -15,12 +15,19 @@ export const restaurantReducer = (state = initialState, action) => {
     const newState = {...state};
     switch (action.type) {
         case SET_RESTAURANT_OBJ: {
+
             return {...newState, restaurantObj: action.payload};
         }
         case SET_RESTAURANT_REVIEWS: {
             return {...newState, restaurantReviews: action.payload};
         }
+        case RESET_RESTAURANT: {
+            return initialState;
+        }
         case ADD_REVIEW_TO_LIST: {
+            if (!newState.restaurantReviews) {
+                return {...newState, restaurantReviews: [action.payload]};
+            }
             return {...newState, restaurantReviews: [action.payload, ...newState.restaurantReviews]};
         }
         case UPDATE_REVIEW_IN_LIST: {
