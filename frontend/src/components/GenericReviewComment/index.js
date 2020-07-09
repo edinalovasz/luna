@@ -1,6 +1,7 @@
 import React from "react";
 import { rem } from "polished";
 import styled from "styled-components";
+import DayJS from "react-dayjs";
 
 const WideReviewCardComment = styled.div`
   display: flex;
@@ -31,14 +32,23 @@ const Content = styled.p`
 `;
 
 const GenericReviewComment = (props) => {
+  const {
+    comment: {
+      content,
+      author: { first_name, last_name },
+      created,
+    },
+  } = props;
   return (
     <WideReviewCardComment>
       <div>
-        <h3>Colin Wirz</h3>
-        <Content>Actually you have no taste!</Content>
+        <h3>{first_name + " " + last_name}</h3>
+        <Content>{content}</Content>
       </div>
       <div>
-        <p>01.01.2018 15:22</p>
+        <p>
+          <DayJS format="MM.DD.YYYY HH:mm">{created}</DayJS>
+        </p>
       </div>
     </WideReviewCardComment>
   );
