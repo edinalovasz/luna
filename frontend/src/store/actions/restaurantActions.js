@@ -1,5 +1,5 @@
 import Axios from "../../axios";
-import {RESET_RESTAURANT, SET_RESTAURANT_OBJ, SET_RESTAURANT_REVIEWS} from "../actionTypes";
+import {SET_RESTAURANT_OBJ, SET_RESTAURANT_REVIEWS, RESET_RESTAURANT} from "../actionTypes";
 
 const setRestaurantReviews = (reviews) => {
     return {
@@ -20,6 +20,7 @@ export const resetRestaurantObj = () => {
         type: RESET_RESTAURANT,
     };
 };
+
 
 export const getRestaurantReviewsAction = restaurantID => async (dispatch) => {
     try {

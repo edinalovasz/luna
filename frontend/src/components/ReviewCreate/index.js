@@ -82,7 +82,7 @@ const StarTextContainer = styled.div`
     margin-left: ${rem("30px")};
 `;
 
-const CreateReviewMainContainer = styled.section`
+const CreateReviewMainContainer = styled.form`
     height: 67.5vh;
     margin-top: ${rem("20px")};
 `;
@@ -113,59 +113,57 @@ const CreateReviewButton = styled(BigButton)`
 
 const ReviewCreate = (props) => {
     const {
-        restaurantReducer:{
-            //restaurantObj:{id},
-            restaurantReviews
-    }
+        match: {
+            params: {restaurantId},
+        },
     } = props
-    const push = useHistory()
+    console.log("props", props)
+    const history = useHistory()
     const dispatch = useDispatch()
     const [reviewInfo, setReviewInfo] = useState({
         content: "",
         rating: "",
-        //restaurant: `${id}`,
-        //author?,
     });
 
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
     const renderRating = [...Array(5)].map((star, i) => {
-              const ratingValue = i + 1;
-              return (
-                  <label>
-                    <BaseRatingInputs
-                        name="rating"
-                        type="radio"
-                        value={ratingValue}
-                        onClick={() => {
-                            setReviewInfo({...reviewInfo, rating: ratingValue})
-                            setRating(ratingValue)
-                        }}
-                    />
-                    <FontAwesomeIcon className="star"
-                        icon={["fas", "star"]}
-                        color={ratingValue <= (hover || rating) ? "#f8e71c" : "#e4e5e9"}
-                        onMouseEnter={()=> setHover(ratingValue)}
-                        onMouseLeave={()=> setHover(null)}
-                    />
-                  </label>
-              );
-          })
+        const ratingValue = i + 1;
+        return (
+            <label key={i}>
+                <BaseRatingInputs
+                    name="rating"
+                    type="radio"
+                    value={ratingValue}
+                    onClick={() => {
+                        setReviewInfo({...reviewInfo, rating: ratingValue})
+                        setRating(ratingValue)
+                    }}
+                />
+                <FontAwesomeIcon className="star"
+                                 icon={["fas", "star"]}
+                                 color={ratingValue <= (hover || rating) ? "#f8e71c" : "#e4e5e9"}
+                                 onMouseEnter={() => setHover(ratingValue)}
+                                 onMouseLeave={() => setHover(null)}
+                />
+            </label>
+        );
+    })
 
     console.log("reviewInfo", reviewInfo)
 
     const onChangeHandler = (event, property) => {
         const value = event.currentTarget.value;
-        setReviewInfo({ ...reviewInfo, [property]: value})
+        setReviewInfo({...reviewInfo, [property]: value})
     };
 
-    const handleSubmit = async e => {
-      e.preventDefault();
-      const response = await dispatch(createReviewAction);
-      if (response.status === 200) {
-          push("/home" /*`/restaurant/${restaurantId}` */)
-      }
-      console.log("response", response)
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(createReviewAction(restaurantId, reviewInfo));
+        if (response.status < 300) {
+            history.push(`/restaurants/${restaurantId}`)
+        }
+        console.log("response", response)
     };
 
 
@@ -176,25 +174,25 @@ const ReviewCreate = (props) => {
                     <RestaurantName>Läderach Chocolatier Suisse</RestaurantName>
                     <RestaurantCategory>Chocolatiers & Shops</RestaurantCategory>
                     <StarContainerFix>
-                            <StarRatingFix></StarRatingFix>
+                        <StarRatingFix></StarRatingFix>
                     </StarContainerFix>
                 </HeaderText>
             </CreateReviewHeader>
-            <CreateReviewMainContainer>
-                    <ReviewStarChoiceContainer>
-                            <StarContainer>
-                                {renderRating}
-                            </StarContainer>
-                        <StarTextContainer>Select your rating</StarTextContainer>
-                    </ReviewStarChoiceContainer>
+            <CreateReviewMainContainer onSubmit={handleSubmit}>
+                <ReviewStarChoiceContainer>
+                    <StarContainer>
+                        {renderRating}
+                    </StarContainer>
+                    <StarTextContainer>Select your rating</StarTextContainer>
+                </ReviewStarChoiceContainer>
                 <ReviewText onChange={(e) => onChangeHandler(e, "content")} placeholder=" Your review helps others learn about great local businesses.
                 Please don't review this business if you received a freebie for writing this review,
                 or if you're connected in any way to the owner or employees."
-                        rows={20}>
+                            rows={20}>
                 </ReviewText>
                 <RequiredAndButtonContainer>
                     <RequiredText>This field is required</RequiredText>
-                    <CreateReviewButton onChange={handleSubmit}>Submit</CreateReviewButton>
+                    <CreateReviewButton>Submit</CreateReviewButton>
                 </RequiredAndButtonContainer>
             </CreateReviewMainContainer>
         </CreateReviewWrapper>
