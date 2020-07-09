@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { PageContainer, StarContainerFix } from "../../style/GlobalWrappers";
-import { BaseButton, Button } from "../../style/GlobalButtons";
+import {BaseButton, Button, SplitButton} from "../../style/GlobalButtons";
 import { FilterListInput } from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
-import { useHistory } from "react-router";
-import { connect } from "react-redux";
-import { validate } from "../../store/actions/registrationActions";
+
+
+import {connect} from "react-redux";
 import {
-  getRestaurantByIDAction,
-  resetRestaurantObj,
-  getRestaurantReviewsAction,
+    getRestaurantByIDAction,
+    getRestaurantReviewsAction,
+    resetRestaurantObj,
+    updateRestaurantAction
 } from "../../store/actions/restaurantActions";
+
+import { useHistory } from "react-router";
+import { validate } from "../../store/actions/registrationActions";
 import Spinner from "../GenericSpinner";
+
 
 const RestaurantReviewWrapper = styled(PageContainer)`
   background: #f2f2f2;
@@ -155,6 +160,7 @@ const RestaurantReview = (props) => {
       params: { restaurantId },
     },
     restaurantReducer: { restaurantObj, restaurantReviews },
+    authReducer: { authenticated }
   } = props;
 
   console.log(restaurantId);
@@ -167,6 +173,77 @@ const RestaurantReview = (props) => {
     return () => {
       dispatch(resetRestaurantObj());
     };
+<<<<<<< frontend/src/components/RestaurantReview/index.js
+
+    const handleWriteReviewButton = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(getRestaurantReviewsAction(restaurantId));
+
+        if (response.status < 300){
+            push.push(`/restaurant/review/create/${restaurantId}`)
+        }else{
+            console.log('error', response)
+        }
+    };
+
+    const handleEditButton = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(getRestaurantReviewsAction(restaurantId));
+
+        if (response.status < 300){
+            push.push(`/restaurant/edit/${restaurantId}`)
+        }else{
+            console.log('error', response)
+        }
+    };
+
+
+    return (
+        <RestaurantReviewWrapper>
+            <HeaderRestaurantReview>
+                {restaurantObj ? <img alt={"restaurant picture"} src={restaurantObj.image ? restaurantObj.image : placeholderImage}/> : null}
+                <HeaderMainInfoContainer>
+                    <HeaderMainInfo>
+                        <RestaurantName>{restaurantObj ? restaurantObj.name : null}</RestaurantName>
+                        <RestaurantCategory>{restaurantObj ? restaurantObj.category : null}</RestaurantCategory>
+                        <StarContainerFix>
+                            {restaurantObj ? <StarRatingFix avg_rating={parseInt(restaurantObj.avg_rating)}/> : null}
+                            <p>{restaurantObj ? restaurantObj.no_of_ratings : null} reviews</p>
+                        </StarContainerFix>
+                    </HeaderMainInfo>
+                </HeaderMainInfoContainer>
+            </HeaderRestaurantReview>
+            <RestaurantReviewInfoContainer>
+                <LeftInfoContainer>
+                    <FilterForm>
+                        <FilterInput
+                            onChange={(e) => onChangeHandler(e, "filter")}
+                            type="text"
+                            placeholder="Filter list..."
+                            required
+                        ></FilterInput>
+                        <FilterButton type="submit">FILTER</FilterButton>
+                    </FilterForm>
+                    <ReviewsContainer>
+                        <GenericWideReviewCard/>
+                    </ReviewsContainer>
+                </LeftInfoContainer>
+                <RightInfoContainer>
+                    <ScheduleInfo>
+                        <p>{restaurantObj ? restaurantObj.opening_hours : null}</p>
+                    </ScheduleInfo>
+                    <PriceInfo>
+                        <p>{restaurantObj ? restaurantObj.price_level : null}</p>
+                    </PriceInfo>
+                    <OtherOptions>
+                        <OptionsButton onClick={handleWriteReviewButton}>WRITE A REVIEW</OptionsButton>
+                        <OptionsButton onClick={handleEditButton}>EDIT DATA</OptionsButton>
+                    </OtherOptions>
+                </RightInfoContainer>
+            </RestaurantReviewInfoContainer>
+        </RestaurantReviewWrapper>
+    )
+=======
   }, []);
 
   const [userInfo, setUserInfo] = useState({
@@ -189,7 +266,6 @@ const RestaurantReview = (props) => {
   };
 
   const placeholderImage = "https://picsum.photos/2000/2000";
-
   return (
     <RestaurantReviewWrapper>
       <HeaderRestaurantReview>
@@ -248,19 +324,22 @@ const RestaurantReview = (props) => {
           <PriceInfo>
             <p>{restaurantObj ? restaurantObj.price_level : null}</p>
           </PriceInfo>
-          <OtherOptions>
+          {authenticated ? <OtherOptions>
             <OptionsButton>WRITE A REVIEW</OptionsButton>
             <OptionsButton>EDIT DATA</OptionsButton>
-          </OtherOptions>
+          </OtherOptions> : <SignInMessage>Please login to write a review</SignInMessage>}
+
         </RightInfoContainer>
       </RestaurantReviewInfoContainer>
     </RestaurantReviewWrapper>
   );
+>>>>>>> frontend/src/components/RestaurantReview/index.js
 };
 
 const mapStateToProps = (state) => {
   return {
     restaurantReducer: state.restaurantReducer,
+    authReducer: state.authReducer,
   };
 };
 

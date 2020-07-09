@@ -15,6 +15,7 @@ import RestaurantReview from "../components/RestaurantReview";
 import Profile from "../components/Profile";
 import Search from "../components/Search";
 import UserProfile from "../components/UserProfile";
+import RestaurantEdit from "../components/RestaurantEdit";
 
 const Routes = () => {
   return (
@@ -36,6 +37,11 @@ const Routes = () => {
               exact
               path="/restaurant/create"
               component={RestaurantCreate}
+            />
+            <Route
+              exact
+              path="/restaurant/edit/:restaurantId"
+              component={RestaurantEdit}
             />
             <Route
               exact
