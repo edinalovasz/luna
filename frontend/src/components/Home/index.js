@@ -95,7 +95,7 @@ const Home = (props) => {
   useEffect(() => {
     async function fetchData() {
       const response = await dispatch(getTopFourAction());
-      settopFour(response.data);
+      if (response.data < 300) settopFour(response.data);
     }
     fetchData();
   }, []);
