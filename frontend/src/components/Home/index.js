@@ -97,12 +97,9 @@ const Home = (props) => {
       const response = await dispatch(getTopFourAction());
       settopFour(response.data);
     }
-
     fetchData();
   }, []);
 
-
-  const push = useHistory();
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState({
     searchText: "",
@@ -143,7 +140,7 @@ const Home = (props) => {
           <Line></Line>
         </TitleContainerHome>
         <BestRatedRestaurantContainer>
-          {topFour
+          {(topFour && topFour.length > 1)
             ? topFour.map((restaurant, index) => {
                 return (
                   <GenericRestaurantCard key={index} restaurant={restaurant} />
