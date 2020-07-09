@@ -1,7 +1,7 @@
 import React from "react";
 import { rem } from "polished";
 import styled from "styled-components";
-import placeHolderProfilePic from "../../assets/images/small-user-image.png";
+import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
 
 import { UserCard, UserCardProfile } from "../../style/GlobalWrappers";
 
@@ -30,12 +30,12 @@ const MAX_TEXT_LENGTH = 132;
 
 const GenericUserCard = (props) => {
   const {
-    user: { first_name, last_name, amount_of_reviews, about_me },
+    user: { first_name, last_name, amount_of_reviews, about_me, avatar },
   } = props;
   return (
     <UserCard>
       <UserCardProfile>
-        <img src={placeHolderProfilePic}></img>
+        <img src={avatar ? avatar : defaultProfilePic}></img>
         <div>
           <h1>{first_name + " " + last_name}</h1>
           <p>{amount_of_reviews} Reviews in Total</p>

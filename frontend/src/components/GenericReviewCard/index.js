@@ -1,7 +1,7 @@
 import React from "react";
 import { rem } from "polished";
 import styled from "styled-components";
-import placeHolderProfilePic from "../../assets/images/small-user-image.png";
+import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -30,12 +30,13 @@ const GenericReviewCard = (props) => {
       amount_of_likes,
       amount_of_comments,
       top_2_comments,
+      avatar,
     },
   } = props;
   return (
     <ReviewCard>
       <UserCardProfile>
-        <img src={placeHolderProfilePic}></img>
+        <img src={avatar ? avatar : defaultProfilePic}></img>
         <div>
           <h1>{first_name + " " + last_name}</h1>
           <p>{amount_of_reviews} Reviews in Total</p>

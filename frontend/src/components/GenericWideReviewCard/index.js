@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import placeHolderProfilePic from "../../assets/images/small-user-image.png";
+import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
 import DayJS from "react-dayjs";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -86,7 +86,7 @@ const GenericWideReviewCard = (props) => {
     review: {
       content,
       restaurant: { name },
-      author: { first_name, last_name, amount_of_reviews },
+      author: { first_name, last_name, amount_of_reviews, avatar },
       created,
       rating,
       amount_of_comments,
@@ -123,7 +123,7 @@ const GenericWideReviewCard = (props) => {
       <WideReviewCard>
         <WideUserCardProfile>
           <div>
-            <img src={placeHolderProfilePic}></img>
+            <img src={avatar ? avatar : defaultProfilePic}></img>
             <div>
               <h1>{first_name + " " + last_name}</h1>
               <p>{amount_of_reviews} Reviews in Total</p>
