@@ -312,7 +312,8 @@ const RestaurantCreate = (props) => {
                         <CategoryTitle/>
                         <CategoryDetailTitle>Image</CategoryDetailTitle>
                         <InputLabel htmlFor="restaurant_image">Choose a file...</InputLabel>
-                        <InputFile id="restaurant_image" accept={"image/*"} type="file" onChange={imageSelectHandler}/>
+                        <InputFile id="restaurant_image" minFileSize={1048576} maxFileSize={5242880} accept={"image/*"}
+                                   type="file" onChange={imageSelectHandler}/>
                     </InputContainer>
                 </FormContainer>
                 <DesciptionContainer>

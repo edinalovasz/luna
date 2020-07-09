@@ -175,6 +175,7 @@ const RestaurantEdit = (props) => {
     } = props
     const history = useHistory()
     const dispatch = useDispatch()
+    const [imageFile, setImageFile] = useState(null)
     const [RestInfo, setRestInfo] = useState({
         name: "",
         category_id: "",
@@ -210,7 +211,7 @@ const RestaurantEdit = (props) => {
 
     const imageSelectHandler = e => {
         if (e.target.files[0]) {
-            setRestInfo({...RestInfo, image: e.target.files[0]})
+            setImageFile(e.target.files[0])
         }
     }
 
@@ -229,8 +230,8 @@ const RestaurantEdit = (props) => {
         form.append('opening_hours', RestInfo.opening_hours)
         form.append('price_level', RestInfo.price_level)
         form.append('description', RestInfo.description)
-        if (RestInfo.image) {
-            form.append('image', RestInfo.image)
+        if (imageFile) {
+            form.append('image', imageFile)
         }
         const response = await dispatch(updateRestaurantAction(restaurantId, form));
         if (response.status < 300) {
@@ -330,7 +331,8 @@ const RestaurantEdit = (props) => {
                         <CategoryTitle/>
                         <CategoryDetailTitle>Image</CategoryDetailTitle>
                         <InputLabel htmlFor="restaurant_image">Choose a file...</InputLabel>
-                        <InputFile id="restaurant_image" accept={"image/*"} type="file" onChange={imageSelectHandler}/>
+                        <InputFile id="restaurant_image" minSize={1048576} maxSize={5242880} accept={"image/*"}
+                                   type="file" onChange={imageSelectHandler}/>
                     </InputContainer>
                 </FormContainer>
                 <DesciptionContainer>
