@@ -11,7 +11,12 @@ import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
 import {useHistory} from "react-router";
 import {connect} from "react-redux";
-import {getRestaurantByIDAction, getRestaurantReviewsAction, resetRestaurantObj} from "../../store/actions/restaurantActions";
+import {
+    getRestaurantByIDAction,
+    getRestaurantReviewsAction,
+    resetRestaurantObj,
+    updateRestaurantAction
+} from "../../store/actions/restaurantActions";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
     background: #F2F2F2;
@@ -182,6 +187,17 @@ const RestaurantReview = (props) => {
         }
     };
 
+    const handleEditButton = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(getRestaurantReviewsAction(restaurantId));
+
+        if (response.status < 300){
+            push.push(`/restaurant/edit/${restaurantId}`)
+        }else{
+            console.log('error', response)
+        }
+    };
+
 
     return (
         <RestaurantReviewWrapper>
@@ -222,7 +238,7 @@ const RestaurantReview = (props) => {
                     </PriceInfo>
                     <OtherOptions>
                         <OptionsButton onClick={handleWriteReviewButton}>WRITE A REVIEW</OptionsButton>
-                        <OptionsButton>EDIT DATA</OptionsButton>
+                        <OptionsButton onClick={handleEditButton}>EDIT DATA</OptionsButton>
                     </OtherOptions>
                 </RightInfoContainer>
             </RestaurantReviewInfoContainer>

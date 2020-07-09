@@ -49,7 +49,7 @@ export const createRestaurantAction = data => async (dispatch) => {
 
 export const updateRestaurantAction = (restaurantID,data) => async (dispatch) => {
     try {
-        const response = await Axios.patch(`/api/restaurants/${restaurantID}/`, data);
+        const response = await Axios.patch(`restaurants/${restaurantID}/`, data);
         console.log("Updated restaurant", response.data)
         dispatch(setRestaurantObj(response.data))
         return response
