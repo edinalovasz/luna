@@ -26,7 +26,7 @@ const GenericReviewCard = (props) => {
     review: {
       content,
       restaurant: { name },
-      author: { first_name, last_name },
+      author: { first_name, last_name, amount_of_reviews },
       amount_of_likes,
       amount_of_comments,
       top_2_comments,
@@ -38,7 +38,7 @@ const GenericReviewCard = (props) => {
         <img src={placeHolderProfilePic}></img>
         <div>
           <h1>{first_name + " " + last_name}</h1>
-          <p>6 Reviews in Total</p>
+          <p>{amount_of_reviews} Reviews in Total</p>
         </div>
       </UserCardProfile>
       <ReviewCardText>

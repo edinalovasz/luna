@@ -44,7 +44,7 @@ const GenericUserCard = (props) => {
       <UserCardText>
         {about_me.length > MAX_TEXT_LENGTH ? (
           <div>
-            {`${about_me.substring(0, MAX_TEXT_LENGTH)}...`}
+            <p>{`${about_me.substring(0, MAX_TEXT_LENGTH)}...`}</p>
             <a href="#">Read more</a>
           </div>
         ) : (
