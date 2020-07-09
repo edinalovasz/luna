@@ -4,6 +4,7 @@ import styled from "styled-components";
 import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
 
 import { UserCard, UserCardProfile } from "../../style/GlobalWrappers";
+import { Link } from "react-router-dom";
 
 const UserCardText = styled.div`
   height: ${rem("115px")};
@@ -30,14 +31,16 @@ const MAX_TEXT_LENGTH = 132;
 
 const GenericUserCard = (props) => {
   const {
-    user: { first_name, last_name, amount_of_reviews, about_me, avatar },
+    user: { id, first_name, last_name, amount_of_reviews, about_me, avatar },
   } = props;
   return (
     <UserCard>
       <UserCardProfile>
-        <img src={avatar ? avatar : defaultProfilePic}></img>
+        <Link to={`/users/${id}`}>
+          <img src={avatar ? avatar : defaultProfilePic}></img>
+        </Link>
         <div>
-          <h1>{first_name + " " + last_name}</h1>
+          <Link to={`/users/${id}`}>{first_name + " " + last_name} </Link>
           <p>{amount_of_reviews} Reviews in Total</p>
         </div>
       </UserCardProfile>

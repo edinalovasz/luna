@@ -1,21 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {MainTitle, TitleHr} from "../../style/GlobalTitles";
+import { rem } from "polished";
+import { MainTitle, TitleHr } from "../../style/GlobalTitles";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
-import {PageContainer, TitleContainer} from "../../style/GlobalWrappers";
-import {SearchInput} from "../../style/GlobalInputs";
-import {BigButton} from "../../style/GlobalButtons";
+import { PageContainer, TitleContainer } from "../../style/GlobalWrappers";
+import { SearchInput } from "../../style/GlobalInputs";
+import { BigButton } from "../../style/GlobalButtons";
 
 import GenericRestaurantCard from "../GenericRestaurantCard";
-import {useHistory} from "react-router";
-import {connect, useDispatch} from "react-redux";
-import {validate} from "../../store/actions/registrationActions";
-import {getTopFourAction} from "../../store/actions/searchActions";
+import { useHistory } from "react-router";
+import { connect, useDispatch } from "react-redux";
+import { validate } from "../../store/actions/registrationActions";
+import { getTopFourAction } from "../../store/actions/searchActions";
 
 const HomePageWrapper = styled(PageContainer)`
-  background: #f2f2f2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,16 +37,16 @@ const HeaderHomePage = styled.div`
 `;
 
 const SearchForm = styled.form`
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   position: absolute;
   z-index: 2;
   input {
-  margin-top: 10px;
+    margin-top: 10px;
   }
   button {
-  margin-top: 10px;
+    margin-top: 10px;
   }
 `;
 
@@ -63,9 +62,12 @@ const BestRatedRestaurantContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   > div {
-  text-align:center;
-  margin:5px;  /* and that, will result in a 10px gap */
+    margin: 5px; /* and that, will result in a 10px gap */
   }
+`;
+
+const TitleContainerHome = styled(TitleContainer)`
+  margin-bottom: 50px;
 `;
 
 const HomePageTitle = styled(MainTitle)`
@@ -75,12 +77,10 @@ const HomePageTitle = styled(MainTitle)`
 const SearchHomePageInput = styled(SearchInput)`
   background: #ffffff;
   min-width: ${rem("430px")};
-  
 `;
 
 const SearchHomePageButton = styled(BigButton)`
   margin-left: 25px;
-  
 `;
 
 const Line = styled(TitleHr)`
@@ -90,81 +90,77 @@ const Line = styled(TitleHr)`
 `;
 
 const Home = (props) => {
-    const [topFour, settopFour] = useState(null);
+  const [topFour, settopFour] = useState(null);
 
-    useEffect(() => {
-        async function fetchData() {
-            const response = await dispatch(getTopFourAction());
-            settopFour(response.data)
-        }
+  useEffect(() => {
+    async function fetchData() {
+      const response = await dispatch(getTopFourAction());
+      settopFour(response.data);
+    }
 
-        fetchData();
-    }, [])
+    fetchData();
+  }, []);
 
-    console.log('topFour', topFour)
+  console.log("topFour", topFour);
 
+  const push = useHistory();
+  const dispatch = useDispatch();
+  const [userInfo, setUserInfo] = useState({
+    searchText: "",
+  });
 
-    const push = useHistory()
-    const dispatch = useDispatch()
-    const [userInfo, setUserInfo] = useState({
-        searchText: "",
-    });
+  const onChangeHandler = (event, property) => {
+    const value = event.currentTarget.value;
+    setUserInfo({ ...userInfo, [property]: value });
+  };
 
-    const onChangeHandler = (event, property) => {
-        const value = event.currentTarget.value;
-        setUserInfo({...userInfo, [property]: value});
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await dispatch(validate(userInfo));
+    if (response.status === 200) {
+      console.log("do something");
+    } else {
+      console.log("error", response);
+    }
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const response = await dispatch(validate(userInfo));
-        if (response.status === 200) {
-            console.log('do something')
-        } else {
-            console.log('error', response)
-        }
-    };
-
-    return (
-
-        <HomePageWrapper>
-            <HeaderHomePage>
-                <SearchForm onSubmit={handleSubmit}>
-                    <SearchHomePageInput
-                        onChange={(e) => onChangeHandler(e, "searchText")}
-                        placeholder="Search..."
-                        type="text"
-                        required
-                    />
-                    <SearchHomePageButton type="submit">Search</SearchHomePageButton>
-                </SearchForm>
-                {/*<img src={Home_page_Restaurant}></img>*/}
-            </HeaderHomePage>
-            <BestRatedRestaurantsSection>
-                <TitleContainer>
-                    <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
-                    <Line></Line>
-                </TitleContainer>
-                <BestRatedRestaurantContainer>
-                    {topFour ? topFour.map((restaurant, index) => {
-                        return (
-                            <GenericRestaurantCard
-                                key={index}
-                                restaurant={restaurant}
-                            />
-                        )
-                    }) : null}
-                </BestRatedRestaurantContainer>
-            </BestRatedRestaurantsSection>
-        </HomePageWrapper>
-
-    )
+  return (
+    <HomePageWrapper>
+      <HeaderHomePage>
+        <SearchForm onSubmit={handleSubmit}>
+          <SearchHomePageInput
+            onChange={(e) => onChangeHandler(e, "searchText")}
+            placeholder="Search..."
+            type="text"
+            required
+          />
+          <SearchHomePageButton type="submit">Search</SearchHomePageButton>
+        </SearchForm>
+        {/*<img src={Home_page_Restaurant}></img>*/}
+      </HeaderHomePage>
+      <BestRatedRestaurantsSection>
+        <TitleContainerHome>
+          <HomePageTitle>BEST RATED RESTAURANTS</HomePageTitle>
+          <Line></Line>
+        </TitleContainerHome>
+        <BestRatedRestaurantContainer>
+          {topFour
+            ? topFour.map((restaurant, index) => {
+                return (
+                  <GenericRestaurantCard key={index} restaurant={restaurant} />
+                );
+              })
+            : null}
+        </BestRatedRestaurantContainer>
+      </BestRatedRestaurantsSection>
+    </HomePageWrapper>
+  );
 };
 
 const mapStateToProps = (state) => {
-    return {
-        userProfileReducer: state.userProfileReducer,
-    };
+  return {
+    userProfileReducer: state.userProfileReducer,
+  };
 };
 
 export default connect(mapStateToProps)(Home);

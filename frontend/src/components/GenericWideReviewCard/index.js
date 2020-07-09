@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
 import DayJS from "react-dayjs";
+import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -26,6 +27,14 @@ import StarRatingFix from "../StarRatingFix";
 import { getReviewCommentsAction } from "../../store/actions/commentActions";
 import { connect, useDispatch } from "react-redux";
 import Spinner from "../GenericSpinner";
+import { Link } from "react-router-dom";
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  color: #e47d31;
+`;
 
 const Comments = ({ handleRenderComments, commentsList, content }) => {
   console.log(commentsList);
@@ -86,12 +95,11 @@ const GenericWideReviewCard = (props) => {
     review: {
       content,
       restaurant: { name },
-      author: { first_name, last_name, amount_of_reviews, avatar },
+      author: { first_name, last_name, amount_of_reviews, avatar, id },
       created,
       rating,
       amount_of_comments,
       amount_of_likes,
-      id,
     },
   } = props;
 
@@ -123,9 +131,13 @@ const GenericWideReviewCard = (props) => {
       <WideReviewCard>
         <WideUserCardProfile>
           <div>
-            <img src={avatar ? avatar : defaultProfilePic}></img>
+            <Link to={`/users/${id}`}>
+              <img src={avatar ? avatar : defaultProfilePic}></img>
+            </Link>
             <div>
-              <h1>{first_name + " " + last_name}</h1>
+              <StyledLink to={`/users/${id}`}>
+                {first_name + " " + last_name}
+              </StyledLink>
               <p>{amount_of_reviews} Reviews in Total</p>
             </div>
             <StarRatingWrapper>
@@ -148,6 +160,8 @@ const GenericWideReviewCard = (props) => {
           <LikeCommentView
             handleRenderComments={handleRenderComments}
             content={content}
+            amount_of_comments={amount_of_comments}
+            amount_of_likes={amount_of_likes}
           />
         )}
       </WideReviewCard>

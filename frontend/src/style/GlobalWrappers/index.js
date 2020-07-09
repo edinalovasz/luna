@@ -1,14 +1,20 @@
 import { rem } from "polished";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const PageContainer = styled.div`
-  height: 87.5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-bottom: 40px;
 `;
 
 export const StarContainerFix = styled.div`
   margin-top: 13px;
   display: flex;
-  p{
+  p {
     color: white;
     margin-left: 30px;
   }
@@ -55,7 +61,7 @@ export const UserCardProfile = styled.div`
     height: ${rem("70px")};
   }
   div {
-    padding: ${rem("10px")} 0 0 ${rem("8px")};
+    padding: ${rem("10px")} 0 0 ${rem("10px")};
   }
   h1 {
     color: #e47d31;
@@ -70,6 +76,13 @@ export const UserCardProfile = styled.div`
     line-height: 16px;
     padding-top: 5px;
   }
+  a {
+    text-decoration: none;
+    color: #e47d31;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+  }
 `;
 
 export const ReviewCardText = styled.div`
@@ -83,6 +96,7 @@ export const ReviewCardText = styled.div`
     font-weight: bold;
     font-size: ${rem("20px")};
     line-height: ${rem("23px")};
+    text-decoration: none;
   }
   h2 {
     font-style: normal;
@@ -90,6 +104,7 @@ export const ReviewCardText = styled.div`
     font-size: ${rem("20px")};
     line-height: ${rem("23px")};
     margin-bottom: ${rem("6px")};
+    text-decoration: none;
   }
   h3 {
     font-weight: bold;
@@ -97,6 +112,7 @@ export const ReviewCardText = styled.div`
     line-height: ${rem("16px")};
     color: #e47d31;
     margin-top: ${rem("12px")};
+    text-decoration: none;
   }
   p:first-child {
     display: inline;
@@ -104,9 +120,18 @@ export const ReviewCardText = styled.div`
     font-size: ${rem("14px")};
     line-height: ${rem("16px")};
     color: #4c4c4c;
+    padding-top: 5px;
+  }
+
+  p:nth-child(2) {
+    font-weight: bold;
+    font-size: ${rem("14px")};
+    line-height: ${rem("16px")};
+    color: #4c4c4c;
+    padding-top: 5px;
   }
   a {
-    padding-left: ${rem("6px")};
+    text-decoration: none;
     color: #e47d31;
     font-weight: bold;
     cursor: pointer;
@@ -142,7 +167,7 @@ export const WideUserCardProfile = styled.div`
     display: flex;
   }
   div:nth-child(2) {
-    padding: ${rem("10px")} 0 0 ${rem("8px")};
+    padding: ${rem("10px")} 0 0 ${rem("10px")};
   }
   > div:nth-child(2) {
     margin-right: 10px;
@@ -185,7 +210,7 @@ export const WideReviewCardText = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  height: ${rem("118px")};
+  min-height: ${rem("118px")};
   padding: ${rem("10px")} ${rem("10px")} ${rem("22px")} ${rem("10px")};
   p {
     display: inline;

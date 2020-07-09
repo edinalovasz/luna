@@ -7,13 +7,11 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
 const SignUpWrapper = styled.div`
-  width: 100vw;
   flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f2f2f2;
-  height: 81vh;
+  padding-top: ${rem("47px")};
 `;
 
 const SignUpSentContainer = styled.div`
@@ -24,7 +22,7 @@ const SignUpSentContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: auto;
-  margin-bottom: ${rem("250px")};
+  margin-bottom: ${rem("150px")};
 
   p {
     display: flex;

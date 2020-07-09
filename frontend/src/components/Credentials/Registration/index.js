@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import rem from "polished/lib/helpers/rem";
-import {BigButton} from "../../../style/GlobalButtons";
-import {SmallTitleHr, MainTitle} from "../../../style/GlobalTitles";
-import {BaseInput} from "../../../style/GlobalInputs";
-import {useHistory} from "react-router";
-import {useDispatch} from "react-redux";
-import {sendCode, validate} from "../../../store/actions/registrationActions";
-
+import { BigButton } from "../../../style/GlobalButtons";
+import { SmallTitleHr, MainTitle } from "../../../style/GlobalTitles";
+import { BaseInput } from "../../../style/GlobalInputs";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { sendCode, validate } from "../../../store/actions/registrationActions";
 
 const SignUpWrapper = styled.div`
-  width: 100vw;
   flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: #f2f2f2; */
-  height: ${rem("603px")};
+  padding-top: ${rem("47px")};
 `;
 
 const SignUpFormContainer = styled.form`
@@ -58,28 +55,28 @@ const SignUpInput = styled(BaseInput)`
   }
 `;
 
-const SignUp = props => {
-    const history = useHistory();
-    const dispatch = useDispatch()
-    const [userInfo, setUserInfo] = useState({
-        email: "",
-    });
-    console.log(userInfo)
-    const onChangeHandler = (event, property) => {
-        const value = event.currentTarget.value;
-        setUserInfo({ ...userInfo, [property]: value });
-    };
+const SignUp = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+  });
+  console.log(userInfo);
+  const onChangeHandler = (event, property) => {
+    const value = event.currentTarget.value;
+    setUserInfo({ ...userInfo, [property]: value });
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const response = await dispatch(sendCode(userInfo));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await dispatch(sendCode(userInfo));
 
-        if (response.status < 300){
-            history.push("/auth/signup/sent")
-        }else{
-            console.log('error', response)
-        }
-    };
+    if (response.status < 300) {
+      history.push("/auth/signup/sent");
+    } else {
+      console.log("error", response);
+    }
+  };
 
   return (
     <SignUpWrapper>

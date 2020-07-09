@@ -15,18 +15,31 @@ import {
 
 import { BaseCard } from "../../style/GlobalWrappers";
 import Spinner from "../GenericSpinner";
+import { Link } from "react-router-dom";
 
 export const ReviewCard = styled(BaseCard)``;
 
 const MAX_REVIEW_LENGTH = 133;
 const MAX_COMMENT_LENGTH = 27;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+`;
+
+const StyledLinkMore = styled(Link)`
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+`;
+
 const GenericReviewCard = (props) => {
   const {
     review: {
       content,
-      restaurant: { name },
-      author: { first_name, last_name, amount_of_reviews },
+      restaurant: { name, id },
+      author: { first_name, last_name, amount_of_reviews, id: authorID },
       amount_of_likes,
       amount_of_comments,
       top_2_comments,
@@ -36,24 +49,31 @@ const GenericReviewCard = (props) => {
   return (
     <ReviewCard>
       <UserCardProfile>
-        <img src={avatar ? avatar : defaultProfilePic}></img>
+        <StyledLink to={`/users/${authorID}`}>
+          <img src={avatar ? avatar : defaultProfilePic}></img>
+        </StyledLink>
+
         <div>
-          <h1>{first_name + " " + last_name}</h1>
+          <StyledLink to={`/users/${authorID}`}>
+            {first_name + " " + last_name}{" "}
+          </StyledLink>
           <p>{amount_of_reviews} Reviews in Total</p>
         </div>
       </UserCardProfile>
       <ReviewCardText>
-        <div>
-          <h1>{name}</h1>
-          {content.length > MAX_REVIEW_LENGTH ? (
-            <div>
-              {`${content.substring(0, MAX_REVIEW_LENGTH)}...`}
-              <a href="#">Read more</a>
-            </div>
-          ) : (
-            <p>{content}</p>
-          )}
-        </div>
+        {content.length > MAX_REVIEW_LENGTH ? (
+          <div>
+            <StyledLink to={`/restaurants/${id}`}>{name}</StyledLink>
+
+            <p>{`${content.substring(0, MAX_REVIEW_LENGTH)}...`}</p>
+            <StyledLinkMore to={`/restaurants/${id}`}>Read more</StyledLinkMore>
+          </div>
+        ) : (
+          <div>
+            <StyledLink to={`/restaurants/${id}`}>{name}</StyledLink>
+            <p>{content}</p>{" "}
+          </div>
+        )}
         <SplitButton>
           <LikeButton>
             <FontAwesomeIcon icon={["fa", "thumbs-up"]} />
