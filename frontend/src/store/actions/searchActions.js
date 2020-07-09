@@ -1,5 +1,6 @@
 import Axios from "../../axios";
 import {
+    RESET_SEARCH,
     SET_RESTAURANTS, SET_REVIEWS, SET_USER_PROFILES
 } from "../actionTypes";
 
@@ -8,6 +9,12 @@ const setUserProfiles = (profiles) => {
     return {
         type: SET_USER_PROFILES,
         payload: profiles,
+    };
+};
+
+export const resetSearch = () => {
+    return {
+        type: RESET_SEARCH,
     };
 };
 
@@ -49,8 +56,8 @@ const setReviews = (reviews) => {
 
 export const getAllReviewsAction = () => async (dispatch) => {
     try {
-        const response = await Axios.get('restaurants/');
-        console.log("Restaurants list", response.data);
+        const response = await Axios.get('reviews/');
+        console.log("Reviews list", response.data);
         dispatch(setReviews(response.data))
         return response
     } catch (error) {
@@ -72,8 +79,10 @@ export const getRestaurantsByCategoryAction = category => async (dispatch) => {
 export const generalSearchAction = (type,searchField)  => async (dispatch) => {
     try {
         const response = await Axios.get(`search/?type=${type}&search_string=${searchField}`);
-        console.log(`General Search list: `, response.data);
-        dispatch(setRestaurants(response.data))
+        if (type=== "restaurants") dispatch(setRestaurants(response.data))
+        if (type=== "users") dispatch(setUserProfiles(response.data))
+        if (type=== "reviews") dispatch(setReviews(response.data))
+        console.log(`${type} Search list: `, response.data);
         return response
     } catch (error) {
         console.log('error', error)

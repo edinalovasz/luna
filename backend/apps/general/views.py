@@ -33,30 +33,34 @@ class GeneralSearchView(ListAPIView):
 
     def get_serializer_class(self):
         type = self.request.query_params.get('type')
-        if type == "restaurant":
+        if type == "restaurants":
             return RestaurantSerializer
-        elif type == "review":
+        elif type == "reviews":
             return RestaurantReviewSerializer
-        elif type == "user":
+        elif type == "users":
             return UserSerializer
         else:
             return RestaurantSerializer
 
     def list(self, request, *args, **kwargs):
         param = self.request.query_params.get('search_string')
-        if type == "restaurant":
+        type = self.request.query_params.get('type')
+        if type == "restaurants":
             results = Restaurant.objects.filter(
-                Q(name__contains=param) | Q(street__contains=param) | Q(city__contains=param) | Q(
-                    owner__first_name__contains=param) | Q(
-                    owner__last_name__contains=param) | Q(
-                    owner__username__contains=param))
-        elif type == "review":
-            results = RestaurantReview.objects.filter(Q(content__contains=param) | Q(
-                author__first_name__contains=param) | Q(
-                author__last_name__contains=param) | Q(
-                author__username__contains=param))
-        elif type == "user":
+                Q(name__icontains=param) | Q(street__icontains=param) | Q(country__icontains=param) | Q(
+                    city__icontains=param) | Q(zip__icontains=param) | Q(
+                    owner__first_name__icontains=param) | Q(
+                    owner__last_name__icontains=param) | Q(
+                    owner__username__icontains=param))
+        elif type == "reviews":
+            results = RestaurantReview.objects.filter(Q(content__icontains=param) | Q(
+                author__first_name__icontains=param) | Q(
+                author__last_name__icontains=param) | Q(
+                author__username__icontains=param))
+        elif type == "users":
             results = User.objects.filter(
-                Q(first_name__contains=param) | Q(last_name__contains=param) | Q(username__contains=param))
+                Q(first_name__icontains=param) | Q(last_name__icontains=param) | Q(username__icontains=param))
+        else:
+            results = []
         serializer = self.get_serializer(results, many=True)
         return Response(serializer.data)

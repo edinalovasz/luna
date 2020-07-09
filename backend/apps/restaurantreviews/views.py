@@ -32,6 +32,21 @@ class CreateRestaurantReviewView(CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+class ListAllReviewsView(ListAPIView):
+    """
+    GET:
+    List all the Reviews in the db
+    """
+    serializer_class = RestaurantReviewSerializer
+    queryset = RestaurantReview.objects.all()
+    permission_classes = []
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 class ListSpecificRestaurantReviewsView(ListAPIView):
     """
     GET:

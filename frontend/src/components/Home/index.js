@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { rem } from "polished";
-import { MainTitle, TitleHr } from "../../style/GlobalTitles";
+import {rem} from "polished";
+import {MainTitle, TitleHr} from "../../style/GlobalTitles";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
-import { PageContainer, TitleContainer } from "../../style/GlobalWrappers";
-import { SearchInput } from "../../style/GlobalInputs";
-import { BigButton } from "../../style/GlobalButtons";
+import {PageContainer, TitleContainer} from "../../style/GlobalWrappers";
+import {SearchInput} from "../../style/GlobalInputs";
+import {BigButton} from "../../style/GlobalButtons";
 
 import GenericRestaurantCard from "../GenericRestaurantCard";
-import { useHistory } from "react-router";
+import {useHistory} from "react-router";
 import {connect, useDispatch} from "react-redux";
-import { validate } from "../../store/actions/registrationActions";
+import {validate} from "../../store/actions/registrationActions";
 import {getTopFourAction} from "../../store/actions/searchActions";
 
 const HomePageWrapper = styled(PageContainer)`
@@ -81,8 +81,9 @@ const Home = (props) => {
     useEffect(() => {
         async function fetchData() {
             const response = await dispatch(getTopFourAction());
-                settopFour(response.data)
+            settopFour(response.data)
         }
+
         fetchData();
     }, [])
 
@@ -97,15 +98,15 @@ const Home = (props) => {
 
     const onChangeHandler = (event, property) => {
         const value = event.currentTarget.value;
-        setUserInfo({ ...userInfo, [property]: value });
+        setUserInfo({...userInfo, [property]: value});
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await dispatch(validate(userInfo));
-        if (response.status === 200){
+        if (response.status === 200) {
             console.log('do something')
-        }else{
+        } else {
             console.log('error', response)
         }
     };
@@ -116,12 +117,12 @@ const Home = (props) => {
                 <HeaderHomePage>
                     <SearchForm onSubmit={handleSubmit}>
                         <SearchHomePageInput
-                                onChange={(e) => onChangeHandler(e, "searchText")}
-                                placeholder="Search..."
-                                type="text"
-                                required
+                            onChange={(e) => onChangeHandler(e, "searchText")}
+                            placeholder="Search..."
+                            type="text"
+                            required
                         ></SearchHomePageInput>
-                        <SearchHomePageButton type="submit" >Search</SearchHomePageButton>
+                        <SearchHomePageButton type="submit">Search</SearchHomePageButton>
                     </SearchForm>
                     {/*<img src={Home_page_Restaurant}></img>*/}
                 </HeaderHomePage>
@@ -138,7 +139,7 @@ const Home = (props) => {
                                     restaurant={restaurant}
                                 />
                             )
-                        } ) : null}
+                        }) : null}
                     </BestRatedRestaurantContainer>
                 </BestRatedRestaurantsSection>
             </HomePageWrapper>
@@ -147,9 +148,9 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return {
-    userProfileReducer: state.userProfileReducer,
-  };
+    return {
+        userProfileReducer: state.userProfileReducer,
+    };
 };
 
 export default connect(mapStateToProps)(Home);
