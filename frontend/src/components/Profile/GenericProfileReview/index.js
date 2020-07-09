@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {StarContainer} from "../../../style/GlobalWrappers";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import StarRating from "../../StarRatingFix";
+import DayJS from "react-dayjs";
 
 const ProfileReviewCard = styled.div`
   border-bottom: 1px solid #ebebeb;
@@ -60,7 +61,7 @@ const GenericProfileReview = (props) => {
         <ProfileReviewCard>
             <div>
                 <h2>{name}</h2>
-                <p>{created}</p>
+                <p><DayJS format="MM.DD.YYYY HH:mm">{created}</DayJS></p>
             </div>
             <span>
         <StarRating avg_rating={parseInt(rating)}/>

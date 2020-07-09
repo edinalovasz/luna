@@ -86,7 +86,7 @@ const GenericReviewCard = (props) => {
           {top_2_comments ? (
             top_2_comments.map((comment, index) => {
               return (
-                <div>
+                <div key={index}>
                   <h3>
                     {comment.author.first_name + " " + comment.author.last_name}
                   </h3>

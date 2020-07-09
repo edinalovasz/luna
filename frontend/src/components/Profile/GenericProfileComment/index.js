@@ -1,6 +1,7 @@
 import React from "react";
 import {rem} from "polished";
 import styled from "styled-components";
+import DayJS from "react-dayjs";
 
 const ProfileCommentCard = styled.div`
   border-bottom: 1px solid #ebebeb;
@@ -57,7 +58,7 @@ const GenericProfileComment = (props) => {
         <ProfileCommentCard>
             <div>
                 <h2>Commented on a Review on {restaurant_name}</h2>
-                <p>{created}</p>
+                <p><DayJS format="MM.DD.YYYY HH:mm">{created}</DayJS></p>
             </div>
             <div>
                 <Content>{content}</Content>
