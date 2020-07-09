@@ -41,7 +41,7 @@ const RestaurantCardImg = styled.div`
   }
 `;
 
-const placeholderImage = "https://picsum.photos/200"
+const placeholderImage = "https://picsum.photos/200/200"
 
 const GenericRestaurantCard = (props) => {
 
