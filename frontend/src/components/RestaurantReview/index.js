@@ -120,8 +120,16 @@ const OtherOptions = styled.div`
   align-items: flex-start;
 `
 
-const Par = styled.p`
-
+const SignInMessage = styled.div`
+  background-color: Red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 380px;
+  height: 50px;
+  font-size: 25px;
+  margin-top: 40px;
 `
 
 const FilterInput = styled(FilterListInput)`
@@ -146,14 +154,13 @@ const RestaurantReview = (props) => {
         match: {
             params: {restaurantId},
         },
-        restaurantReducer: {restaurantObj}
+        restaurantReducer: {restaurantObj},
+        authReducer:{authenticated}
     } = props
 
-    console.log(restaurantId)
 
     useEffect(() => {
         dispatch(getRestaurantByIDAction(restaurantId));
-        console.log('hola')
         return () => {
             dispatch(resetRestaurantObj())
         }
@@ -181,7 +188,6 @@ const RestaurantReview = (props) => {
             console.log('error', response)
         }
     };
-
 
     return (
         <RestaurantReviewWrapper>
@@ -220,10 +226,10 @@ const RestaurantReview = (props) => {
                     <PriceInfo>
                         <p>{restaurantObj ? restaurantObj.price_level : null}</p>
                     </PriceInfo>
-                    <OtherOptions>
+                    {authenticated ? <OtherOptions>
                         <OptionsButton onClick={handleWriteReviewButton}>WRITE A REVIEW</OptionsButton>
                         <OptionsButton>EDIT DATA</OptionsButton>
-                    </OtherOptions>
+                    </OtherOptions> : <SignInMessage>Please login to write a review</SignInMessage>}
                 </RightInfoContainer>
             </RestaurantReviewInfoContainer>
         </RestaurantReviewWrapper>
@@ -233,6 +239,7 @@ const RestaurantReview = (props) => {
 const mapStateToProps = (state) => {
     return {
         restaurantReducer: state.restaurantReducer,
+        authReducer: state.authReducer
     };
 };
 
