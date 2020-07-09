@@ -6,17 +6,16 @@ export const PageContainer = styled.div`
 `;
 
 export const StarContainerFix = styled.div`
-  // display: grid;
-  // grid-template-columns: auto auto auto auto auto;
-  // justify-content: center;
-  // grid-column-gap: ${rem("2px")};
-  // align-items: center;
-  // color: #f8e71c;
   margin-top: 13px;
+  display: flex;
+  p{
+    color: white;
+    margin-left: 30px;
+  }
 `;
 
 export const StarContainer = styled.div`
-    .star{
+  .star {
     height: 34px;
     width: 40px;
   }
@@ -90,12 +89,14 @@ export const ReviewCardText = styled.div`
     font-weight: 300;
     font-size: ${rem("20px")};
     line-height: ${rem("23px")};
+    margin-bottom: ${rem("6px")};
   }
   h3 {
     font-weight: bold;
     font-size: ${rem("14px")};
     line-height: ${rem("16px")};
     color: #e47d31;
+    margin-top: ${rem("12px")};
   }
   p:first-child {
     display: inline;
@@ -112,6 +113,10 @@ export const ReviewCardText = styled.div`
     :hover {
       color: #cb641a;
     }
+  }
+  > div:first-child,
+  div:last-child {
+    height: 120px;
   }
 `;
 

@@ -9,7 +9,7 @@ const UserCardText = styled.div`
   height: ${rem("115px")};
   padding: ${rem("14px")} ${rem("11px")} ${rem("22px")} ${rem("11px")};
   p {
-    display: inline;
+    /* display: inline; */
     font-weight: bold;
     font-size: ${rem("14px")};
     line-height: ${rem("16px")};
@@ -25,23 +25,31 @@ const UserCardText = styled.div`
     }
   }
 `;
+
+const MAX_TEXT_LENGTH = 132;
+
 const GenericUserCard = (props) => {
+  const {
+    user: { first_name, last_name, amount_of_reviews, about_me },
+  } = props;
   return (
     <UserCard>
       <UserCardProfile>
         <img src={placeHolderProfilePic}></img>
         <div>
-          <h1>Name</h1>
-          <p>6 Reviews in Total</p>
+          <h1>{first_name + " " + last_name}</h1>
+          <p>{amount_of_reviews} Reviews in Total</p>
         </div>
       </UserCardProfile>
       <UserCardText>
-        <p>
-          Im professional photographer with an eye for details in every thing I
-          do in my live. Every time a pass by a nice restaurant i have to stop
-          and take notes...
-        </p>
-        <a>read more</a>
+        {about_me.length > MAX_TEXT_LENGTH ? (
+          <div>
+            {`${about_me.substring(0, MAX_TEXT_LENGTH)}...`}
+            <a href="#">Read more</a>
+          </div>
+        ) : (
+          <p>{about_me}</p>
+        )}
       </UserCardText>
     </UserCard>
   );

@@ -4,7 +4,6 @@ import {
     PageContainer,
     StarContainerFix,
 } from "../../style/GlobalWrappers";
-import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 import {BaseButton, Button} from "../../style/GlobalButtons";
 import {FilterListInput} from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
@@ -25,9 +24,8 @@ const RestaurantReviewWrapper = styled(PageContainer)`
     justify-content: center;
 `
 
-const HeaderRestaurantReview = styled.div`
+const HeaderRestaurantReview = styled.div` 
     display: flex;
-    background-image: url(${Home_page_Restaurant});
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -35,9 +33,13 @@ const HeaderRestaurantReview = styled.div`
     align-content: flex-start;
     height: 35vh;
     width: 100%;
+    img{
+      object-fit: cover;
+    }
 `
 
 const HeaderMainInfoContainer = styled.div`
+    position: absolute;
     height: 204px;
     background: rgba(0, 0, 0, 0.5);
     width: 100%;
@@ -53,7 +55,7 @@ const HeaderMainInfo = styled.div`
 const RestaurantName = styled.p`
     font-family: Helvetica;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 30px;
     color: #FFFFFF;
 `
 
@@ -121,6 +123,10 @@ const OtherOptions = styled.div`
   align-items: flex-start;
 `
 
+const Par = styled.p`
+
+`
+
 const FilterInput = styled(FilterListInput)`
   background: #FFFFFF
 `;
@@ -142,19 +148,20 @@ const RestaurantReview = (props) => {
         match: {
             params: {restaurantId},
         },
-       restaurantReducer:{restaurantObj}
+        restaurantReducer: {restaurantObj}
     } = props
 
     console.log(restaurantId)
 
-     useEffect(() => {
+    useEffect(() => {
+        dispatch(getRestaurantByIDAction(restaurantId));
+        console.log('hola')
+        return () => {
+            dispatch(resetRestaurantObj())
+        }
 
 
-       dispatch(getRestaurantByIDAction(restaurantId));
-
-
-         console.log('hola')
-     }, [])
+    }, [])
 
 
     const [userInfo, setUserInfo] = useState({
@@ -163,15 +170,15 @@ const RestaurantReview = (props) => {
 
     const onChangeHandler = (event, property) => {
         const value = event.currentTarget.value;
-        setUserInfo({ ...userInfo, [property]: value });
+        setUserInfo({...userInfo, [property]: value});
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await dispatch(validate(userInfo));
-        if (response.status === 200){
+        if (response.status === 200) {
             console.log('do something')
-        }else{
+        } else {
             console.log('error', response)
         }
     };
@@ -191,14 +198,14 @@ const RestaurantReview = (props) => {
     return (
         <RestaurantReviewWrapper>
             <HeaderRestaurantReview>
+                {restaurantObj ? <img alt={"restaurant picture"} src={restaurantObj.image ? restaurantObj.image : placeholderImage}/> : null}
                 <HeaderMainInfoContainer>
                     <HeaderMainInfo>
                         <RestaurantName>{restaurantObj ? restaurantObj.name : null}</RestaurantName>
                         <RestaurantCategory>{restaurantObj ? restaurantObj.category : null}</RestaurantCategory>
-                        <StarContainerFix avg_rating={
-                            parseInt(restaurantObj ? restaurantObj.avg_rating : null)
-                        }>
-                            <StarRatingFix></StarRatingFix>
+                        <StarContainerFix>
+                            {restaurantObj ? <StarRatingFix avg_rating={parseInt(restaurantObj.avg_rating)}/> : null}
+                            <p>{restaurantObj ? restaurantObj.no_of_ratings : null} reviews</p>
                         </StarContainerFix>
                     </HeaderMainInfo>
                 </HeaderMainInfoContainer>
@@ -212,7 +219,7 @@ const RestaurantReview = (props) => {
                             placeholder="Filter list..."
                             required
                         ></FilterInput>
-                        <FilterButton type="submit" >FILTER</FilterButton>
+                        <FilterButton type="submit">FILTER</FilterButton>
                     </FilterForm>
                     <ReviewsContainer>
                         <GenericWideReviewCard/>
@@ -236,9 +243,9 @@ const RestaurantReview = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return {
-    restaurantReducer: state.restaurantReducer,
-  };
+    return {
+        restaurantReducer: state.restaurantReducer,
+    };
 };
 
 export default connect(mapStateToProps)(RestaurantReview);

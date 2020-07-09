@@ -270,7 +270,9 @@ const Navigation = ({ children }) => {
       <Wrapper>
         <Header>
           <NavSectionLeft to="/feed">
-            <LunaLogo src={LunaLogoSvg} />
+            <Link to="/">
+                <LunaLogo src={LunaLogoSvg} />
+              </Link>
           </NavSectionLeft>
           <NavSectionRight>
             <StyledNavLink exact to="/">
