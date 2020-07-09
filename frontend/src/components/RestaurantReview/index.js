@@ -120,9 +120,19 @@ const PriceInfo = styled.div`
 const OtherOptions = styled.div`
   display: flex;
   align-items: flex-start;
-`;
+`
 
-const Par = styled.p``;
+const SignInMessage = styled.div`
+  background-color: Red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 380px;
+  height: 50px;
+  font-size: 25px;
+  margin-top: 40px;
+`
 
 const FilterInput = styled(FilterListInput)`
   background: #ffffff;
