@@ -1,7 +1,7 @@
-
 import Axios from "../../axios";
 import {SET_LOGGED_IN_USER, USER_LOGIN} from "../actionTypes";
 import {getLoggedInUserAction} from "./userActions";
+import {resetError, setError} from "./errorActions";
 
 
 export const sendLogin = (token) => {
@@ -27,10 +27,13 @@ export const sendLoginAction = data => async (dispatch) => {
         const {data: {access: token},} = response
         dispatch(getLoggedInUserAction())
         dispatch(sendLogin(token));
+        dispatch(resetError())
         console.log('success')
         localStorage.setItem("token", token);
         return response
     } catch (error) {
+        console.log("error message", error.response);
+        dispatch(setError(error.response.data.detail))
         console.log("error", error)
         return error
     }
