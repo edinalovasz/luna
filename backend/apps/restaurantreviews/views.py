@@ -102,7 +102,7 @@ class ToggleLikeReviewVew(CreateAPIView):
     Toggle liking a review by including the target
     review in the url(cannot like own review).
     """
-    permission_classes = [CannotLikeOwnReview]
+    permission_classes = [IsAuthenticated | ReadOnly]
     queryset = RestaurantReview
     serializer_class = RestaurantReviewSerializer
     lookup_url_kwarg = 'review_id'

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
-import TextareaAutosize from 'react-autosize-textarea';
+import TextareaAutosize from "react-autosize-textarea";
 import DayJS from "react-dayjs";
 import styled from "styled-components";
 import {rem} from "polished";
@@ -26,10 +26,14 @@ import {
     SplitButton,
 } from "../../style/GlobalButtons";
 import StarRatingFix from "../StarRatingFix";
-import {createCommentAction, getReviewCommentsAction} from "../../store/actions/commentActions";
+import {
+    createCommentAction,
+    getReviewCommentsAction,
+} from "../../store/actions/commentActions";
 import {connect, useDispatch} from "react-redux";
 import Spinner from "../GenericSpinner";
 import {Link} from "react-router-dom";
+import {likeReviewAction} from "../../store/actions/reviewActions";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -49,7 +53,7 @@ const Input = styled(TextareaAutosize)`
   margin-top: 1rem;
   max-height: 300px;
   align-items: center;
-`
+`;
 
 const GenericWideReviewCard = (props) => {
     const dispatch = useDispatch();
@@ -75,16 +79,21 @@ const GenericWideReviewCard = (props) => {
 
     const submitComment = async (e) => {
         e.preventDefault();
-        console.log("in the submit!")
-        const response = await dispatch(createCommentAction(reviewID, {content: commentsData.content}))
-        setComments({...commentsData, commentsList: [response.data, ...commentsData.commentsList], content: ``})
+        console.log("in the submit!");
+        const response = await dispatch(
+            createCommentAction(reviewID, {content: commentsData.content})
+        );
+        setComments({
+            ...commentsData,
+            commentsList: [response.data, ...commentsData.commentsList],
+            content: ``,
+        });
+    };
 
-    }
-
-    const handleNewComment = e => {
+    const handleNewComment = (e) => {
         const value = e.currentTarget.value;
         setComments({...commentsData, content: value});
-    }
+    };
 
     const handleRenderComments = async (e) => {
         if (commentsData.showComments === false) {
@@ -101,7 +110,12 @@ const GenericWideReviewCard = (props) => {
                 content: ``,
             });
         }
-    };
+    }
+
+
+    const handleLikeReview = e => {
+        dispatch(likeReviewAction(reviewID, "restaurantProfile"))
+    }
 
     return (
         <>
@@ -138,6 +152,7 @@ const GenericWideReviewCard = (props) => {
                     />
                 ) : (
                     <LikeCommentView
+                        handleLikeReview={handleLikeReview}
                         handleRenderComments={handleRenderComments}
                         commentsList={commentsData.commentsList}
                         content={content}
@@ -147,8 +162,9 @@ const GenericWideReviewCard = (props) => {
                 )}
             </WideReviewCard>
         </>
-    );
-};
+    )
+
+}
 const Comments = ({handleRenderComments, newCommentData, submitComment, commentsList, handleNewComment, content}) => {
     console.log("commentsList   ", commentsList);
     return (
@@ -156,9 +172,10 @@ const Comments = ({handleRenderComments, newCommentData, submitComment, comments
             <WideReviewCardText>
                 <p>{content}</p>
                 <PostComment>
-                    <Input onChange={handleNewComment} type="text" placeholder="Comment Input Field" onResize={(e) => {
-                    }} value={newCommentData}/>
-                    <SmallButton onClick={submitComment} >Post</SmallButton>
+                    <Input onChange={handleNewComment} type="text" placeholder="Comment Input Field"
+                           onResize={(e) => {
+                           }} value={newCommentData}/>
+                    <SmallButton onClick={submitComment}>Post</SmallButton>
                     <a onClick={handleRenderComments}>Hide</a>
                 </PostComment>
             </WideReviewCardText>
@@ -173,7 +190,9 @@ const Comments = ({handleRenderComments, newCommentData, submitComment, comments
     );
 };
 
-const LikeCommentView = ({  commentsList,
+const LikeCommentView = ({
+                             commentsList,
+                             handleLikeReview,
                              handleRenderComments,
                              content,
                              amount_of_comments,
@@ -182,10 +201,9 @@ const LikeCommentView = ({  commentsList,
     return (
         <WideReviewCardText>
             <p>{content}</p>
-
             <div>
                 <SplitButton>
-                    <LikeButton>
+                    <LikeButton onClick={handleLikeReview}>
                         <FontAwesomeIcon icon={["fa", "thumbs-up"]}/>
                         Like {amount_of_likes}
                     </LikeButton>
@@ -196,8 +214,7 @@ const LikeCommentView = ({  commentsList,
                 <a onClick={handleRenderComments}>View all comments</a>
             </div>
         </WideReviewCardText>
-    );
-};
 
-
+    )
+}
 export default GenericWideReviewCard;
