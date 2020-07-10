@@ -133,8 +133,8 @@ class ListReviewsUserCommentedView(ListAPIView):
     serializer_class = RestaurantReviewSerializer
 
     def list(self, request, *args, **kwargs):
-        target_reviews = RestaurantReview.objects.filter\
-            (comments__author=request.user).order_by('-created')
+        target_reviews = RestaurantReview.objects.filter(comments__author=request.user).\
+            order_by('-created')
         serializer = self.get_serializer(target_reviews, many=True)
         return Response(serializer.data)
 

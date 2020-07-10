@@ -8,8 +8,7 @@ User = get_user_model()
 
 class RestaurantReview(models.Model):
     content = models.TextField()
-    rating = models.IntegerField\
-        (validators=[MinValueValidator(0), MaxValueValidator(5)])
+    rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     restaurant = models.ForeignKey(to=Restaurant, on_delete=models.CASCADE,

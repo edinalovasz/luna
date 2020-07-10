@@ -6,11 +6,13 @@ from django.utils import timezone
 
 User = get_user_model()
 
+
 def get_or_none(model, *args, **kwargs):
     try:
         return model.objects.get(*args, **kwargs)
     except model.DoesNotExist:
         return None
+
 
 def code_generator(length=5):
     numbers = '0123456789'

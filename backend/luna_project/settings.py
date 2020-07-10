@@ -73,7 +73,6 @@ CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:8000'
 ]
 
-
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -165,8 +164,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',

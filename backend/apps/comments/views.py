@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
 
-# Create your views here.
+
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -78,6 +77,3 @@ class ListCommentsOfSpecificUser(ListAPIView):
         target_comments = target_user.author_comments.all()
         serializer = self.get_serializer(target_comments, many=True)
         return Response(serializer.data)
-
-
-
