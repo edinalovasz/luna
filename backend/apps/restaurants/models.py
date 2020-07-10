@@ -33,7 +33,7 @@ class Restaurant(models.Model):
     website = models.CharField(max_length=150, blank=True, null=True)
     phone = models.CharField(max_length=50)
     email = models.EmailField()
-    opening_hours = models.CharField(max_length=50)
+    opening_hours = models.CharField(max_length=200)
     price_level = models.CharField(max_length=50, blank=True, null=True)
     image = models.ImageField(null=True, blank=True)
     owner = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='owned_restaurants')

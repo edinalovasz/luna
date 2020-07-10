@@ -40,8 +40,6 @@ const InputsContainers = styled.div`
   grid-template-areas: ". ." ". ." ". .";
   margin: ${rem("50px")};
   div {
-  //  width: ${rem("340px")};
-  // height: ${rem("52px")};
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,5 +1,6 @@
 import Axios from "../../axios";
 import {SET_RESTAURANT_OBJ, SET_RESTAURANT_REVIEWS, RESET_RESTAURANT} from "../actionTypes";
+import {resetError, setError} from "./errorActions";
 
 const setRestaurantReviews = (reviews) => {
     return {
@@ -40,9 +41,11 @@ export const createRestaurantAction = data => async (dispatch) => {
         // TODO push user to feed page after creation of restaurant
         // TODO append created post to beginning of search reducer restaurants
         console.log("New restaurant", response.data)
+        dispatch(resetError())
         return response
     } catch (error) {
         console.log(`error`, error.response)
+        dispatch(setError(Object.keys(error.response.data)[0]))
         return error
     }
 }
