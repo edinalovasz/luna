@@ -268,7 +268,7 @@ const RestaurantEdit = (props) => {
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Category *</CategoryDetailTitle>
-                        <RestaurantCreateSelect value={RestInfo.category} onChange={(e) => onChangeHandler(e, "category_id")} required>
+                        <RestaurantCreateSelect value={RestInfo.category_id} onChange={(e) => onChangeHandler(e, "category_id")} required>
                             <Options label="Select a value..."/>
                             <Options value={1}>Ethnic</Options>
                             <Options value={2}>Fast food</Options>
@@ -315,7 +315,7 @@ const RestaurantEdit = (props) => {
                     <InputContainer>
                         <CategoryTitle>Contact</CategoryTitle>
                         <CategoryDetailTitle>Website</CategoryDetailTitle>
-                        <RestaurantCreateInput value={RestInfo.website} onChange={(e) => onChangeHandler(e, "contact")}/>
+                        <RestaurantCreateInput value={RestInfo.website} onChange={(e) => onChangeHandler(e, "website")}/>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
