@@ -111,13 +111,14 @@ export const updateReviewInSearch = (updatedReview, reviewType) => {
 };
 
 export const likeReviewAction = (reviewID, reviewType) => async (dispatch, getState) => {
+    console.log("review id:  " + reviewID + "  Type: " + reviewType)
     try {
-        const response = await Axios.post(`reviews/${reviewID}/`)
+        const response = await Axios.post(`reviews/like/${reviewID}/`)
         console.log("liked payload data:  ", response.data)
         if (reviewType === 'restaurantProfile') dispatch(updateReviewInList(response.data))
         if (reviewType === 'searchList') dispatch(updateReviewInSearch(response.data))
     } catch (error) {
-        console.error('catch in likePostAction:', error.data)
+        console.error('catch in likeReviewAction:', error.data)
         return error
     }
 }

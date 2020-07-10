@@ -30,6 +30,7 @@ import {createCommentAction, getReviewCommentsAction} from "../../store/actions/
 import {connect, useDispatch} from "react-redux";
 import Spinner from "../GenericSpinner";
 import {Link} from "react-router-dom";
+import {likeReviewAction} from "../../store/actions/reviewActions";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -103,6 +104,10 @@ const GenericWideReviewCard = (props) => {
         }
     };
 
+    const handleLikeReview = e => {
+        dispatch(likeReviewAction(reviewID, "restaurantProfile"))
+    }
+
     return (
         <>
             <WideReviewCard>
@@ -138,6 +143,7 @@ const GenericWideReviewCard = (props) => {
                     />
                 ) : (
                     <LikeCommentView
+                        handleLikeReview={handleLikeReview}
                         handleRenderComments={handleRenderComments}
                         commentsList={commentsData.commentsList}
                         content={content}
@@ -158,7 +164,7 @@ const Comments = ({handleRenderComments, newCommentData, submitComment, comments
                 <PostComment>
                     <Input onChange={handleNewComment} type="text" placeholder="Comment Input Field" onResize={(e) => {
                     }} value={newCommentData}/>
-                    <SmallButton onClick={submitComment} >Post</SmallButton>
+                    <SmallButton onClick={submitComment}>Post</SmallButton>
                     <a onClick={handleRenderComments}>Hide</a>
                 </PostComment>
             </WideReviewCardText>
@@ -173,7 +179,9 @@ const Comments = ({handleRenderComments, newCommentData, submitComment, comments
     );
 };
 
-const LikeCommentView = ({  commentsList,
+const LikeCommentView = ({
+                             commentsList,
+                             handleLikeReview,
                              handleRenderComments,
                              content,
                              amount_of_comments,
@@ -185,7 +193,7 @@ const LikeCommentView = ({  commentsList,
 
             <div>
                 <SplitButton>
-                    <LikeButton>
+                    <LikeButton onClick={handleLikeReview}>
                         <FontAwesomeIcon icon={["fa", "thumbs-up"]}/>
                         Like {amount_of_likes}
                     </LikeButton>
