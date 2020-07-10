@@ -1,4 +1,5 @@
 import React from "react";
+import Fade from 'react-reveal/Fade';
 import {rem} from "polished";
 import styled from "styled-components";
 import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
@@ -56,7 +57,8 @@ const GenericReviewCard = (props) => {
     }
 
     return (
-        <ReviewCard>
+        <Fade left cascade>
+            <ReviewCard>
             <UserCardProfile>
                 <StyledLink to={`/users/${authorID}`}>
                     <img src={avatar ? avatar : defaultProfilePic}></img>
@@ -112,6 +114,8 @@ const GenericReviewCard = (props) => {
                 </div>
             </ReviewCardText>
         </ReviewCard>
+        </Fade>
+
     );
 };
 
