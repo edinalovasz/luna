@@ -220,6 +220,7 @@ const ScheduleInfo = styled.div`
   height: 48px;
   svg {
     margin-right: 12px;
+    margin-left: 15px;
   }
   p {
     font-size: 20px;
@@ -236,6 +237,7 @@ const PriceInfo = styled.div`
   align-items: center;
   svg {
     margin-right: 12px;
+    margin-left: 15px;
   }
   p {
     font-size: 20px;
@@ -394,12 +396,14 @@ const RestaurantReview = (props) => {
         </LeftInfoContainer>
         <RightInfoContainer>
           <ScheduleInfo>
+              <h2>Opening Hours:</h2>
             <p>
               <FontAwesomeIcon icon={["fas", "clock"]} />
               {restaurantObj ? restaurantObj.opening_hours : null}
             </p>
           </ScheduleInfo>
           <PriceInfo>
+              <h2>Price level:</h2>
             <p>
               <FontAwesomeIcon icon={["fas", "money-bill-wave"]} />
               {restaurantObj ? restaurantObj.price_level : null}
@@ -410,9 +414,9 @@ const RestaurantReview = (props) => {
               <Link to={`/restaurant/review/create/${restaurantId}`}>
                 <OptionsButton>WRITE A REVIEW</OptionsButton>
               </Link>
-              <Link to={`/restaurant/edit/${restaurantId}`}>
+              {restaurantObj ?( restaurantObj.is_from_logged_in_user ? <Link to={`/restaurant/edit/${restaurantId}`}>
                 <OptionsButton>EDIT DATA</OptionsButton>
-              </Link>
+              </Link>: null): null}
             </OtherOptions>
           ) : (
             <SignInMessage>Please login to write a review</SignInMessage>

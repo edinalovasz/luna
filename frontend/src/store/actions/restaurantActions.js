@@ -60,6 +60,7 @@ export const updateRestaurantAction = (restaurantID,data) => async (dispatch) =>
         return response
     } catch (error) {
         // console.log(`error`, error.response)
+        console.log("error response", error.response)
         console.log(`error key`, Object.keys(error.response.data)[0])
         dispatch(setError(Object.keys(error.response.data)[0]))
         return error
