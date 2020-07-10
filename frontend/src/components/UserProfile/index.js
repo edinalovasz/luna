@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {connect} from "react-redux";
+import { rem } from "polished";
+import { connect } from "react-redux";
 
 import GenericProfileReview from "./GenericProfileReview";
 import GenericProfileComment from "./GenericProfileComment";
@@ -9,18 +9,18 @@ import GenericProfileRestaurant from "./GenericProfileRestaurant";
 
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import profilePicPlaceholder from "../../assets/images/small-user-image.png";
 import {
-    getCommentsByUserIDAction,
-    getUserByIDAction,
-    getRestaurantsByUserIDAction,
-    getReviewsByUserIDAction,
+  getCommentsByUserIDAction,
+  getUserByIDAction,
+  getRestaurantsByUserIDAction,
+  getReviewsByUserIDAction,
 } from "../../store/actions/userProfileActions";
-import {BigButton} from "../../style/GlobalButtons";
+import { BigButton } from "../../style/GlobalButtons";
 import Spinner from "../GenericSpinner";
 import EditProfile from "./EditProfile";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import DayJS from "react-dayjs";
 
 const ProfilePageWrapper = styled.div``;
@@ -30,6 +30,13 @@ const ProfilePageHeader = styled.div`
   overflow: hidden;
   z-index: -1;
   position: relative;
+  img {
+    object-fit: cover;
+    max-width: 100%;
+    width: 100%;
+    margin: auto;
+    display: block;
+  }
 `;
 
 const ProfilePageBody = styled.div`
@@ -189,7 +196,6 @@ const ProfileAboutWrapper = styled.div`
   }
 `;
 
-
 const ProfileBtn = styled(BigButton)`
   margin-top: 24px;
   margin-bottom: 24px;
@@ -202,175 +208,239 @@ const Content = styled.div`
   ${(props) => (props.active ? "" : "display:none")}
 `;
 
-
 const UserProfile = (props) => {
-    const {
-        dispatch,
-        userProfileReducer: {userObj, userReviews, userRestaurants, userComments, date_joined, about_me},
-        authReducer: {
-            userObj: {
-                id: loggedInUserID,
+  const {
+    dispatch,
+    userProfileReducer: {
+      userObj,
+      userReviews,
+      userRestaurants,
+      userComments,
+      date_joined,
+      about_me,
+    },
+    authReducer: {
+      userObj: { id: loggedInUserID },
+    },
+  } = props;
+
+  useEffect(() => {
+    console.log(loggedInUserID);
+    const ID = Number(loggedInUserID);
+    dispatch(getCommentsByUserIDAction(ID));
+    dispatch(getUserByIDAction(ID));
+    dispatch(getRestaurantsByUserIDAction(ID));
+    dispatch(getReviewsByUserIDAction(ID));
+  }, []);
+
+  const [active, setActive] = useState("reviews");
+
+  const handleClick = (e) => {
+    const value = e.target.id;
+    setActive(value);
+  };
+
+  return (
+    <>
+      <ProfilePageWrapper>
+        <ProfilePageHeader>
+          <img
+            alt={"banner"}
+            src={
+              userObj
+                ? userObj.banner
+                  ? userObj.banner
+                  : Home_page_Restaurant
+                : Home_page_Restaurant
             }
-        }
-    } = props;
+          />
+        </ProfilePageHeader>
+        <ProfilePageBody>
+          <ProfileWrapper>
+            <ProfileLeftWrapper>
+              <img
+                alt={"avatar"}
+                src={
+                  userObj
+                    ? userObj.avatar
+                      ? userObj.avatar
+                      : profilePicPlaceholder
+                    : profilePicPlaceholder
+                }
+              />
+              {userObj ? (
+                userObj.first_name.length ? (
+                  <h1>{userObj.first_name}’s profile</h1>
+                ) : (
+                  <h1>Profile Page</h1>
+                )
+              ) : null}
 
-    useEffect(() => {
-        console.log(loggedInUserID);
-        const ID = Number(loggedInUserID);
-        dispatch(getCommentsByUserIDAction(ID));
-        dispatch(getUserByIDAction(ID));
-        dispatch(getRestaurantsByUserIDAction(ID));
-        dispatch(getReviewsByUserIDAction(ID));
-    }, []);
-
-    const [active, setActive] = useState("reviews");
-
-    const handleClick = (e) => {
-        const value = e.target.id;
-        setActive(value);
-    };
-
-    return (
-        <>
-            <ProfilePageWrapper>
-                <ProfilePageHeader>
-                    <img alt={"banner"}
-                         src={userObj ? (userObj.banner ? userObj.banner : Home_page_Restaurant) : Home_page_Restaurant}/>
-                </ProfilePageHeader>
-                <ProfilePageBody>
-                    <ProfileWrapper>
-                        <ProfileLeftWrapper>
-                            <img alt={"avatar"}
-                                 src={userObj ? (userObj.avatar ? userObj.avatar : profilePicPlaceholder) : profilePicPlaceholder}/>
-                            {userObj ? (userObj.first_name.length ? <h1>{userObj.first_name}’s profile</h1> :
-                                <h1>Profile Page</h1>) : null}
-
-                            <ProfileMenuWrapper>
-                                <ProfileMenuItem
-                                    onClick={handleClick}
-                                    active={active === "reviews"}
-                                    id={"reviews"}
-                                >
-                                    <FontAwesomeIcon icon={["far", "star"]}/>
-                                    <p>Reviews</p>
-                                </ProfileMenuItem>
-                                <ProfileMenuItem
-                                    onClick={handleClick}
-                                    active={active === "comments"}
-                                    id={"comments"}
-                                >
-                                    <FontAwesomeIcon icon={["far", "comments"]}/>
-                                    <p>Comments</p>
-                                </ProfileMenuItem>
-                                <ProfileMenuItem
-                                    onClick={handleClick}
-                                    active={active === "restaurants"}
-                                    id={"restaurants"}
-                                >
-                                    <FontAwesomeIcon icon={["fas", "store"]}/>
-                                    <p>Restaurant</p>
-                                </ProfileMenuItem>
-                                <ProfileMenuItem
-                                    onClick={handleClick}
-                                    active={active === "edit"}
-                                    id={"edit"}
-                                >
-                                    <FontAwesomeIcon icon={["fas", "pencil-alt"]}/>
-                                    <p>Edit profile</p>
-                                </ProfileMenuItem>
-                            </ProfileMenuWrapper>
-                        </ProfileLeftWrapper>
-                        <ProfileRightWrapper>
-                            <ProfileRightTopWrapper>
-                                <h1>{userObj ? userObj.first_name : null}</h1>
-                                <div>
-                                    <p>{userObj ? `${userObj.location}` : null}</p>
-                                    {userObj ? (userObj.amount_of_reviews.length ?
-                                        <p>{userObj.amount_of_reviews} Reviews</p> :
-                                        <p>{userObj.amount_of_comments} Reviews</p>) :
-                                        <p>No Reviews</p>}
-                                    {userObj ? (userObj.amount_of_reviews.length ?
-                                        <p>No Comments</p> : <p>{userObj.amount_of_reviews} Comments</p>) :
-                                        <p>No Comments</p>}
-                                </div>
-                            </ProfileRightTopWrapper>
-                            <>
-                                <Content active={active === "reviews"}>
-                                    <ProfileRightBottomWrapper>
-                                        <h1>Reviews</h1>
-                                        {userReviews ? userReviews.map((review, index) => {
-                                            return (<GenericProfileReview
-                                                key={index}
-                                                review={review}
-                                            />)
-                                        }) : <Spinner/>}
-                                    </ProfileRightBottomWrapper>
-                                </Content>
-                                <Content active={active === "comments"}>
-                                    <ProfileRightBottomWrapper>
-                                        <h1>Comments</h1>
-                                        {userComments ? userComments.map((comment, index) => {
-                                            return (<GenericProfileComment
-                                                key={index}
-                                                comment={comment}
-                                            />)
-                                        }) : <Spinner/>}
-                                    </ProfileRightBottomWrapper>
-                                </Content>
-                                <Content active={active === "restaurants"}>
-                                    <ProfileRightBottomWrapper>
-                                        <h1>Restaurants</h1>
-                                        {userRestaurants ? userRestaurants.map((restaurant, index) => {
-                                            return (<GenericProfileRestaurant
-                                                key={index}
-                                                restaurant={restaurant}
-                                            />)
-                                        }) : <Spinner/>}
-                                    </ProfileRightBottomWrapper>
-                                    <Link to={'/restaurant/create'}>
-                                        <ProfileBtn>Create Restaurant</ProfileBtn>
-                                    </Link>
-                                </Content>
-                                <Content active={active === "edit"}>
-                                    {userObj ? <EditProfile handleClick={handleClick} dispatch={dispatch}
-                                                            userObj={userObj}/> : null}
-                                </Content>
-                            </>
-                        </ProfileRightWrapper>
-                    </ProfileWrapper>
-                    <ProfileAboutWrapper>
-                        <h1>About {userObj ? userObj.first_name : null}</h1>
-                        <div>
-                            <h2>Location</h2>
-                            <p>{userObj ? userObj.location : null}</p>
-                        </div>
-                        <div>
-                            <h2>Luna member since</h2>
-                            {userObj ? <p><DayJS format="MM.DD.YYYY HH:mm">{userObj.date_joined}</DayJS></p> : null}
-                        </div>
-                        <div>
-                            <h2>Things {userObj ? userObj.first_name : null} loves</h2>
-                            <div>{userObj ? userObj.things_user_loves.map((thing, i) => (<p key={i}>{thing}</p>)) : null}</div>
-                        </div>
-                        <div>
-                            <h2>More about {userObj ? userObj.first_name : null}</h2>
-                            <p>
-                                {userObj ? userObj.about_me : null}
-                            </p>
-                        </div>
-                    </ProfileAboutWrapper>
-                </ProfilePageBody>
-            </ProfilePageWrapper>
-        </>
-    );
+              <ProfileMenuWrapper>
+                <ProfileMenuItem
+                  onClick={handleClick}
+                  active={active === "reviews"}
+                  id={"reviews"}
+                >
+                  <FontAwesomeIcon icon={["far", "star"]} />
+                  <p>Reviews</p>
+                </ProfileMenuItem>
+                <ProfileMenuItem
+                  onClick={handleClick}
+                  active={active === "comments"}
+                  id={"comments"}
+                >
+                  <FontAwesomeIcon icon={["far", "comments"]} />
+                  <p>Comments</p>
+                </ProfileMenuItem>
+                <ProfileMenuItem
+                  onClick={handleClick}
+                  active={active === "restaurants"}
+                  id={"restaurants"}
+                >
+                  <FontAwesomeIcon icon={["fas", "store"]} />
+                  <p>Restaurant</p>
+                </ProfileMenuItem>
+                <ProfileMenuItem
+                  onClick={handleClick}
+                  active={active === "edit"}
+                  id={"edit"}
+                >
+                  <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
+                  <p>Edit profile</p>
+                </ProfileMenuItem>
+              </ProfileMenuWrapper>
+            </ProfileLeftWrapper>
+            <ProfileRightWrapper>
+              <ProfileRightTopWrapper>
+                <h1>{userObj ? userObj.first_name : null}</h1>
+                <div>
+                  <p>{userObj ? `${userObj.location}` : null}</p>
+                  {userObj ? (
+                    userObj.amount_of_reviews.length ? (
+                      <p>{userObj.amount_of_reviews} Reviews</p>
+                    ) : (
+                      <p>{userObj.amount_of_comments} Reviews</p>
+                    )
+                  ) : (
+                    <p>No Reviews</p>
+                  )}
+                  {userObj ? (
+                    userObj.amount_of_reviews.length ? (
+                      <p>No Comments</p>
+                    ) : (
+                      <p>{userObj.amount_of_reviews} Comments</p>
+                    )
+                  ) : (
+                    <p>No Comments</p>
+                  )}
+                </div>
+              </ProfileRightTopWrapper>
+              <>
+                <Content active={active === "reviews"}>
+                  <ProfileRightBottomWrapper>
+                    <h1>Reviews</h1>
+                    {userReviews ? (
+                      userReviews.map((review, index) => {
+                        return (
+                          <GenericProfileReview key={index} review={review} />
+                        );
+                      })
+                    ) : (
+                      <Spinner />
+                    )}
+                  </ProfileRightBottomWrapper>
+                </Content>
+                <Content active={active === "comments"}>
+                  <ProfileRightBottomWrapper>
+                    <h1>Comments</h1>
+                    {userComments ? (
+                      userComments.map((comment, index) => {
+                        return (
+                          <GenericProfileComment
+                            key={index}
+                            comment={comment}
+                          />
+                        );
+                      })
+                    ) : (
+                      <Spinner />
+                    )}
+                  </ProfileRightBottomWrapper>
+                </Content>
+                <Content active={active === "restaurants"}>
+                  <ProfileRightBottomWrapper>
+                    <h1>Restaurants</h1>
+                    {userRestaurants ? (
+                      userRestaurants.map((restaurant, index) => {
+                        return (
+                          <GenericProfileRestaurant
+                            key={index}
+                            restaurant={restaurant}
+                          />
+                        );
+                      })
+                    ) : (
+                      <Spinner />
+                    )}
+                  </ProfileRightBottomWrapper>
+                  <Link to={"/restaurant/create"}>
+                    <ProfileBtn>Create Restaurant</ProfileBtn>
+                  </Link>
+                </Content>
+                <Content active={active === "edit"}>
+                  {userObj ? (
+                    <EditProfile
+                      handleClick={handleClick}
+                      dispatch={dispatch}
+                      userObj={userObj}
+                    />
+                  ) : null}
+                </Content>
+              </>
+            </ProfileRightWrapper>
+          </ProfileWrapper>
+          <ProfileAboutWrapper>
+            <h1>About {userObj ? userObj.first_name : null}</h1>
+            <div>
+              <h2>Location</h2>
+              <p>{userObj ? userObj.location : null}</p>
+            </div>
+            <div>
+              <h2>Luna member since</h2>
+              {userObj ? (
+                <p>
+                  <DayJS format="MM.DD.YYYY HH:mm">{userObj.date_joined}</DayJS>
+                </p>
+              ) : null}
+            </div>
+            <div>
+              <h2>Things {userObj ? userObj.first_name : null} loves</h2>
+              <div>
+                {userObj
+                  ? userObj.things_user_loves.map((thing, i) => (
+                      <p key={i}>{thing}</p>
+                    ))
+                  : null}
+              </div>
+            </div>
+            <div>
+              <h2>More about {userObj ? userObj.first_name : null}</h2>
+              <p>{userObj ? userObj.about_me : null}</p>
+            </div>
+          </ProfileAboutWrapper>
+        </ProfilePageBody>
+      </ProfilePageWrapper>
+    </>
+  );
 };
 
 const mapStateToProps = (state) => {
-    console.log("state", state)
-    return {
-        userProfileReducer: state.userProfileReducer,
-        authReducer: state.authReducer,
-    };
+  console.log("state", state);
+  return {
+    userProfileReducer: state.userProfileReducer,
+    authReducer: state.authReducer,
+  };
 };
 
 export default connect(mapStateToProps)(UserProfile);
