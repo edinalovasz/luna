@@ -23,6 +23,8 @@ build:
 lint:
   allow_failure: true
   stage: lint
+  only:
+    - master
   script:
     - export CI_PIPELINE_ID=$CI_PIPELINE_ID
     - export CI_BUILD_REF_NAME=$CI_COMMIT_REF_NAME

@@ -331,7 +331,7 @@ const RestaurantEdit = (props) => {
                         <CategoryTitle/>
                         <CategoryDetailTitle>Image</CategoryDetailTitle>
                         <InputLabel htmlFor="restaurant_image">Choose a file...</InputLabel>
-                        <InputFile id="restaurant_image" minSize={1048576} maxSize={5242880} accept={"image/*"}
+                        <InputFile id="restaurant_image" accept={"image/*"}
                                    type="file" onChange={imageSelectHandler}/>
                     </InputContainer>
                 </FormContainer>
