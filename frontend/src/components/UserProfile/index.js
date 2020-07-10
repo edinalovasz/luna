@@ -410,7 +410,7 @@ const UserProfile = (props) => {
               <h2>Luna member since</h2>
               {userObj ? (
                 <p>
-                  <DayJS format="MM.DD.YYYY HH:mm">{userObj.date_joined}</DayJS>
+                  <DayJS format="MM.DD.YYYY">{userObj.date_joined}</DayJS>
                 </p>
               ) : null}
             </div>
