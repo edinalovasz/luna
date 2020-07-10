@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.comments.serializers import  Top2CommentSerializer
+from apps.comments.serializers import Top2CommentSerializer
 from apps.restaurantreviews.models import RestaurantReview
 from apps.restaurants.serializer import RestaurantSerializer
 from apps.users.serializer import UserSerializer

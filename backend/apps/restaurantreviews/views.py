@@ -1,13 +1,15 @@
 # Create your views here.
 from django.contrib.auth import get_user_model
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView, \
+    ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from apps.comments.serializers import CommentSerializer
 from apps.restaurantreviews.models import RestaurantReview
-from apps.restaurantreviews.permissions import IsAuthorOrAdminOrReadOnly, CannotLikeOwnReview
+from apps.restaurantreviews.permissions import \
+    IsAuthorOrAdminOrReadOnly, CannotLikeOwnReview
 from apps.restaurantreviews.serializers import RestaurantReviewSerializer
 from apps.restaurants.models import Restaurant
 from apps.users.permissions import ReadOnly
@@ -97,7 +99,8 @@ class RetrieveUpdateDestroyReview(RetrieveUpdateDestroyAPIView):
 class ToggleLikeReviewVew(CreateAPIView):
     """
     POST:
-    Toggle liking a review by including the target review in the url(cannot like own review).
+    Toggle liking a review by including the target
+    review in the url(cannot like own review).
     """
     permission_classes = [CannotLikeOwnReview]
     queryset = RestaurantReview
@@ -130,7 +133,8 @@ class ListReviewsUserCommentedView(ListAPIView):
     serializer_class = RestaurantReviewSerializer
 
     def list(self, request, *args, **kwargs):
-        target_reviews = RestaurantReview.objects.filter(comments__author=request.user).order_by('-created')
+        target_reviews = RestaurantReview.objects.filter\
+            (comments__author=request.user).order_by('-created')
         serializer = self.get_serializer(target_reviews, many=True)
         return Response(serializer.data)
 
