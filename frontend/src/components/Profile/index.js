@@ -28,6 +28,13 @@ const ProfilePageHeader = styled.div`
   overflow: hidden;
   z-index: -1;
   position: relative;
+  img {
+    object-fit: cover;
+    max-width: 100%;
+    width: 100%;
+    margin: auto;
+    display: block;
+  }
 `;
 
 const ProfilePageBody = styled.div`
