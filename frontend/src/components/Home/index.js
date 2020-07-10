@@ -13,6 +13,7 @@ import { useHistory } from "react-router";
 import { connect, useDispatch } from "react-redux";
 import { validate } from "../../store/actions/registrationActions";
 import { getTopFourAction } from "../../store/actions/searchActions";
+import Spinner from "../GenericSpinner";
 
 const HomePageWrapper = styled(PageContainer)`
   display: flex;
@@ -95,7 +96,7 @@ const Home = (props) => {
   useEffect(() => {
     async function fetchData() {
       const response = await dispatch(getTopFourAction());
-      if (response.data < 300) settopFour(response.data);
+      if (response.status < 300) settopFour(response.data);
     }
     fetchData();
   }, []);
@@ -140,13 +141,12 @@ const Home = (props) => {
           <Line></Line>
         </TitleContainerHome>
         <BestRatedRestaurantContainer>
-          {(topFour && topFour.length > 1)
-            ? topFour.map((restaurant, index) => {
+          {topFour ? topFour.map((restaurant, index) => {
                 return (
                   <GenericRestaurantCard key={index} restaurant={restaurant} />
                 );
               })
-            : null}
+            : <Spinner/>}
         </BestRatedRestaurantContainer>
       </BestRatedRestaurantsSection>
     </HomePageWrapper>
