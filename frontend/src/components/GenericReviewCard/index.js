@@ -90,10 +90,11 @@ const GenericReviewCard = (props) => {
                   <h3>
                     {comment.author.first_name + " " + comment.author.last_name}
                   </h3>
-                  <p>{`${comment.content.substring(
-                    0,
-                    MAX_COMMENT_LENGTH
-                  )}...`}</p>
+                  <p>
+                    {comment.content.length > MAX_COMMENT_LENGTH
+                      ? `${comment.content.substring(0, MAX_COMMENT_LENGTH)}...`
+                      : `${comment.content.substring(0, MAX_COMMENT_LENGTH)}`}
+                  </p>
                 </div>
               );
             })
