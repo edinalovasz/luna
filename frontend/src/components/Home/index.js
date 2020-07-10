@@ -9,7 +9,6 @@ import { SearchInput } from "../../style/GlobalInputs";
 import { BigButton } from "../../style/GlobalButtons";
 
 import GenericRestaurantCard from "../GenericRestaurantCard";
-import { useHistory } from "react-router";
 import { connect, useDispatch } from "react-redux";
 import { validate } from "../../store/actions/registrationActions";
 import { getTopFourAction } from "../../store/actions/searchActions";

@@ -32,7 +32,8 @@ import {
 } from "../../store/actions/commentActions";
 import { connect, useDispatch } from "react-redux";
 import Spinner from "../GenericSpinner";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import {likeReviewAction} from "../../store/actions/reviewActions";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -109,21 +110,127 @@ const GenericWideReviewCard = (props) => {
         content: ``,
       });
     }
-  };
 
-  return (
-    <>
-      <WideReviewCard>
-        <WideUserCardProfile>
-          <div>
-            <Link to={`/users/${id}`}>
-              <img src={avatar ? avatar : defaultProfilePic}></img>
-            </Link>
+    const handleNewComment = e => {
+        const value = e.currentTarget.value;
+        setComments({...commentsData, content: value});
+    }
+
+    const handleRenderComments = async (e) => {
+        if (commentsData.showComments === false) {
+            const response = await dispatch(getReviewCommentsAction(reviewID));
+            setComments({
+                ...commentsData,
+                commentsList: response.data,
+                showComments: !commentsData.showComments,
+            });
+        } else {
+            setComments({
+                showComments: false,
+                commentsList: null,
+                content: ``,
+            });
+        }
+    };
+
+    const handleLikeReview = e => {
+        dispatch(likeReviewAction(reviewID, "restaurantProfile"))
+    }
+
+    return (
+        <>
+            <WideReviewCard>
+                <WideUserCardProfile>
+                    <div>
+                        <Link to={`/users/${id}`}>
+                            <img src={avatar ? avatar : defaultProfilePic}></img>
+                        </Link>
+                        <div>
+                            <StyledLink to={`/users/${id}`}>
+                                {first_name + " " + last_name}
+                            </StyledLink>
+                            <p>{amount_of_reviews} Reviews in Total</p>
+                        </div>
+                        <StarRatingWrapper>
+                            <StarRatingFix avg_rating={rating}/>
+                        </StarRatingWrapper>
+                    </div>
+                    <div>
+                        <p>
+                            <DayJS format="MM.DD.YYYY HH:mm">{created}</DayJS>
+                        </p>
+                    </div>
+                </WideUserCardProfile>
+                {commentsData.showComments ? (
+                    <Comments
+                        submitComment={submitComment}
+                        handleNewComment={handleNewComment}
+                        handleRenderComments={handleRenderComments}
+                        commentsList={commentsData.commentsList}
+                        newCommentData={commentsData.content}
+                        content={content}
+                    />
+                ) : (
+                    <LikeCommentView
+                        handleLikeReview={handleLikeReview}
+                        handleRenderComments={handleRenderComments}
+                        commentsList={commentsData.commentsList}
+                        content={content}
+                        amount_of_comments={amount_of_comments}
+                        amount_of_likes={amount_of_likes}
+                    />
+                )}
+            </WideReviewCard>
+        </>
+    );
+};
+const Comments = ({handleRenderComments, newCommentData, submitComment, commentsList, handleNewComment, content}) => {
+    console.log("commentsList   ", commentsList);
+    return (
+        <>
+            <WideReviewCardText>
+                <p>{content}</p>
+                <PostComment>
+                    <Input onChange={handleNewComment} type="text" placeholder="Comment Input Field" onResize={(e) => {
+                    }} value={newCommentData}/>
+                    <SmallButton onClick={submitComment}>Post</SmallButton>
+                    <a onClick={handleRenderComments}>Hide</a>
+                </PostComment>
+            </WideReviewCardText>
+            {commentsList ? (
+                commentsList.map((comment, index) => {
+                    return <GenericReviewComment key={index} comment={comment}/>;
+                })
+            ) : (
+                <Spinner/>
+            )}
+        </>
+    );
+};
+
+const LikeCommentView = ({
+                             commentsList,
+                             handleLikeReview,
+                             handleRenderComments,
+                             content,
+                             amount_of_comments,
+                             amount_of_likes,
+                         }) => {
+    return (
+        <WideReviewCardText>
+            <p>{content}</p>
+
             <div>
-              <StyledLink to={`/users/${id}`}>
-                {first_name + " " + last_name}
-              </StyledLink>
-              <p>{amount_of_reviews} Reviews in Total</p>
+                <SplitButton>
+                    <LikeButton onClick={handleLikeReview}>
+                        <FontAwesomeIcon icon={["fa", "thumbs-up"]}/>
+                        Like {amount_of_likes}
+                    </LikeButton>
+                    <CommentButton onClick={handleRenderComments}>
+                        Comment {amount_of_comments}
+                    </CommentButton>
+                </SplitButton>
+                <a onClick={handleRenderComments}>View all comments</a>
             </div>
             <StarRatingWrapper>
               <StarRatingFix avg_rating={rating} />
