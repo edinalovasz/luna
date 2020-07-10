@@ -1,5 +1,5 @@
 import React from "react";
-import Fade from 'react-reveal/Fade';
+import Fade from "react-reveal/Fade";
 import { rem } from "polished";
 import styled from "styled-components";
 import placeHolderRestaurant from "../../assets/images/restaurant.png";
@@ -36,9 +36,13 @@ const RestaurantCardContent = styled.div`
 
 const RestaurantCardImg = styled.div`
   overflow: hidden;
+  width: ${rem("270px")};
+  height: ${rem("270px")};
   img {
-    width: ${rem("270px")};
-    height: ${rem("270px")};
+    object-fit: contain;
+    flex-shrink: 0;
+    max-height: 270px;
+    width: auto;
   }
 `;
 
@@ -49,27 +53,26 @@ const GenericRestaurantCard = (props) => {
     restaurant: { id, name, city, avg_rating, no_of_ratings, image },
   } = props;
   return (
-      <Fade right cascade>
-          <RestaurantCard>
-      <RestaurantCardContent>
-        <h2>{name}</h2>
-        <p>{city}</p>
-        <div>
-          <StarRatingFix avg_rating={parseInt(avg_rating)} />
-          <h2>{no_of_ratings}</h2>
-        </div>
-      </RestaurantCardContent>
-      <RestaurantCardImg>
-        <Link to={`/restaurants/${id}`}>
-          <img
-            alt={"restaurant picture"}
-            src={image ? image : placeholderImage}
-          />
-        </Link>
-      </RestaurantCardImg>
-    </RestaurantCard>
-      </Fade>
-
+    <Fade right cascade>
+      <RestaurantCard>
+        <RestaurantCardContent>
+          <h2>{name}</h2>
+          <p>{city}</p>
+          <div>
+            <StarRatingFix avg_rating={parseInt(avg_rating)} />
+            <h2>{no_of_ratings}</h2>
+          </div>
+        </RestaurantCardContent>
+        <RestaurantCardImg>
+          <Link to={`/restaurants/${id}`}>
+            <img
+              alt={"restaurant picture"}
+              src={image ? image : placeholderImage}
+            />
+          </Link>
+        </RestaurantCardImg>
+      </RestaurantCard>
+    </Fade>
   );
 };
 
