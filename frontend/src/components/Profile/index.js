@@ -10,7 +10,7 @@ import GenericProfileRestaurant from "./GenericProfileRestaurant";
 import Home_page_Restaurant from "../../assets/images/food-4505943_1920.jpg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import profilePicPlaceholder from "../../assets/images/small-user-image.png";
+import profilePicPlaceholder from "../../assets/images/default-profile-pic.jpg";
 import {
   getCommentsByUserIDAction,
   getUserByIDAction,
