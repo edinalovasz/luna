@@ -10,7 +10,7 @@ export const errorReducer = (state = initialState, action) => {
             return {...newState, error: action.payload}
         }
         case CLEAR_ERRORS: {
-            return {...initialState}
+            return initialState
         }
         default:
             return state

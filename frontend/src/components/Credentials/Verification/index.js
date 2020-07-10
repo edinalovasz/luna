@@ -9,6 +9,7 @@ import {validate} from "../../../store/actions/registrationActions";
 import {useHistory} from "react-router";
 import {connect, useDispatch} from "react-redux";
 import ErrorComponent from "../../ErrorComponent";
+import {resetError} from "../../../store/actions/errorActions";
 
 const VerificationWrapper = styled.div`
   display: flex;
@@ -81,6 +82,7 @@ const Verification = (props) => {
         e.preventDefault();
         const response = await dispatch(validate(userInfo));
         if (response.status < 300) {
+            resetError()
             history.push("/auth/login");
         }
     };
