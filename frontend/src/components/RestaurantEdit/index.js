@@ -14,6 +14,7 @@ import {useHistory} from "react-router";
 import {connect, useDispatch} from "react-redux";
 import {restaurantReducer} from "../../store/reducers/restaurantReducer";
 import TextareaAutosize from "react-autosize-textarea";
+import {resetError} from "../../store/actions/errorActions";
 
 const RestaurantCreateWrapper = styled(PageContainer)`
     flex-direction: column ;
@@ -60,6 +61,15 @@ const InputContainer = styled.div`
     width: ${rem("370px")};
     display: flex;
     flex-direction: column;
+        div {
+  display: flex;
+  width: 216px;
+  align-items: center;
+    p {
+      color: red;
+      text-align: center;
+    };
+  }
 `;
 
 const RestaurantCreateInput = styled(BaseInput)`
@@ -169,6 +179,7 @@ const Input = styled(TextareaAutosize)`
 
 const RestaurantEdit = (props) => {
     const {
+        errorReducer:{error},
         match: {
             params: {restaurantId},
         },
@@ -210,6 +221,7 @@ const RestaurantEdit = (props) => {
     };
 
     const imageSelectHandler = e => {
+        dispatch(resetError())
         if (e.target.files[0]) {
             setImageFile(e.target.files[0])
         }
@@ -237,8 +249,6 @@ const RestaurantEdit = (props) => {
         if (response.status < 300) {
             console.log("woohooo", response)
             history.push(`/restaurants/${restaurantId}`)
-        } else {
-            console.log('error in da dispatch', response)
         }
     };
 
@@ -337,7 +347,8 @@ const RestaurantEdit = (props) => {
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Image</CategoryDetailTitle>
-                        <InputLabel htmlFor="restaurant_image">Choose a file...</InputLabel>
+                        <InputLabel htmlFor="restaurant_image">{ imageFile ? "File uploaded" :"Choose a file..."}</InputLabel>
+                        <div><p>{error === "image" ? "Uploaded file is the  wrong image type" : null}</p></div>
                         <InputFile id="restaurant_image" accept={"image/*"}
                                    type="file" onChange={imageSelectHandler}/>
                     </InputContainer>
@@ -356,6 +367,7 @@ const mapStateToProps = (state) => {
     console.log("state", state)
     return {
         restaurantReducer: state.restaurantReducer,
+        errorReducer: state.errorReducer,
     };
 };
 

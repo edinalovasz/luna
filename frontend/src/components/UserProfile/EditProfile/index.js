@@ -7,6 +7,8 @@ import {BigButton} from "../../../style/GlobalButtons";
 import {updateUserAction} from "../../../store/actions/userActions";
 import {useHistory} from "react-router";
 import {setUserProfileObj} from "../../../store/actions/userProfileActions";
+import {connect} from "react-redux";
+import {resetError} from "../../../store/actions/errorActions";
 
 const ProfileDetailTitle = styled(Title)`
   font-weight: bold;
@@ -80,6 +82,17 @@ const ProfileRightBottomWrapper = styled.form`
     margin-bottom: 12px;
   }
 `;
+
+const ErrorMsg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    p {
+      color: red;
+      text-align: center;
+    }
+`
+
 const ProfileBtn = styled(BigButton)`
   margin-top: 24px;
   margin-bottom: 24px;
@@ -92,7 +105,7 @@ const ButtonsDiv = styled.div`
 `
 
 const EditProfile = (props) => {
-    const {push} = useHistory();
+    const {errorReducer: {error}} = props
     const {
         handleClick,
         dispatch,
@@ -130,8 +143,9 @@ const EditProfile = (props) => {
         setUserInfo({...userInfo, [property]: value});
     };
     const handleSubmit = async e => {
+
         e.preventDefault();
-        handleClick(e)
+        dispatch(resetError())
         const form = new FormData()
         form.append('first_name', userInfo.first_name)
         form.append('last_name', userInfo.last_name)
@@ -153,17 +167,19 @@ const EditProfile = (props) => {
         const response = await dispatch(updateUserAction(form));
         if (response.status === 200) {
             dispatch(setUserProfileObj(response.data))
-            push(`/profile`)
+            window.location.reload(false)
         }
 
     };
 
     const avatarSelectHandler = e => {
+        dispatch(resetError())
         if (e.target.files[0]) {
             setUserInfo({...userInfo, avatarUrl: URL.createObjectURL(e.target.files[0]), avatar: e.target.files[0]})
         }
     }
     const bannerSelectHandler = e => {
+        dispatch(resetError())
         if (e.target.files[0]) {
             setUserInfo({...userInfo, bannerUrl: URL.createObjectURL(e.target.files[0]), banner: e.target.files[0]})
         }
@@ -174,6 +190,7 @@ const EditProfile = (props) => {
             <h1>Edit user profile</h1>
             <div>
                 <ProfileDetailTitle>Username </ProfileDetailTitle>
+                <ErrorMsg><p>{error === "username" ? "This username has already been taken" : null}</p></ErrorMsg>
                 <ProfileCreateInput onChange={(e) => onChangeHandler(e, "username")}
                                     placeholder="Enter username"
                                     defaultValue={username}
@@ -227,11 +244,16 @@ const EditProfile = (props) => {
                                        rows={10}/>
             </div>
             <ButtonsDiv>
+
                 <AvatarLabel htmlFor="avatar">{userInfo.avatar ? "Uploaded" : "Upload Avatar"}</AvatarLabel>
                 <AvatarInput id="avatar" accept={"image/*"} onChange={avatarSelectHandler} type="file"/>
                 <AvatarLabel htmlFor="banner">{userInfo.banner ? "Uploaded" : "Upload Banner"}</AvatarLabel>
                 <AvatarInput id="banner" accept={"image/*"} onChange={bannerSelectHandler} type="file"/>
             </ButtonsDiv>
+            <div><ErrorMsg>
+                <p>{(error === "avatar" || error === "banner") ? "The uploaded file is not an image." : null}</p>
+            </ErrorMsg>
+                <ErrorMsg><p>{error === "username" ? "This username has already been taken" : null}</p></ErrorMsg></div>
             <SaveDeleteWrapper>
                 <ProfileBtn id={"reviews"} onClick={handleSubmit}>Save</ProfileBtn>
                 <a>Delete Account</a>
@@ -240,4 +262,12 @@ const EditProfile = (props) => {
     )
 }
 
-export default EditProfile
+const mapStateToProps = (state) => {
+    console.log("state", state);
+    return {
+        authReducer: state.authReducer,
+        errorReducer: state.errorReducer,
+    };
+};
+
+export default connect(mapStateToProps)(EditProfile);

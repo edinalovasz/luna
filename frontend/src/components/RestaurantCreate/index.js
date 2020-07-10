@@ -9,6 +9,7 @@ import {createRestaurantAction} from "../../store/actions/restaurantActions";
 import {useHistory} from "react-router";
 import {connect, useDispatch} from "react-redux";
 import TextareaAutosize from "react-autosize-textarea";
+import {resetError} from "../../store/actions/errorActions";
 
 const RestaurantCreateWrapper = styled(PageContainer)`
     flex-direction: column ;
@@ -55,6 +56,15 @@ const InputContainer = styled.div`
     width: ${rem("370px")};
     display: flex;
     flex-direction: column;
+    div {
+  display: flex;
+  width: 216px;
+  align-items: center;
+    p {
+      color: red;
+      text-align: center;
+    };
+  }
 `;
 
 const RestaurantCreateInput = styled(BaseInput)`
@@ -163,7 +173,7 @@ const Input = styled(TextareaAutosize)`
 
 
 const RestaurantCreate = (props) => {
-    const {authReducer} = props
+    const {authReducer, errorReducer: {error}} = props
     console.log("authReducer", authReducer)
     const history = useHistory()
     const dispatch = useDispatch()
@@ -179,7 +189,7 @@ const RestaurantCreate = (props) => {
         email: "",
         opening_hours: "",
         price_level: "",
-        image: "",
+        image: null,
         description: ""
     })
 
@@ -189,6 +199,7 @@ const RestaurantCreate = (props) => {
     };
 
     const imageSelectHandler = e => {
+        dispatch(resetError())
         if (e.target.files[0]) {
             setRestaurantInfo({...restaurantInfo, image: e.target.files[0]})
         }
@@ -217,8 +228,6 @@ const RestaurantCreate = (props) => {
             console.log("woohooo", response)
             const restaurantId = response.data.id
             history.push(`/restaurants/${restaurantId}`)
-        } else {
-            console.log('error', response)
         }
     };
 
@@ -229,7 +238,7 @@ const RestaurantCreate = (props) => {
             <FormWrapper onSubmit={handleSubmit}>
                 <RestaurantCreateTitle>Create new restaurant</RestaurantCreateTitle>
                 <RestaurantCreateTitleHr/>
-                <FormContainer >
+                <FormContainer>
                     <InputContainer>
                         <CategoryTitle>Basic</CategoryTitle>
                         <CategoryDetailTitle>Name *</CategoryDetailTitle>
@@ -318,14 +327,17 @@ const RestaurantCreate = (props) => {
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Image</CategoryDetailTitle>
-                        <InputLabel htmlFor="restaurant_image">Choose a file...</InputLabel>
+
+                        <InputLabel htmlFor="restaurant_image">{ restaurantInfo.image ? "File uploaded" :"Choose a file..."}</InputLabel>
+                        <div><p>{error === "image" ? "Uploaded file is the  wrong image type" : null}</p></div>
                         <InputFile id="restaurant_image" accept={"image/*"}
                                    type="file" onChange={imageSelectHandler}/>
                     </InputContainer>
                 </FormContainer>
                 <DesciptionContainer>
-                            <Input onResize={(e) => {
-                }} value={restaurantInfo.description} onChange={(e) => onChangeHandler(e, "description")} placeholder="Description..."/>
+                    <Input onResize={(e) => {
+                    }} value={restaurantInfo.description} onChange={(e) => onChangeHandler(e, "description")}
+                           placeholder="Description..."/>
                 </DesciptionContainer>
                 <CreateRestaurantButton>Submit</CreateRestaurantButton>
             </FormWrapper>
@@ -335,9 +347,10 @@ const RestaurantCreate = (props) => {
 
 const mapStateToProps = (state) => {
     console.log("state", state)
-  return {
-    authReducer: state.authReducer,
-  };
+    return {
+        authReducer: state.authReducer,
+        errorReducer: state.errorReducer,
+    };
 };
 
 export default connect(mapStateToProps)(RestaurantCreate);

@@ -220,13 +220,13 @@ const UserProfile = (props) => {
       about_me,
     },
     authReducer: {
-      userObj: { id: loggedInUserID },
+      userObj: loggedInUserObj,
     },
   } = props;
 
   useEffect(() => {
-    console.log(loggedInUserID);
-    const ID = Number(loggedInUserID);
+
+    const ID = Number(loggedInUserObj.id);
     dispatch(getCommentsByUserIDAction(ID));
     dispatch(getUserByIDAction(ID));
     dispatch(getRestaurantsByUserIDAction(ID));
@@ -389,11 +389,11 @@ const UserProfile = (props) => {
                   </Link>
                 </Content>
                 <Content active={active === "edit"}>
-                  {userObj ? (
+                  {loggedInUserObj ? (
                     <EditProfile
                       handleClick={handleClick}
                       dispatch={dispatch}
-                      userObj={userObj}
+                      userObj={loggedInUserObj}
                     />
                   ) : null}
                 </Content>

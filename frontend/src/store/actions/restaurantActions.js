@@ -1,5 +1,6 @@
 import Axios from "../../axios";
 import {SET_RESTAURANT_OBJ, SET_RESTAURANT_REVIEWS, RESET_RESTAURANT} from "../actionTypes";
+import {resetError, setError} from "./errorActions";
 
 const setRestaurantReviews = (reviews) => {
     return {
@@ -40,22 +41,28 @@ export const createRestaurantAction = data => async (dispatch) => {
         // TODO push user to feed page after creation of restaurant
         // TODO append created post to beginning of search reducer restaurants
         console.log("New restaurant", response.data)
+        dispatch(resetError())
         return response
     } catch (error) {
         console.log(`error`, error.response)
+        dispatch(setError(Object.keys(error.response.data)[0]))
         return error
     }
 }
 
 export const updateRestaurantAction = (restaurantID,data) => async (dispatch) => {
-    console.log([...data])
+    // console.log([...data])
     try {
         const response = await Axios.patch(`restaurants/${restaurantID}/`, data);
-        console.log("Updated restaurant", response.data)
+        // console.log("Updated restaurant", response.data)
         dispatch(setRestaurantObj(response.data))
+        dispatch(resetError())
         return response
     } catch (error) {
-        console.log(`error`, error.response)
+        // console.log(`error`, error.response)
+        console.log("error response", error.response)
+        console.log(`error key`, Object.keys(error.response.data)[0])
+        dispatch(setError(Object.keys(error.response.data)[0]))
         return error
     }
 }
