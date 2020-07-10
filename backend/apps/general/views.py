@@ -1,10 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from rest_framework import generics, filters
+from rest_framework import generics
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-from apps.registrations.permissions import CanBeAnonymous
 from apps.restaurantreviews.models import RestaurantReview
 from apps.restaurantreviews.serializers import RestaurantReviewSerializer
 from apps.restaurants.models import Restaurant

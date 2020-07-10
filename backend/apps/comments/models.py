@@ -11,7 +11,8 @@ class Comment(models.Model):
     updated = models.DateTimeField(auto_now=True)
     restaurant_review = models.ForeignKey(to=RestaurantReview, on_delete=models.CASCADE, related_name='comments',
                                           null=True)
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE, blank=True, null=True, related_name='author_comments')
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, blank=True, null=True,
+                               related_name='author_comments')
     likes = models.ManyToManyField(to=User, related_name='liked_comments')
 
     def __str__(self):
