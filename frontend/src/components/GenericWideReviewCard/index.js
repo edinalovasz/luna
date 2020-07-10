@@ -4,37 +4,37 @@ import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
 import TextareaAutosize from "react-autosize-textarea";
 import DayJS from "react-dayjs";
 import styled from "styled-components";
-import {rem} from "polished";
+import { rem } from "polished";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import GenericReviewComment from "../GenericReviewComment";
 
 import {
-    WideReviewCard,
-    WideUserCardProfile,
-    StarContainer,
-    WideReviewCardText,
-    PostComment,
-    StarRatingWrapper,
+  WideReviewCard,
+  WideUserCardProfile,
+  StarContainer,
+  WideReviewCardText,
+  PostComment,
+  StarRatingWrapper,
 } from "../../style/GlobalWrappers";
 
-import {CommentInput} from "../../style/GlobalInputs";
+import { CommentInput } from "../../style/GlobalInputs";
 import {
-    SmallButton,
-    LikeButton,
-    CommentButton,
-    SplitButton,
+  SmallButton,
+  LikeButton,
+  CommentButton,
+  SplitButton,
 } from "../../style/GlobalButtons";
 import StarRatingFix from "../StarRatingFix";
 import {
-    createCommentAction,
-    getReviewCommentsAction,
+  createCommentAction,
+  getReviewCommentsAction,
 } from "../../store/actions/commentActions";
-import {connect, useDispatch} from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Spinner from "../GenericSpinner";
-import {Link} from "react-router-dom";
-import {likeReviewAction} from "../../store/actions/reviewActions";
+import { Link } from "react-router-dom";
+import { likeReviewAction } from "../../store/actions/reviewActions";
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -57,65 +57,60 @@ const Input = styled(TextareaAutosize)`
 `;
 
 const GenericWideReviewCard = (props) => {
-    const dispatch = useDispatch();
-    const {
-        review: {
-            id: reviewID,
-            content,
-            restaurant: {name},
-            author: {first_name, last_name, amount_of_reviews, avatar, id},
-            created,
-            rating,
-            amount_of_comments,
-            amount_of_likes,
-        },
-    } = props;
+  const dispatch = useDispatch();
+  const {
+    review: {
+      id: reviewID,
+      content,
+      restaurant: { name },
+      author: { first_name, last_name, amount_of_reviews, avatar, id },
+      created,
+      rating,
+      amount_of_comments,
+      amount_of_likes,
+    },
+    authReducer: { authenticated },
+  } = props;
 
-    const [commentsData, setComments] = useState({
+  const [commentsData, setComments] = useState({
+    showComments: false,
+    commentsList: null,
+    content: ``,
+  });
+  console.log("commentsData", commentsData);
+
+  const submitComment = async (e) => {
+    e.preventDefault();
+    console.log("in the submit!");
+    const response = await dispatch(
+      createCommentAction(reviewID, { content: commentsData.content })
+    );
+    setComments({
+      ...commentsData,
+      commentsList: [response.data, ...commentsData.commentsList],
+      content: ``,
+    });
+  };
+
+  const handleNewComment = (e) => {
+    const value = e.currentTarget.value;
+    setComments({ ...commentsData, content: value });
+  };
+
+  const handleRenderComments = async (e) => {
+    if (commentsData.showComments === false) {
+      const response = await dispatch(getReviewCommentsAction(reviewID));
+      setComments({
+        ...commentsData,
+        commentsList: response.data,
+        showComments: !commentsData.showComments,
+      });
+    } else {
+      setComments({
         showComments: false,
         commentsList: null,
         content: ``,
-    });
-    console.log("commentsData", commentsData);
-
-    const submitComment = async (e) => {
-        e.preventDefault();
-        console.log("in the submit!");
-        const response = await dispatch(
-            createCommentAction(reviewID, {content: commentsData.content})
-        );
-        setComments({
-            ...commentsData,
-            commentsList: [response.data, ...commentsData.commentsList],
-            content: ``,
-        });
-    };
-
-    const handleNewComment = (e) => {
-        const value = e.currentTarget.value;
-        setComments({...commentsData, content: value});
-    };
-
-    const handleRenderComments = async (e) => {
-        if (commentsData.showComments === false) {
-            const response = await dispatch(getReviewCommentsAction(reviewID));
-            setComments({
-                ...commentsData,
-                commentsList: response.data,
-                showComments: !commentsData.showComments,
-            });
-        } else {
-            setComments({
-                showComments: false,
-                commentsList: null,
-                content: ``,
-            });
-        }
-    }
-
-
-    const handleLikeReview = e => {
-        dispatch(likeReviewAction(reviewID, "restaurantProfile"))
+      });
     }
 
     return (
@@ -195,30 +190,35 @@ const Comments = ({handleRenderComments, newCommentData, submitComment, comments
 };
 
 const LikeCommentView = ({
-                             commentsList,
-                             handleLikeReview,
-                             handleRenderComments,
-                             content,
-                             amount_of_comments,
-                             amount_of_likes,
-                         }) => {
-    return (
-        <WideReviewCardText>
-            <p>{content}</p>
-            <div>
-                <SplitButton>
-                    <LikeButton onClick={handleLikeReview}>
-                        <FontAwesomeIcon icon={["fa", "thumbs-up"]}/>
-                        Like {amount_of_likes}
-                    </LikeButton>
-                    <CommentButton onClick={handleRenderComments}>
-                        Comment {amount_of_comments}
-                    </CommentButton>
-                </SplitButton>
-                <a onClick={handleRenderComments}>View all comments</a>
-            </div>
-        </WideReviewCardText>
+  commentsList,
+  handleLikeReview,
+  handleRenderComments,
+  content,
+  amount_of_comments,
+  amount_of_likes,
+}) => {
+  return (
+    <WideReviewCardText>
+      <p>{content}</p>
+      <div>
+        <SplitButton>
+          <LikeButton onClick={handleLikeReview}>
+            <FontAwesomeIcon icon={["fa", "thumbs-up"]} />
+            Like {amount_of_likes}
+          </LikeButton>
+          <CommentButton onClick={handleRenderComments}>
+            Comment {amount_of_comments}
+          </CommentButton>
+        </SplitButton>
+        <a onClick={handleRenderComments}>View all comments</a>
+      </div>
+    </WideReviewCardText>
+  );
+};
+const mapStateToProps = (state) => {
+  return {
+    authReducer: state.authReducer,
+  };
+};
 
-    )
-}
-export default GenericWideReviewCard;
+export default connect(mapStateToProps)(GenericWideReviewCard);
