@@ -82,14 +82,16 @@ const GenericWideReviewCard = (props) => {
   const submitComment = async (e) => {
     e.preventDefault();
     console.log("in the submit!");
-    const response = await dispatch(
-      createCommentAction(reviewID, { content: commentsData.content })
-    );
-    setComments({
-      ...commentsData,
-      commentsList: [response.data, ...commentsData.commentsList],
-      content: ``,
-    });
+    if (commentsData.content.trim().length == !0) {
+      const response = await dispatch(
+        createCommentAction(reviewID, { content: commentsData.content })
+      );
+      setComments({
+        ...commentsData,
+        commentsList: [response.data, ...commentsData.commentsList],
+        content: ``,
+      });
+    }
   };
 
   const handleNewComment = (e) => {
