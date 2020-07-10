@@ -20,6 +20,7 @@ export const sendCode = data => async (dispatch) => {
 export const validate = data => async (dispatch) => {
     try {
         const response = await Axios.post('auth/registration/validation/', data);
+        dispatch(resetError())
         return response
     } catch (error) {
         dispatch(setError(Object.keys(error.response.data)[0]))

@@ -51,14 +51,17 @@ export const createRestaurantAction = data => async (dispatch) => {
 }
 
 export const updateRestaurantAction = (restaurantID,data) => async (dispatch) => {
-    console.log([...data])
+    // console.log([...data])
     try {
         const response = await Axios.patch(`restaurants/${restaurantID}/`, data);
-        console.log("Updated restaurant", response.data)
+        // console.log("Updated restaurant", response.data)
         dispatch(setRestaurantObj(response.data))
+        dispatch(resetError())
         return response
     } catch (error) {
-        console.log(`error`, error.response)
+        // console.log(`error`, error.response)
+        console.log(`error key`, Object.keys(error.response.data)[0])
+        dispatch(setError(Object.keys(error.response.data)[0]))
         return error
     }
 }
