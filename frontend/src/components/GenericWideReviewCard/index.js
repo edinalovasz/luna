@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
+import Fade from 'react-reveal/Fade';
 import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
 import TextareaAutosize from "react-autosize-textarea";
 import DayJS from "react-dayjs";
@@ -111,101 +112,81 @@ const GenericWideReviewCard = (props) => {
         content: ``,
       });
     }
-  };
 
-  const handleLikeReview = (e) => {
-    dispatch(likeReviewAction(reviewID, "restaurantProfile"));
-  };
+    return (
+        <>
+            <Fade left cascade>
+                <WideReviewCard>
+                <WideUserCardProfile>
+                    <div>
+                        <Link to={`/users/${id}`}>
+                            <img src={avatar ? avatar : defaultProfilePic}></img>
+                        </Link>
+                        <div>
+                            <StyledLink to={`/users/${id}`}>
+                                {first_name + " " + last_name}
+                            </StyledLink>
+                            <p>{amount_of_reviews} Reviews in Total</p>
+                        </div>
+                        <StarRatingWrapper>
+                            <StarRatingFix avg_rating={rating}/>
+                        </StarRatingWrapper>
+                    </div>
+                    <div>
+                        <p>
+                            <DayJS format="MM.DD.YYYY HH:mm">{created}</DayJS>
+                        </p>
+                    </div>
+                </WideUserCardProfile>
+                {commentsData.showComments ? (
+                    <Comments
+                        submitComment={submitComment}
+                        handleNewComment={handleNewComment}
+                        handleRenderComments={handleRenderComments}
+                        commentsList={commentsData.commentsList}
+                        newCommentData={commentsData.content}
+                        content={content}
+                    />
+                ) : (
+                    <LikeCommentView
+                        handleLikeReview={handleLikeReview}
+                        handleRenderComments={handleRenderComments}
+                        commentsList={commentsData.commentsList}
+                        content={content}
+                        amount_of_comments={amount_of_comments}
+                        amount_of_likes={amount_of_likes}
+                    />
+                )}
+            </WideReviewCard>
+            </Fade>
 
-  return (
-    <>
-      <WideReviewCard>
-        <WideUserCardProfile>
-          <div>
-            <Link to={`/users/${id}`}>
-              <img src={avatar ? avatar : defaultProfilePic}></img>
-            </Link>
-            <div>
-              <StyledLink to={`/users/${id}`}>
-                {first_name + " " + last_name}
-              </StyledLink>
-              <p>{amount_of_reviews} Reviews in Total</p>
-            </div>
-            <StarRatingWrapper>
-              <StarRatingFix avg_rating={rating} />
-            </StarRatingWrapper>
-          </div>
-          <div>
-            <p>
-              <DayJS format="MM.DD.YYYY HH:mm">{created}</DayJS>
-            </p>
-          </div>
-        </WideUserCardProfile>
-        {commentsData.showComments ? (
-          <Comments
-            submitComment={submitComment}
-            handleNewComment={handleNewComment}
-            handleRenderComments={handleRenderComments}
-            commentsList={commentsData.commentsList}
-            newCommentData={commentsData.content}
-            content={content}
-            authenticated={authenticated}
-          />
-        ) : (
-          <LikeCommentView
-            handleLikeReview={handleLikeReview}
-            handleRenderComments={handleRenderComments}
-            commentsList={commentsData.commentsList}
-            content={content}
-            amount_of_comments={amount_of_comments}
-            amount_of_likes={amount_of_likes}
-          />
-        )}
-      </WideReviewCard>
-    </>
-  );
-};
-const Comments = ({
-  handleRenderComments,
-  newCommentData,
-  submitComment,
-  commentsList,
-  handleNewComment,
-  content,
-  authenticated,
-}) => {
-  console.log("commentsList   ", commentsList);
-  return (
-    <>
-      <WideReviewCardText>
-        <p>{content}</p>
-        <PostComment>
-          {authenticated ? (
-            <>
-              <CommentInput
-                onChange={handleNewComment}
-                type="text"
-                placeholder="Comment Input Field"
-                onResize={(e) => {}}
-                value={newCommentData}
-              />
-              <SmallButton onClick={submitComment}>Post</SmallButton>
-            </>
-          ) : (
-            <p>Log in to Comment</p>
-          )}
-          <a onClick={handleRenderComments}>Hide</a>
-        </PostComment>
-      </WideReviewCardText>
-      {commentsList ? (
-        commentsList.map((comment, index) => {
-          return <GenericReviewComment key={index} comment={comment} />;
-        })
-      ) : (
-        <Spinner />
-      )}
-    </>
-  );
+        </>
+    )
+
+}
+const Comments = ({handleRenderComments, newCommentData, submitComment, commentsList, handleNewComment, content}) => {
+    console.log("commentsList   ", commentsList);
+    return (
+        <>
+            <WideReviewCardText>
+                <p>{content}</p>
+                <PostComment>
+                    <Input onChange={handleNewComment} type="text" placeholder="Comment Input Field"
+                           onResize={(e) => {
+                           }} value={newCommentData}/>
+                    <SmallButton onClick={submitComment}>Post</SmallButton>
+                    <a onClick={handleRenderComments}>Hide</a>
+                </PostComment>
+            </WideReviewCardText>
+            {commentsList ? (
+                commentsList.map((comment, index) => {
+                    return <GenericReviewComment key={index} comment={comment}/>;
+                })
+            ) : (
+                <Spinner/>
+            )}
+        </>
+    );
 };
 
 const LikeCommentView = ({
