@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import Fade from 'react-reveal/Fade';
 import defaultProfilePic from "../../assets/images/default-profile-pic.jpg";
 import TextareaAutosize from "react-autosize-textarea";
 import DayJS from "react-dayjs";
@@ -119,7 +120,8 @@ const GenericWideReviewCard = (props) => {
 
     return (
         <>
-            <WideReviewCard>
+            <Fade left cascade>
+                <WideReviewCard>
                 <WideUserCardProfile>
                     <div>
                         <Link to={`/users/${id}`}>
@@ -161,6 +163,8 @@ const GenericWideReviewCard = (props) => {
                     />
                 )}
             </WideReviewCard>
+            </Fade>
+
         </>
     )
 

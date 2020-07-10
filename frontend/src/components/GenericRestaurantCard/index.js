@@ -1,4 +1,5 @@
 import React from "react";
+import Fade from 'react-reveal/Fade';
 import { rem } from "polished";
 import styled from "styled-components";
 import placeHolderRestaurant from "../../assets/images/restaurant.png";
@@ -48,7 +49,8 @@ const GenericRestaurantCard = (props) => {
     restaurant: { id, name, city, avg_rating, no_of_ratings, image },
   } = props;
   return (
-    <RestaurantCard>
+      <Fade right cascade>
+          <RestaurantCard>
       <RestaurantCardContent>
         <h2>{name}</h2>
         <p>{city}</p>
@@ -66,6 +68,8 @@ const GenericRestaurantCard = (props) => {
         </Link>
       </RestaurantCardImg>
     </RestaurantCard>
+      </Fade>
+
   );
 };
 
