@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {PageContainer, StarContainerFix} from "../../style/GlobalWrappers";
-import {BaseButton, Button, SplitButton} from "../../style/GlobalButtons";
-import {FilterListInput} from "../../style/GlobalInputs";
+import { PageContainer, StarContainerFix } from "../../style/GlobalWrappers";
+import { BaseButton, Button, SplitButton } from "../../style/GlobalButtons";
+import { FilterListInput } from "../../style/GlobalInputs";
 import rem from "polished/lib/helpers/rem";
 import StarRatingFix from "../StarRatingFix";
 import GenericWideReviewCard from "../GenericWideReviewCard";
@@ -10,14 +10,14 @@ import GenericWideReviewCard from "../GenericWideReviewCard";
 
 import {connect} from "react-redux";
 import {
-    getRestaurantByIDAction,
-    getRestaurantReviewsAction,
-    resetRestaurantObj,
-    updateRestaurantAction
+  getRestaurantByIDAction,
+  getRestaurantReviewsAction,
+  resetRestaurantObj,
+  updateRestaurantAction,
 } from "../../store/actions/restaurantActions";
 
-import {useHistory} from "react-router";
-import {validate} from "../../store/actions/registrationActions";
+import { useHistory } from "react-router";
+import { validate } from "../../store/actions/registrationActions";
 import Spinner from "../GenericSpinner";
 import {
     reviewSearchAction,
@@ -28,11 +28,10 @@ import placeholderImageMap from "../../assets/images/map.png";
 import placeholderImageLocation from "../../assets/images/location.png";
 import placeholderImagePhone from "../../assets/images/phone.png";
 import placeholderImageWebsite from "../../assets/images/website.png";
-import {Link} from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 const RestaurantReviewWrapper = styled(PageContainer)`
-  background: #f2f2f2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,16 +45,23 @@ const HeaderRestaurantReview = styled.div`
   background-position: center;
   justify-content: center;
   align-content: flex-start;
-  height: 450px;
+  /* height: 35vh; */
   width: 100%;
+  height: 500px;
+  overflow: hidden;
+  z-index: -1;
+  position: relative;
   img {
     object-fit: cover;
+    flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%;
   }
 `;
 
 const HeaderMainInfoContainer = styled.div`
   position: absolute;
-  height: 200px;
+  height: 212px;
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
 `;
@@ -64,7 +70,7 @@ const HeaderMainInfo = styled.div`
   margin: 33px 130px;
   display: flex;
   flex-direction: column;
-  height: 204px;
+  height: 212px;
 `;
 
 const MapInfoContainer = styled.div`
@@ -73,8 +79,8 @@ const MapInfoContainer = styled.div`
   height: 300px;
   width: 336px;
   position: absolute;
-  top: 20%;
-  right: 5%;
+  top: 15%;
+  right: 10%;
 `;
 
 const MapContainer = styled.div`
@@ -106,30 +112,30 @@ const LocationContainer = styled(IconContainer)`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  
-  p{
+  p {
     margin-left: 20px;
-    font-size: ${rem("14px")};
+    font-size: 20px;
   }
 `;
 
 const PhoneContainer = styled(IconContainer)`
-    display: flex;
+  display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   p{
     margin-left: 20px;
-    font-size: ${rem("14px")};
+    font-size: 20px;
+    color
   }
 `;
 
 const WebsiteContainer = styled(IconContainer)`
-    display: flex;
+  display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  p{
+  p {
     margin-left: 20px;
     font-size: ${rem("14px")};
   }
@@ -173,14 +179,12 @@ const RestaurantCategory = styled.p`
 `;
 
 const RestaurantReviewInfoContainer = styled.div`
-  padding: 15px;
+  padding-top: 20px;
   display: flex;
-  width: 100vw;
-  height: 53vh;
 `;
 
 const LeftInfoContainer = styled.div`
-  width: 60vw;
+  width: 60%;
   display: flex;
   flex-direction: column;
   padding-right: 39px;
@@ -189,7 +193,7 @@ const LeftInfoContainer = styled.div`
 const RightInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 40vw;
+  width: 40%;
   p {
     font-family: Helvetica;
     font-style: normal;
@@ -213,18 +217,39 @@ const ReviewsContainer = styled.div`
 const ScheduleInfo = styled.div`
   padding-bottom: 15px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #d8d8d8;
+  height: 48px;
+  svg {
+    margin-right: 12px;
+  }
+  p {
+    font-size: 20px;
+    line-height: 23px;
+    color: #000000;
+  }
 `;
 const PriceInfo = styled.div`
-  padding-bottom: 15px;
+  height: 48px;
+
+  margin-bottom: 15px;
+  padding-top: 15px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  svg {
+    margin-right: 12px;
+  }
+  p {
+    font-size: 20px;
+    line-height: 23px;
+    color: #000000;
+  }
 `;
 
 const OtherOptions = styled.div`
   display: flex;
   align-items: flex-start;
-`
+`;
 
 const SignInMessage = styled.div`
   background-color: Red;
@@ -236,14 +261,14 @@ const SignInMessage = styled.div`
   height: 50px;
   font-size: 25px;
   margin-top: 40px;
-`
+`;
 
 const FilterInput = styled(FilterListInput)`
   background: #ffffff;
 `;
 
 const FilterButton = styled(Button)`
-  margin-left: 25px;
+  margin-left: 20px;
 `;
 
 const OptionsButton = styled(BaseButton)`
@@ -384,10 +409,10 @@ const RestaurantReview = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return {
-        restaurantReducer: state.restaurantReducer,
-        authReducer: state.authReducer,
-    };
+  return {
+    restaurantReducer: state.restaurantReducer,
+    authReducer: state.authReducer,
+  };
 };
 
 export default connect(mapStateToProps)(RestaurantReview);
