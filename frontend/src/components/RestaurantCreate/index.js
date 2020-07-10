@@ -233,13 +233,13 @@ const RestaurantCreate = (props) => {
                     <InputContainer>
                         <CategoryTitle>Basic</CategoryTitle>
                         <CategoryDetailTitle>Name *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "name")}/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "name")} required/>
                         <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Category *</CategoryDetailTitle>
-                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "category_id")}>
+                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "category_id")} required>
                             <Options label="Select a value..."/>
                             <Options value={1}>Ethnic</Options>
                             <Options value={2}>Fast food</Options>
@@ -255,7 +255,7 @@ const RestaurantCreate = (props) => {
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>Country *</CategoryDetailTitle>
-                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "country")}>
+                        <RestaurantCreateSelect onChange={(e) => onChangeHandler(e, "country")} required>
                             <Options label={"Select a value..."}/>
                             <Options>Switzerland</Options>
                             <Options>Germany</Options>
@@ -263,21 +263,25 @@ const RestaurantCreate = (props) => {
                             <Options>France</Options>
                             {/*https://restcountries.eu/rest/v2/all*/}
                         </RestaurantCreateSelect>
+                        <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle>Address</CategoryTitle>
                         <CategoryDetailTitle>Street *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "street")}/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "street")} required/>
+                        <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
                         <CategoryDetailTitle>City *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "city")}/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "city")} required/>
+                        <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
-                        <CategoryDetailTitle>Zip</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "zip")}/>
+                        <CategoryDetailTitle>Zip *</CategoryDetailTitle>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "zip")} required/>
+                        <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle>Contact</CategoryTitle>
@@ -288,16 +292,19 @@ const RestaurantCreate = (props) => {
                         <CategoryTitle/>
                         <CategoryDetailTitle type={"tel"}>Phone *</CategoryDetailTitle>
                         <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "phone")}/>
+                        <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
-                        <CategoryDetailTitle type={"email"}>Email</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "email")}/>
+                        <CategoryDetailTitle type={"email"}>Email *</CategoryDetailTitle>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "email")} required/>
+                        <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle>Details</CategoryTitle>
                         <CategoryDetailTitle>Opening hours *</CategoryDetailTitle>
-                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "opening_hours")}/>
+                        <RestaurantCreateInput onChange={(e) => onChangeHandler(e, "opening_hours")} required/>
+                        <RequiredText>This field is required</RequiredText>
                     </InputContainer>
                     <InputContainer>
                         <CategoryTitle/>
