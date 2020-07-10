@@ -41,7 +41,7 @@ const RestaurantCardImg = styled.div`
   img {
     object-fit: contain;
     flex-shrink: 0;
-    max-height: 270px;
+    height: 270px;
     width: auto;
   }
 `;
