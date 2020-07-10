@@ -34,7 +34,7 @@ export const getReviewsByUserIDAction = (userID) => async (dispatch, getState) =
         dispatch(setProfileReviews(response.data))
         return response
     } catch (error) {
-        console.error('Reviews of specific User Error', error.data)
+        console.error('Reviews of specific User ErrorComponent', error.data)
         return error
     }
 }
@@ -47,7 +47,7 @@ export const getRestaurantsByUserIDAction = (userID) => async (dispatch, getStat
         dispatch(setProfileRestaurants(response.data))
         return response
     } catch (error) {
-        console.error('Restaurants of specific User Error', error)
+        console.error('Restaurants of specific User ErrorComponent', error)
         return error
     }
 }
@@ -60,7 +60,7 @@ export const getCommentsByUserIDAction = (userID) => async (dispatch, getState) 
         dispatch(setProfileComments(response.data))
         return response
     } catch (error) {
-        console.error('Comments of specific User Error', error)
+        console.error('Comments of specific User ErrorComponent', error)
         return error
     }
 }
@@ -80,7 +80,7 @@ export const getUserByIDAction = (userID) => async (dispatch) => {
         dispatch(setUserProfileObj(response.data))
         return response
     } catch (error) {
-        console.log('Comments of specific User Error', error)
+        console.log('Comments of specific User ErrorComponent', error)
         return error
     }
 }

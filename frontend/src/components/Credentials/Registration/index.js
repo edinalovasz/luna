@@ -5,8 +5,9 @@ import { BigButton } from "../../../style/GlobalButtons";
 import { SmallTitleHr, MainTitle } from "../../../style/GlobalTitles";
 import { BaseInput } from "../../../style/GlobalInputs";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import { sendCode, validate } from "../../../store/actions/registrationActions";
+import ErrorComponent from "../../ErrorComponent";
 
 const SignUpWrapper = styled.div`
   flex-direction: column;
@@ -73,8 +74,6 @@ const SignUp = (props) => {
 
     if (response.status < 300) {
       history.push("/auth/signup/sent");
-    } else {
-      console.log("error", response);
     }
   };
 
@@ -83,7 +82,7 @@ const SignUp = (props) => {
       <SignUpFormContainer onSubmit={handleSubmit}>
         <SignUpTitle>Registration</SignUpTitle>
         <SignUpTitleHr></SignUpTitleHr>
-        <ErrorPlaceholder></ErrorPlaceholder>
+        <ErrorComponent/>
         <SignUpInput
           onChange={(e) => onChangeHandler(e, "email")}
           placeholder="E-Mail address"
@@ -95,5 +94,7 @@ const SignUp = (props) => {
     </SignUpWrapper>
   );
 };
+
+
 
 export default SignUp;

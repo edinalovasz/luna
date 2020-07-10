@@ -8,7 +8,7 @@ export const setError = (error) => {
     };
 };
 
-export const resetError = (errorType) => {
+export const resetError = () => {
     return {
         type: CLEAR_ERRORS,
     };

@@ -9,6 +9,7 @@ import { PageContainer } from "../../../style/GlobalWrappers";
 import { sendLoginAction } from "../../../store/actions/loginActions";
 import { useHistory } from "react-router";
 import { connect, useDispatch } from "react-redux";
+import ErrorComponent from "../../ErrorComponent";
 
 const LoginWrapper = styled(PageContainer)`
   flex-direction: column;
@@ -98,7 +99,7 @@ const Login = (props) => {
       <LoginFormContainer onSubmit={handleSubmit}>
         <LoginTitle>Login</LoginTitle>
         <LoginTitleHr></LoginTitleHr>
-        <ErrorPlaceholder></ErrorPlaceholder>
+        <ErrorComponent/>
         <LoginInput
           onChange={handleEmail}
           type="email"
@@ -121,6 +122,7 @@ const mapStateToProps = (state) => {
   console.log("state", state);
   return {
     authReducer: state.authReducer,
+    errorReducer: state.errorReducer,
   };
 };
 
