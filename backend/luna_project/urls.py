@@ -22,19 +22,19 @@ from rest_framework.documentation import include_docs_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Registration Urls
-    path('api/auth/', include('apps.registrations.urls')),
+    path('backend/api/auth/', include('apps.registrations.urls')),
     # User Urls
-    path('api/users/', include('apps.users.urls')),
+    path('backend/api/users/', include('apps.users.urls')),
     # Restaurant Urls
-    path('api/restaurants/', include('apps.restaurants.urls')),
+    path('backend/api/restaurants/', include('apps.restaurants.urls')),
     # Restaurant review Urls
-    path('api/reviews/', include('apps.restaurantreviews.urls')),
+    path('backend/api/reviews/', include('apps.restaurantreviews.urls')),
     # Comments Urls
-    path('api/review/comment/', include('apps.comments.urls')),
+    path('backend/api/review/comment/', include('apps.comments.urls')),
     # General Urls
-    path('api/', include('apps.general.urls')),
+    path('backend/api/', include('apps.general.urls')),
 
-    path('api/docs/', include_docs_urls(title='Luna Endpoints', public=True, permission_classes=[])),
+    path('backend/api/docs/', include_docs_urls(title='Luna Endpoints', public=True, permission_classes=[])),
 ]
 
 # Images Urls..
